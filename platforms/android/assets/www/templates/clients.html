@@ -1,0 +1,38 @@
+<ion-view ng-controller="ContactsCtrl">
+  <link href="css/contacts.css" rel="stylesheet" cache-view="false">
+  
+  <ion-header-bar>
+         <div class="row">  
+             <div class="col col-10" ng-click="clientback()"><i class="button-icon ion-android-arrow-back close"></i></div>                        
+             <div class="col col-80" > <p class="titletext">Clients</p></div>
+             <div class="col col-10"><i class="button-icon ion-log-out close" ng-click="logout()"></i></div>
+         </div>
+  </ion-header-bar> 
+    <div class="bar bar-subheader item-input-inset row">
+     <div class="row" >
+        <label class="item-input-wrapper">
+          <i class="icon ion-search"></i>
+          <input type="search" placeholder="Search" ng-model="search">         
+        </label>
+     </div>       
+  </div>
+
+  <ion-content class="content_back" padding=true>
+  <br><br>
+    <div class="card" ng-repeat="x in ClientsDetails | filter:search">
+      <div class="item item-text-wrap" ng-click="contactlist(x.id)">
+       <b> {{x.name}} </b>
+          <div ng-repeat="y in x.projects" style="margin-left: 20px;">
+            {{y.name}}
+          </div>
+      </div>
+    </div>     
+  </ion-content>
+</ion-view>
+
+
+
+ 
+
+
+    
