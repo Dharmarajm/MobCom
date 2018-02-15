@@ -2,16 +2,19 @@ angular.module('emp_employeelist', [])
 
 .controller('EmpEmployeelistCtrl', function($filter,ionicDatePicker,$scope,$state,$http,$rootScope,$ionicPopup,$cordovaImagePicker,$ionicLoading,$timeout,$ionicModal,$cordovaSms,$cordovaDevice,$ionicHistory) {
 
-if(sessionStorage.getItem("image")=='null'){
+/*if(sessionStorage.getItem("image")=='null'){
   $scope.ImageUrl='';
   console.log($scope.ImageUrl)
 }else{
   $scope.ImageUrl=sessionStorage.getItem("image");
-}
-
-console.log('test')
-$rootScope.EmployeeID_timesheet=sessionStorage.getItem("id")
-         $scope.AuthToken=sessionStorage.getItem("auth_token")
+}*/
+      
+     /* $scope.reload=function(){
+       $state.reload(); 
+      }*/
+      
+      $rootScope.EmployeeID_timesheet=localStorage.getItem("id")
+      $scope.AuthToken=localStorage.getItem("auth_token")
 
 
       $ionicLoading.show
@@ -32,11 +35,16 @@ $rootScope.EmployeeID_timesheet=sessionStorage.getItem("id")
           })
           $scope.EmployeesDetails=response;     
           for(var i in $scope.EmployeesDetails){
-            if(sessionStorage.getItem("id")==$scope.EmployeesDetails[i].id){
+            if(localStorage.getItem("id")==$scope.EmployeesDetails[i].id){
               if($scope.EmployeesDetails[i].image.url==null){
                 $scope.ImageUrl='';
+                console.log($scope.ImageUrl)
+                console.log('noImage')
               }else{
+                console.log('img')
                 $scope.ImageUrl=$scope.EmployeesDetails[i].image.url;
+                console.log($scope.ImageUrl)
+                
               }
             }
           }
@@ -208,9 +216,11 @@ $rootScope.EmployeeID_timesheet=sessionStorage.getItem("id")
             $scope.modal = modal;
             return modal;
           });
+          
+          $scope.response="";
 
           $scope.openModal = function(mobile_number,id,pname) {
-            
+            $scope.response="";
             $scope.mNumber=mobile_number;
             $scope.selectedId=id;
             $scope.nameOpen=pname;
@@ -218,13 +228,16 @@ $rootScope.EmployeeID_timesheet=sessionStorage.getItem("id")
             
             };
             $scope.closeModal = function() {
+                console.log('tets')
                 $scope.modal.hide();
-                $state.reload('emp_employeelist')
+                $scope.response="";
+                console.log($scope.response)
             };
         
 
               $scope.popup=function(mobile_number,id,response){       
-
+                  $scope.response="";
+                  console.log(mobile_number,id,response)  
                   var data=response;  
                  
                 //CONFIGURATION    

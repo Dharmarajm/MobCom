@@ -2,8 +2,8 @@ angular.module('admin_employeelist', [])
 
 .controller('AdminEmployeelistCtrl', function($filter,ionicDatePicker,$scope,$state,$http,$rootScope,$ionicPopup,$ionicLoading,$timeout,$ionicModal,$cordovaSms,$cordovaDevice) {
 
-      $rootScope.EmployeeID=sessionStorage.getItem("id")
-      $scope.AuthToken=sessionStorage.getItem("auth_token")
+      $rootScope.EmployeeID=localStorage.getItem("id")
+      $scope.AuthToken=localStorage.getItem("auth_token")
 
       $ionicLoading.show
         ({
@@ -22,6 +22,7 @@ angular.module('admin_employeelist', [])
               $ionicLoading.hide(); 
           })
           $scope.EmployeesDetails=response;    
+          console.log($scope.EmployeesDetails)
        })
 
           $scope.timesheet=function(id,name){
@@ -134,7 +135,7 @@ angular.module('admin_employeelist', [])
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
              .success(function(response) {
-              alert("sucess")
+              alert("success")
                   $state.go("admin_employeelist");
              })
            }
@@ -184,7 +185,6 @@ angular.module('admin_employeelist', [])
                 console.log('test')
                 $scope.modal.hide();
                 $scope.response="";
-                $state.reload('admin_employeelist');
             };
         
             $scope.popup=function(mobile_number,id,response){       

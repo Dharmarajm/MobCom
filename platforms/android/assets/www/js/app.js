@@ -22,6 +22,40 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
       StatusBar.styleDefault();
     }
   });
+
+
+
+
+
+ $ionicPlatform.registerBackButtonAction(function(e) {
+    e.preventDefault();
+    function showConfirm() {
+      var confirmPopup = $ionicPopup.show({
+      title : 'Mobcom',
+      template : 'Are you sure you want to exit ?',
+      buttons : [{
+        text : 'Cancel',
+        type : 'button-danger',
+       }, {
+        text : 'Ok',
+        type : 'button-danger',
+        onTap : function() {
+         ionic.Platform.exitApp();
+        }
+       }]
+      });
+     };
+      if($state.current.name=='login' || $state.current.name=='admin_dashboard' || $state.current.name=='emp_dashboard'){
+       showConfirm();
+      }
+      else {
+        navigator.app.backHistory();
+      }
+    }, 100)
+
+
+
+
 })
 
  .config(function (ionicDatePickerProvider) {
@@ -44,6 +78,9 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     };
     ionicDatePickerProvider.configDatePicker(datePickerObj);
   })
+
+
+
 
 
  

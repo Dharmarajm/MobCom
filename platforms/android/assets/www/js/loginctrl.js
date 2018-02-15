@@ -39,8 +39,8 @@ angular.module('login', [])
 						 $scope.user.username="";
 						 $scope.user.password="";
 					}else{
-            sessionStorage.setItem("id",response.employee_id)
-            sessionStorage.setItem("auth_token",response.auth_token)
+            localStorage.setItem("id",response.employee_id)
+            localStorage.setItem("auth_token",response.auth_token)
             /*if(response.employee.image.url==null){
              sessionStorage.setItem("image",null)  
             }else{

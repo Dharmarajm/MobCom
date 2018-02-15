@@ -3,8 +3,8 @@ angular.module('contacts', [])
 .controller('ContactsCtrl', function($scope,$state,$http,$rootScope,$ionicPopup,$ionicModal,$cordovaSms,$cordovaDevice) {
 
 
-         $rootScope.EmployeeID_timesheet=sessionStorage.getItem("id")
-               $scope.AuthToken=sessionStorage.getItem("auth_token")
+         $rootScope.EmployeeID_timesheet=localStorage.getItem("id")
+               $scope.AuthToken=localStorage.getItem("auth_token")
 
        
 
@@ -82,7 +82,6 @@ angular.module('contacts', [])
             };
             $scope.closeModal = function() {
                 $scope.modal.hide();
-                $state.reload('project_details');
             };
         
 

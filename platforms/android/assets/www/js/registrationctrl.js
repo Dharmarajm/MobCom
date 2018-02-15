@@ -50,7 +50,7 @@ angular.module('registration', [])
 
            $http.get(Baseurl+'users/user_registration?id='+$rootScope.reg.id+'&email='+$rootScope.reg.email+'&password='+$scope.confirm.password)
               .success(function(response) {
-                  alert("sucess")
+                  alert("success")
                   $state.go("login");
             })  
       }

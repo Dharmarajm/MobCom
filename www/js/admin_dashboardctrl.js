@@ -26,7 +26,7 @@ angular.module('admin_dashboard', [])
           buttons: [{ text: 'OK',
           type: 'button-danger',
           onTap: function(){
-            sessionStorage.clear();
+            localStorage.clear();
             $state.go("login")
           }
           },{

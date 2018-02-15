@@ -2,7 +2,7 @@ angular.module('projectlist', [])
 
 .controller('ProjectlistCtrl', function($filter,ionicDatePicker,$scope,$state,$http,$rootScope,$ionicPopup,$ionicLoading,$timeout,$ionicModal,$cordovaSms,$cordovaDevice) {
 
-        $scope.AuthToken=sessionStorage.getItem("auth_token")
+        $scope.AuthToken=localStorage.getItem("auth_token")
 
 
             $http.get(Baseurl+'projects',{
@@ -86,7 +86,7 @@ angular.module('projectlist', [])
 			          data: create,
                 headers: { "Authorization": "Token token="+$scope.AuthToken}                  
 			        }).then(function(response) {
-			   	      alert("sucess")
+			   	      alert("success")
 					      $state.go("projectlist");
 			       })
            }
@@ -193,7 +193,7 @@ angular.module('projectlist', [])
                             headers: { "Authorization": "Token token="+$scope.AuthToken}
                           })
                          .success(function(response) {
-                          alert("sucess")
+                          alert("success")
                          }) 
                      }                  
           }
@@ -275,7 +275,6 @@ angular.module('projectlist', [])
             };
             $scope.closeModal = function() {
                 $scope.modal.hide();
-                $state.reload('projectlist');
             };
            
             $scope.moreDetail=function(detail){

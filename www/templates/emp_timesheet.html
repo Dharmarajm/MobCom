@@ -40,12 +40,15 @@
                 </select>
              </div> 
 
-             <div class="col col-40" ng-click="openDatePicker()">              
-                <input type="text" style="width: 80%" ng-model="selectdate" placeholder="Date" max="maxDate" />
+             <div class="col col-30" ng-click="openDatePicker()">              
+                <input type="text" style="width: 100%" ng-model="selectdate" placeholder="Date" max="maxDate" />
               </div>
 
-             <div class="col col-20">
-               <input type="text" style="width: 80%" name="input" ng-model="hours" placeholder="Hours" />
+             <div class="col col-30">
+               <!-- <input type="text" style="width: 80%" name="input" ng-model="hours" placeholder="Hours" /> -->
+               <select ng-model="hours" name="input" style="width: 80%;height:34px;" ng-options="gethour for gethour in getHours">
+                 <option value="">Hours</option>
+               </select>
              </div>
          </div>   
 
