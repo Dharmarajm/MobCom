@@ -181,7 +181,9 @@ angular.module('admin_employeelist', [])
             
             };
             $scope.closeModal = function() {
+                console.log('test')
                 $scope.modal.hide();
+                $scope.response="";
                 $state.reload('admin_employeelist');
             };
         

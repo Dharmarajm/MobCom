@@ -208,9 +208,11 @@ $rootScope.EmployeeID_timesheet=sessionStorage.getItem("id")
             $scope.modal = modal;
             return modal;
           });
+          
+          $scope.response="";
 
           $scope.openModal = function(mobile_number,id,pname) {
-            
+            $scope.response="";
             $scope.mNumber=mobile_number;
             $scope.selectedId=id;
             $scope.nameOpen=pname;
@@ -218,13 +220,17 @@ $rootScope.EmployeeID_timesheet=sessionStorage.getItem("id")
             
             };
             $scope.closeModal = function() {
+                console.log('tets')
                 $scope.modal.hide();
+                $scope.response="";
+                console.log($scope.response)
                 $state.reload('emp_employeelist')
             };
         
 
               $scope.popup=function(mobile_number,id,response){       
-
+                  $scope.response="";
+                  console.log(mobile_number,id,response)  
                   var data=response;  
                  
                 //CONFIGURATION    
