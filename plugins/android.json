@@ -39,6 +39,9 @@
         },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
+        "cordova-plugin-android-permissions": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         }
     },
     "dependent_plugins": {
