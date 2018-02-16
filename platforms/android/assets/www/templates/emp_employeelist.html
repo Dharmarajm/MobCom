@@ -1,4 +1,4 @@
-<ion-view ng-controller="EmpEmployeelistCtrl">
+<ion-view ng-controller="EmpEmployeelistCtrl" cache-view="false">
   <link href="css/employeelist.css" rel="stylesheet" cache-view="false">
   
   <ion-header-bar>
@@ -23,7 +23,7 @@
    <br><br>
           <div class="list" ng-repeat="emp in EmployeesDetails | filter:search">
             <a class="item item-avatar item-icon-right">
-              <img src="{{ImageUrl}}{{emp.image.url}}">              
+              <img src="{{getlocalurl}}{{emp.image.url}}">              
               <h2>{{emp.first_name}}</h2>
               <p>{{emp.designation}}</p>
              </a>
@@ -45,7 +45,7 @@
               <ion-content>                                        
                   <div class="list list-inset">
                       <p>To : {{nameOpen}}</p>
-                      <textarea  class="brd-txt" rows="4" style="width:100%;"" ng-model="response" ng-required="true" placeholder="Text Message here"></textarea>
+                      <textarea  class="brd-txt" rows="4" style="width:100%;" ng-model="response" ng-required="true" placeholder="Text Message here"></textarea>
                       <button ng-disabled="!response" ng-click="popup(mNumber,selectedId,response);closeModal();SMSPost(selectedId,response)" class="button button-block button-calm">Send</button>
                   </div>                        
               </ion-content>                    

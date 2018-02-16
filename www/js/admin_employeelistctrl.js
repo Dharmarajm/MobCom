@@ -31,7 +31,8 @@ angular.module('admin_employeelist', [])
               $state.go("admin_timesheet");
           }
 
-
+          $scope.search="";
+            
           $scope.assigntoemp=function(id,name){
             $rootScope.EmployeeID_toassign=id;
             $rootScope.EmployeeName=name;
@@ -39,11 +40,11 @@ angular.module('admin_employeelist', [])
           }
 
           if($rootScope.EmployeeID_toassign!=undefined){
-               $http.get(Baseurl+'employees/unassigned_project?employee_id='+$rootScope.EmployeeID_toassign,{
+               $http.get(Baseurl+'employees/assigned_project?employee_id='+$rootScope.EmployeeID_toassign,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               }).success(function(response) {
-                    $scope.ProjectDetails=response;
-                         $scope.projectnameside=$scope.ProjectDetails ;  
+                    $scope.AllProject=response;
+                         $scope.projectnameside=$scope.AllProject ;  
                           $scope.projectname = function(objs)
                           {
                                $scope.projectnametype=objs.id;
@@ -172,9 +173,12 @@ angular.module('admin_employeelist', [])
             $scope.modal = modal;
             return modal;
           });
+          
+
+          $scope.admin={response:""}
 
           $scope.openModal = function(mobile_number,id,pname) {
-
+            $scope.admin={response:""}
             $scope.mNumber=mobile_number;
             $scope.selectedId=id;
             $scope.nameOpen=pname;
@@ -183,12 +187,12 @@ angular.module('admin_employeelist', [])
             };
             $scope.closeModal = function() {
                 console.log('test')
+                $scope.admin={response:""};
                 $scope.modal.hide();
-                $scope.response="";
             };
         
             $scope.popup=function(mobile_number,id,response){       
-
+                  $scope.admin={response:""};  
                   var data=response;  
                  
                 //CONFIGURATION    

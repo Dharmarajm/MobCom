@@ -16,6 +16,8 @@ angular.module('contacts', [])
             console.log($scope.ClientsDetails)    
        })
 
+         $scope.search="";
+
          $scope.contactlist=function(id){
          	$rootScope.ClientID=id;
          	$state.go("contacts");         

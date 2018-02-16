@@ -24,3 +24,6 @@
     border-right: 1px solid;
     border-color: #c3c3c3;
 }
+.item.item-text-wrap.activated{
+  background-color: #fff;
+}

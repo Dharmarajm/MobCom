@@ -4,3 +4,10 @@
     background-color: #074F89 !important;
     color: #fff;
 }
+button.button.button-positive{
+	background-color: #074F89;
+}
+button.button.button-positive.activated{
+    background-color: #074F89;	
+}
+

@@ -59,8 +59,8 @@
 
 
 
-.noaccount{
-    color: white!important;
+a.noaccount{
+    color: #e3e8f2 !important;
     font-style:"Rubik";
     cursor: pointer;
 }

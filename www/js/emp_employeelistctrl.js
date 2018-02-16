@@ -12,10 +12,11 @@ angular.module('emp_employeelist', [])
      /* $scope.reload=function(){
        $state.reload(); 
       }*/
-      
+      $scope.search="";
+      $scope.ImageUrl='';
       $rootScope.EmployeeID_timesheet=localStorage.getItem("id")
       $scope.AuthToken=localStorage.getItem("auth_token")
-
+      $scope.getlocalurl="http://192.168.1.52:5050" 
 
       $ionicLoading.show
         ({
@@ -25,6 +26,7 @@ angular.module('emp_employeelist', [])
         maxWidth: 200,
         showDelay: 0
         });
+      
 
         $http.get(Baseurl+'employees',{
           headers: { "Authorization": "Token token="+$scope.AuthToken}
@@ -33,7 +35,8 @@ angular.module('emp_employeelist', [])
           $timeout(function () {
               $ionicLoading.hide(); 
           })
-          $scope.EmployeesDetails=response;     
+          $scope.EmployeesDetails=response;    
+          console.log($scope.EmployeesDetails) 
           for(var i in $scope.EmployeesDetails){
             if(localStorage.getItem("id")==$scope.EmployeesDetails[i].id){
               if($scope.EmployeesDetails[i].image.url==null){
@@ -49,14 +52,13 @@ angular.module('emp_employeelist', [])
             }
           }
        })
-
-
           
        $http.get(Baseurl+'employees/unassigned_project?employee_id='+$rootScope.EmployeeID_timesheet,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
        .success(function(response) {
             $scope.ProjectDetails=response;
+            console.log($scope.ProjectDetails)
                  $scope.projectnameside=$scope.ProjectDetails ;  
                   $scope.projectname = function(objs)
                   {
@@ -64,6 +66,7 @@ angular.module('emp_employeelist', [])
                        
                   }
         })
+      
 
 
        var ipObj1 = {
@@ -157,12 +160,12 @@ angular.module('emp_employeelist', [])
 
         $scope.timesheetcreate=function(hour){
           $scope.hours=hour;
-          if($scope.projectnametype == undefined){
+          if($scope.projectnametype == undefined || $scope.projectnametype=="" || $scope.projectnametype==null){
             alert("Please select the project name")
-          }else if($scope.selectdate == undefined){
+          }else if($scope.selectdate == undefined || $scope.selectdate=="" || $scope.selectdate==null){
             alert("Please select the date")
-          } else if($scope.hours == undefined){
-            alert("Please enter the hours")
+          } else if($scope.hours == undefined || $scope.hours==null || $scope.hours==""){
+            alert("Please select the hours")
           }else{
            var create={           
                   "date":$scope.selectdate,
@@ -217,10 +220,10 @@ angular.module('emp_employeelist', [])
             return modal;
           });
           
-          $scope.response="";
+          $scope.mode={response:""};
 
           $scope.openModal = function(mobile_number,id,pname) {
-            $scope.response="";
+            $scope.mode={response:""};
             $scope.mNumber=mobile_number;
             $scope.selectedId=id;
             $scope.nameOpen=pname;
@@ -228,15 +231,15 @@ angular.module('emp_employeelist', [])
             
             };
             $scope.closeModal = function() {
-                console.log('tets')
+                console.log('test')
                 $scope.modal.hide();
-                $scope.response="";
+                $scope.mode={response:""};
                 console.log($scope.response)
             };
         
 
               $scope.popup=function(mobile_number,id,response){       
-                  $scope.response="";
+                  console.log(response)
                   console.log(mobile_number,id,response)  
                   var data=response;  
                  
@@ -398,7 +401,7 @@ angular.module('emp_employeelist', [])
                                 data: create,
                                 headers: { "Authorization": "Token token="+$scope.AuthToken}    
                               }).then(function(response) {
-                                
+                                  $scope.ImageUrl='';
                                   $ionicPopup.alert({
                                     title: 'Employee Profile',
                                     template: 'Your profile updated successfully',

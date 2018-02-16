@@ -1,4 +1,4 @@
-<ion-view ng-controller="AdminEmployeelistCtrl">
+<ion-view ng-controller="AdminEmployeelistCtrl" cache-view="false">
   <link href="css/employeelist.css" rel="stylesheet" cache-view="false">
   
   <ion-header-bar>
@@ -17,7 +17,7 @@
         <div class="row">
           <div class="col col-50">Project Name</div>
           <div class="col col-50">
-             <select ng-model="projectnameside"  ng-change="projectname(projectnameside)" ng-options="g.name for g in ProjectDetails" ng-Required="true" >
+             <select ng-model="projectnameside"  ng-change="projectname(projectnameside)" ng-options="g.name for g in AllProject" ng-Required="true" >
               <option value="" style="display:true;width: 100%">---Select---</option>
               </select>
           </div>

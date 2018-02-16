@@ -1,4 +1,4 @@
-<ion-view ng-controller="AdminEmployeelistCtrl">
+<ion-view ng-controller="AdminEmployeelistCtrl" cache-view="false">
   <link href="css/employeelist.css" rel="stylesheet" cache-view="false">
   
   <ion-header-bar>
@@ -48,8 +48,8 @@
               <ion-content>                                        
                   <div class="list list-inset">
                       <p>To : {{nameOpen}}</p>
-                      <textarea  class="brd-txt" rows="4" style="width:100%;"" ng-model="response" ng-required="true" placeholder="Text Message here"></textarea>
-                      <button ng-disabled="!response" ng-click="popup(mNumber,selectedId,response);closeModal();SMSPost(selectedId,response)" class="button button-block button-calm">Send</button>
+                      <textarea  class="brd-txt" rows="4" style="width:100%;" ng-model="admin.response" ng-required="true" placeholder="Text Message here"></textarea>
+                      <button ng-disabled="!admin.response" ng-click="popup(mNumber,selectedId,admin.response);closeModal();SMSPost(selectedId,admin.response)" class="button button-block button-calm">Send</button>
                   </div>                        
               </ion-content>                    
             </ion-modal-view>

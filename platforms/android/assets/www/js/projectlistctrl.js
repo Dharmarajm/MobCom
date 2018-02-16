@@ -3,7 +3,7 @@ angular.module('projectlist', [])
 .controller('ProjectlistCtrl', function($filter,ionicDatePicker,$scope,$state,$http,$rootScope,$ionicPopup,$ionicLoading,$timeout,$ionicModal,$cordovaSms,$cordovaDevice) {
 
         $scope.AuthToken=localStorage.getItem("auth_token")
-
+        $scope.search=""; 
 
             $http.get(Baseurl+'projects',{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
@@ -72,23 +72,36 @@ angular.module('projectlist', [])
                            
                       }
             })
-
+            
+           $scope.clientnameside="";
+           $scope.name="";
+           $scope.budget=="";
+            
            $scope.createproject=function(name,budget){
-			        var create={           
-			            "client_id":$scope.clientnametype,
-			            "name":name,
-			            "budget":budget
-			          }		        
+            
+             if($scope.clientnametype=="" || $scope.clientnametype==null || $scope.clientnametype==undefined){
+                alert("Please Select the Client Name")
+             }else if(name=="" || name==null || name==undefined){
+               alert("Enter the Project Name")
+             }else if(budget=="" || budget==null || budget==undefined){
+              alert("Enter the Project budget Amount");
+             }else{
+                 var create={           
+                  "client_id":$scope.clientnametype,
+                  "name":name,
+                  "budget":budget
+                }           
 
-			        $http({
-			          method: 'post',
-			          url:Baseurl+"projects",
-			          data: create,
-                headers: { "Authorization": "Token token="+$scope.AuthToken}                  
-			        }).then(function(response) {
-			   	      alert("success")
-					      $state.go("projectlist");
-			       })
+               $http({
+                 method: 'post',
+                 url:Baseurl+"projects",
+                 data: create,
+                 headers: { "Authorization": "Token token="+$scope.AuthToken}                  
+               }).then(function(response) {
+                 alert("success")
+                 $state.go("projectlist");
+               })
+             }
            }
 
         

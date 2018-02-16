@@ -17,7 +17,7 @@ angular.module('emp_dashboard', [])
     
 
        
-     $rootScope.logout=function(){
+     /*$rootScope.logout=function(){
       $ionicPopup.confirm({
         title: "Do you want to Logout?",
         template: '<style>.popup { width:700px; } .popup-head { background-color: #FFFFFF; } .popup-title { color: #000; }</style>',
@@ -34,10 +34,10 @@ angular.module('emp_dashboard', [])
         }]
       });
       
-    }   
+    }   */
 
 
-$rootScope.Exit=function(){
+/*$rootScope.Exit=function(){
       $ionicPopup.confirm({
         title: "Do you want to Exit?",
         template: '<style>.popup { width:700px; } .popup-head { background-color: #FFFFFF; } .popup-title { color: #000; }</style>',
@@ -55,7 +55,7 @@ $rootScope.Exit=function(){
       });
       
     }
-
+*/
 
  })
 

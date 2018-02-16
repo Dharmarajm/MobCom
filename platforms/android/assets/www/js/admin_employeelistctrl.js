@@ -22,6 +22,7 @@ angular.module('admin_employeelist', [])
               $ionicLoading.hide(); 
           })
           $scope.EmployeesDetails=response;    
+          console.log($scope.EmployeesDetails)
        })
 
           $scope.timesheet=function(id,name){
@@ -30,7 +31,8 @@ angular.module('admin_employeelist', [])
               $state.go("admin_timesheet");
           }
 
-
+          $scope.search="";
+            
           $scope.assigntoemp=function(id,name){
             $rootScope.EmployeeID_toassign=id;
             $rootScope.EmployeeName=name;
@@ -38,11 +40,11 @@ angular.module('admin_employeelist', [])
           }
 
           if($rootScope.EmployeeID_toassign!=undefined){
-               $http.get(Baseurl+'employees/unassigned_project?employee_id='+$rootScope.EmployeeID_toassign,{
+               $http.get(Baseurl+'employees/assigned_project?employee_id='+$rootScope.EmployeeID_toassign,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               }).success(function(response) {
-                    $scope.ProjectDetails=response;
-                         $scope.projectnameside=$scope.ProjectDetails ;  
+                    $scope.AllProject=response;
+                         $scope.projectnameside=$scope.AllProject ;  
                           $scope.projectname = function(objs)
                           {
                                $scope.projectnametype=objs.id;

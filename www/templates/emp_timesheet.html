@@ -1,4 +1,4 @@
-<ion-view ng-controller="EmpEmployeelistCtrl" ng-init="Timesheetcal()"> 
+<ion-view ng-controller="EmpEmployeelistCtrl" ng-init="Timesheetcal()" cache-view="false"> 
   <link href="css/employeelist.css" rel="stylesheet" cache-view="false">
 
 <ion-header-bar>
@@ -14,13 +14,10 @@
 <h6><center>{{EmployeeName}}</center></h6>
 
          <div class="row">   
-             <div class="col col-50"> From : </div>
-             <div class="col col-50"><p ng-bind="FromDate | date:'dd/MM/yyyy'"></p></div>
-         </div>
-
-         <div class="row">   
-             <div class="col col-50"> To : </div>
-             <div class="col col-50"><p ng-bind="ToDate | date:'dd/MM/yyyy'"></p></div>
+             <div class="col col-20"> From : </div>
+             <div class="col col-30"><p ng-bind="FromDate | date:'dd/MM/yyyy'"></p></div>
+             <div class="col col-20"> To : </div>
+             <div class="col col-30"><p ng-bind="ToDate | date:'dd/MM/yyyy'"></p></div>
          </div>
 
         <div class="row">
@@ -41,7 +38,7 @@
              </div> 
 
              <div class="col col-30" ng-click="openDatePicker()">              
-                <input type="text" style="width: 100%" ng-model="selectdate" placeholder="Date" max="maxDate" />
+                <input type="text" ng-readonly="true" style="width: 100%" ng-model="selectdate" placeholder="Date" max="maxDate" />
               </div>
 
              <div class="col col-30">
@@ -56,7 +53,7 @@
         <div class="row">
             <div class="col col-50"></div>
             <div class="col col-50">
-              <button class="button button-small button-block button-danger" ng-click="timesheetcreate(hours);projectnamesids='0';hours='';">Save</button>
+              <button class="button button-small button-block button-danger" ng-click="timesheetcreate(hours);">Save</button>
             </div>
         </div>
         

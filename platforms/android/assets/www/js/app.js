@@ -6,8 +6,8 @@
 angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','registration','admin_dashboard',
   'emp_dashboard','emp_employeelist','admin_employeelist','projectlist','contacts'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+.run(function($ionicPlatform,$ionicPopup, $rootScope, $state, $ionicHistory, $timeout) {
+  $ionicPlatform.ready(function(){
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -37,7 +37,7 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
         text : 'Cancel',
         type : 'button-danger',
        }, {
-        text : 'Ok',
+        text : 'Ok',           
         type : 'button-danger',
         onTap : function() {
          ionic.Platform.exitApp();
@@ -54,7 +54,24 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     }, 100)
 
 
-
+   $rootScope.logout=function(){
+      $ionicPopup.confirm({
+        title: "Do you want to Logout?",
+        template: '<style>.popup { width:700px; } .popup-head { background-color: #FFFFFF; } .popup-title { color: #000; }</style>',
+          buttons: [{ text: 'OK',
+          type: 'button-positive',
+          onTap: function(){
+            localStorage.clear();
+            $state.go("login")
+          }
+          },{
+           text: 'CANCEL',
+           type: 'button-positive',
+           onTap: function(){}
+        }]
+      });
+      
+    }
 
 })
 
@@ -191,9 +208,24 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
   })
 
 
+  if(localStorage.length==0){
+      $urlRouterProvider.otherwise('/login');
+   }
+  else if(localStorage.length!=0){
+    if(localStorage.getItem("role")=='Employee'){
+     $urlRouterProvider.otherwise('/emp_dashboard');
+    }else if(localStorage.getItem("role")=='Admin'){
+     $urlRouterProvider.otherwise('/admin_dashboard'); 
+    }  
+  }
   
-  $urlRouterProvider.otherwise('/login');
 })
 
 
 var Baseurl='http://192.168.1.52:5050/api/v1/';
+
+
+
+
+
+

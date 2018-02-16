@@ -41,6 +41,7 @@ angular.module('login', [])
 					}else{
             localStorage.setItem("id",response.employee_id)
             localStorage.setItem("auth_token",response.auth_token)
+            localStorage.setItem("role",response.role.name)
             /*if(response.employee.image.url==null){
              sessionStorage.setItem("image",null)  
             }else{
