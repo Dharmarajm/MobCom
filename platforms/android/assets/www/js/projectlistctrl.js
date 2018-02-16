@@ -227,6 +227,7 @@ angular.module('projectlist', [])
 
 
           $scope.popup=function(mobile_number,id,response){       
+               $scope.teamMode={response:""};
                console.log(mobile_number,id,response)
                   var data=response;  
                  
@@ -277,9 +278,11 @@ angular.module('projectlist', [])
             $scope.modal = modal;
             return modal;
           });
+          
+          $scope.teamMode={response:""};
 
           $scope.openModal = function(mobile_number,id,pname) {
-
+            $scope.teamMode={response:""};
             $scope.mNumber=mobile_number;
             $scope.selectedId=id;
             $scope.nameOpen=pname;
@@ -287,6 +290,7 @@ angular.module('projectlist', [])
             
             };
             $scope.closeModal = function() {
+                $scope.teamMode={response:""};
                 $scope.modal.hide();
             };
            

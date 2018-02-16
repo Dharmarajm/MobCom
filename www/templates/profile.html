@@ -12,15 +12,15 @@
 
   <ion-content class="content_back" padding="true">
    
-            <button class="button button-small button-block button-danger" ng-click="upload()">upload</button>     
+            <button class="button button-small button-block button-positive" ng-click="upload()">upload</button>     
 
              <img src="{{Image[0].file}}" height="250px" width="100%" ng-hide="ImageUrl!='' && Image.length==0 || ImageUrl=='' && Image.length==0" ng-show="Image.length!=0">
-             <img src="http://192.168.1.52:5050{{ImageUrl}}" height="250px" width="100%" ng-show="ImageUrl!=''" ng-hide="Image.length!=0 || ImageUrl==''"> 
+             <img src="{{getlocalurl}}{{ImageUrl}}" height="250px" width="100%" ng-show="ImageUrl!=''" ng-hide="Image.length!=0 || ImageUrl==''"> 
 
           <div class="row">             
              <div class="col col-50"> </div>
              <div class="col col-50">
-               <button class="button button-small button-block button-danger" ng-click="ImagePost()" ng-show="Image.length!=0">SAVE</button>
+               <button class="button button-small button-block button-positive" ng-click="ImagePost()" ng-show="Image.length!=0">SAVE</button>
              </div>
          </div>
          

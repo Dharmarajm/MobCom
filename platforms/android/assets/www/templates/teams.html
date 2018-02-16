@@ -1,4 +1,4 @@
-<ion-view ng-controller="ProjectlistCtrl" cache-view="false">
+<ion-view cache-view="false">
   <link href="css/projectlist.css" rel="stylesheet" cache-view="false">
   
   <ion-header-bar>
@@ -33,8 +33,8 @@
               <ion-content>                                        
                   <div class="list list-inset">
                       <p>To : {{nameOpen}}</p>
-                      <textarea  class="brd-txt" rows="4" style="width:100%;"" ng-model="response" ng-required="true" placeholder="Text Message here"></textarea>
-                      <button ng-disabled="!response" ng-click="popup(mNumber,selectedId,response);closeModal();SMSPost(selectedId,response)" class="button button-block button-calm">Send</button>
+                      <textarea  class="brd-txt" rows="4" style="width:100%;" ng-model="teamMode.response" ng-required="true" placeholder="Text Message here"></textarea>
+                      <button ng-disabled="!teamMode.response" ng-click="popup(mNumber,selectedId,teamMode.response);closeModal();SMSPost(selectedId,teamMode.response)" class="button button-block button-calm">Send</button>
                   </div>                        
               </ion-content>                    
             </ion-modal-view>

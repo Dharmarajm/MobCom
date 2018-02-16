@@ -18,17 +18,17 @@ angular.module('emp_employeelist', [])
       $scope.AuthToken=localStorage.getItem("auth_token")
       $scope.getlocalurl="http://192.168.1.52:5050" 
 
-      $ionicLoading.show
+      /*$ionicLoading.show
         ({
         content: 'Loading',
         animation: 'fade-in',
         showBackdrop: true,
         maxWidth: 200,
         showDelay: 0
-        });
+        });*/
       
-
-        $http.get(Baseurl+'employees',{
+     
+       $http.get(Baseurl+'employees',{
           headers: { "Authorization": "Token token="+$scope.AuthToken}
           })
          .success(function(response) {
@@ -52,8 +52,8 @@ angular.module('emp_employeelist', [])
             }
           }
        })
-          
-       $http.get(Baseurl+'employees/unassigned_project?employee_id='+$rootScope.EmployeeID_timesheet,{
+
+         $http.get(Baseurl+'employees/unassigned_project?employee_id='+$rootScope.EmployeeID_timesheet,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
        .success(function(response) {
@@ -66,6 +66,10 @@ angular.module('emp_employeelist', [])
                        
                   }
         })
+     
+        
+          
+       
       
 
 
@@ -128,7 +132,7 @@ angular.module('emp_employeelist', [])
                 if($scope.TimesheetsDetails!=undefined){
                     for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {
                         if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null){
-                          $scope.Day1 +=$scope.TimesheetsDetails[i].day1;
+                          $scope.Day1 +=$scope.TimesheetsDetails[i].day1;                          
                         }
                         if($scope.TimesheetsDetails[i].day2!=undefined && $scope.TimesheetsDetails[i].day2!="" && $scope.TimesheetsDetails[i].day2!=null){
                           $scope.Day2 +=$scope.TimesheetsDetails[i].day2;
@@ -147,6 +151,7 @@ angular.module('emp_employeelist', [])
                         }
                         if($scope.TimesheetsDetails[i].day7!=undefined && $scope.TimesheetsDetails[i].day7!="" && $scope.TimesheetsDetails[i].day7!=null){
                           $scope.Day7 +=$scope.TimesheetsDetails[i].day7;
+                          console.log($scope.Day7);
                         }
                     }
                 }               
@@ -193,7 +198,8 @@ angular.module('emp_employeelist', [])
  
 
           $scope.empback=function(){
-            $state.go("emp_dashboard");
+            //$state.go("emp_dashboard");
+            $ionicHistory.goBack();
           }
 
          

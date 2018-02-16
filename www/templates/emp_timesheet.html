@@ -1,4 +1,4 @@
-<ion-view ng-controller="EmpEmployeelistCtrl" ng-init="Timesheetcal()" cache-view="false"> 
+<ion-view ng-init="Timesheetcal()" cache-view="false"> 
   <link href="css/employeelist.css" rel="stylesheet" cache-view="false">
 
 <ion-header-bar>
@@ -9,15 +9,15 @@
          </div>
   </ion-header-bar>   
   
-  <ion-content class="content_back" padding=true>
+  <ion-content class="content_back" padding="true">
 
 <h6><center>{{EmployeeName}}</center></h6>
 
          <div class="row">   
-             <div class="col col-20"> From : </div>
-             <div class="col col-30"><p ng-bind="FromDate | date:'dd/MM/yyyy'"></p></div>
-             <div class="col col-20"> To : </div>
-             <div class="col col-30"><p ng-bind="ToDate | date:'dd/MM/yyyy'"></p></div>
+             <div class="col col-25"> From Date :</div>
+             <div class="col col-26"><p ng-bind="FromDate | date:'dd/MM/yyyy'"></p></div>
+             <div class="col col-20"> To Date :</div>
+             <div class="col col-29"><p ng-bind="ToDate | date:'dd/MM/yyyy'"></p></div>
          </div>
 
         <div class="row">
@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col col-50"></div>
             <div class="col col-50">
-              <button class="button button-small button-block button-danger" ng-click="timesheetcreate(hours);">Save</button>
+              <button class="button button-small button-block button-positive" ng-click="timesheetcreate(hours);">Save</button>
             </div>
         </div>
         

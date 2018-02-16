@@ -21,24 +21,6 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
-
-    var permissions = cordova.plugins.permissions;
-    permissions.requestPermission(permissions.CAMERA, success, error);
-
-    function error() {
-      console.warn('Camera permission is not turned on');
-    }
-
-    function success(status) {
-      if (!status.hasPermission) error();
-    }
-    permissions.hasPermission(permissions.CAMERA, function(status) {
-      if (status.hasPermission) {
-        console.log("Yes :D ");
-      } else {
-        console.warn("No :( ");
-      }
-      
   });
 
 
@@ -65,6 +47,12 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
      };
       if($state.current.name=='login' || $state.current.name=='admin_dashboard' || $state.current.name=='emp_dashboard'){
        showConfirm();
+      }else if($state.current.name=='admin_employeelist' || $state.current.name=='projectlist' || $state.current.name=='clients'){
+         $state.go('admin_dashboard')
+      }else if($state.current.name=='teams'){
+         $state.go('projectlist')    
+      }else if($state.current.name=='emp_employeelist' ){
+        $state.go('emp_dashboard')
       }
       else {
         navigator.app.backHistory();
@@ -123,80 +111,95 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
   
   var jsScrolling = (ionic.Platform.isAndroid() ) ? false : true;
   $ionicConfigProvider.scrolling.jsScrolling(jsScrolling);
+  /*$ionicConfigProvider.views.maxCache(0);*/
 
   $stateProvider
 
   .state('login', {
     url: '/login',
-    templateUrl: 'templates/login.html'
+    templateUrl: 'templates/login.html',
+    controller:'LoginCtrl'
   })
 
   .state('registration', {
     url: '/registration',
-    templateUrl: 'templates/registration.html'
+    templateUrl: 'templates/registration.html',
+    controller:'RegistrationCtrl'
   })
 
   .state('admin_dashboard', {
     url: '/admin_dashboard',
-    templateUrl: 'templates/admin_dashboard.html'
+    templateUrl: 'templates/admin_dashboard.html',
+    controller:'AdminDashboardCtrl'
   })
 
   .state('emp_dashboard', {
     url: '/emp_dashboard',
-    templateUrl: 'templates/emp_dashboard.html'
+    templateUrl: 'templates/emp_dashboard.html',
+    controller: 'EmpDashboardCtrl'
   })
 
 
   .state('admin_employeelist', {
     url: '/admin_employeelist',
-    templateUrl: 'templates/admin_employeelist.html'
+    templateUrl: 'templates/admin_employeelist.html',
+    controller: 'AdminEmployeelistCtrl'
   })
 
   .state('emp_employeelist', {
     url: '/emp_employeelist',
-    templateUrl: 'templates/emp_employeelist.html'
+    templateUrl: 'templates/emp_employeelist.html',
+    controller: 'EmpEmployeelistCtrl'
   })
 
   .state('emp_information', {
     url: '/emp_information',
-    templateUrl: 'templates/emp_information.html'
+    templateUrl: 'templates/emp_information.html',
+    controller: 'EmpEmployeelistCtrl'
   })
 
   .state('admin_timesheet', {
     url: '/admin_timesheet',
-    templateUrl: 'templates/admin_timesheet.html'
+    templateUrl: 'templates/admin_timesheet.html',
+    controller: 'AdminEmployeelistCtrl'
   })
 
 
   .state('emp_timesheet', {
     url: '/emp_timesheet',
-    templateUrl: 'templates/emp_timesheet.html'
+    templateUrl: 'templates/emp_timesheet.html',
+    controller: 'EmpEmployeelistCtrl'
   })
 
   .state('projectlist', {
     url: '/projectlist',
-    templateUrl: 'templates/projectlist.html'
+    templateUrl: 'templates/projectlist.html',
+    controller: 'ProjectlistCtrl'
   })
 
    .state('project_timesheet', {
     url: '/project_timesheet',
-    templateUrl: 'templates/project_timesheet.html'
+    templateUrl: 'templates/project_timesheet.html',
+    controller: 'ProjectlistCtrl'
   })
 
    .state('createnewproject', {
     url: '/createnewproject',
-    templateUrl: 'templates/createnewproject.html'
+    templateUrl: 'templates/createnewproject.html',
+    controller: 'ProjectlistCtrl'
   })
 
   .state('assigntoemp', {
     url: '/assigntoemp',
-    templateUrl: 'templates/assigntoemp.html'
+    templateUrl: 'templates/assigntoemp.html',
+    controller: 'AdminEmployeelistCtrl'
   })
 
 
   .state('employeedetails', {
     url: '/employeedetails',
-    templateUrl: 'templates/employeedetails.html'
+    templateUrl: 'templates/employeedetails.html',
+    controller: 'RegistrationCtrl'
   })
 
   .state('profile', {
@@ -207,22 +210,26 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
 
   .state('contacts', {
     url: '/contacts',
-    templateUrl: 'templates/contacts.html'
+    templateUrl: 'templates/contacts.html',
+    controller: 'ContactsCtrl'
   })
 
   .state('clients', {
     url: '/clients',
-    templateUrl: 'templates/clients.html'
+    templateUrl: 'templates/clients.html',
+    controller: 'ContactsCtrl'
   })
 
    .state('teams', {
     url: '/teams',
-    templateUrl: 'templates/teams.html'
+    templateUrl: 'templates/teams.html',
+    controller: 'ProjectlistCtrl'
   })
 
    .state('cost', {
     url: '/cost',
-    templateUrl: 'templates/cost.html'
+    templateUrl: 'templates/cost.html',
+    controller: 'ProjectlistCtrl'
   })
 
 
