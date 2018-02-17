@@ -21,6 +21,24 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+
+    var permissions = cordova.plugins.permissions;
+    permissions.requestPermission(permissions.CAMERA, success, error);
+
+    function error() {
+      console.warn('Camera permission is not turned on');
+    }
+
+    function success(status) {
+      if (!status.hasPermission) error();
+    }
+    permissions.hasPermission(permissions.CAMERA, function(status) {
+      if (status.hasPermission) {
+        console.log("Yes :D ");
+      } else {
+        console.warn("No :( ");
+      }
+    });
   });
 
 

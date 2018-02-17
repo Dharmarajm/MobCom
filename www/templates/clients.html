@@ -17,8 +17,8 @@
      </div>       
   </div>
 
-  <ion-content class="content_back" padding=true>
-  <br><br>
+  <ion-content class="content_back search" padding=true>
+  
     <div class="card" ng-repeat="x in ClientsDetails | filter:search">
       <div class="item item-text-wrap" ng-click="contactlist(x.id)">
        <b> {{x.name}} </b>

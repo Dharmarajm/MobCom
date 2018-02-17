@@ -34,7 +34,7 @@
                   <div class="list list-inset">
                       <p>To : {{nameOpen}}</p>
                       <textarea  class="brd-txt" rows="4" style="width:100%;" ng-model="teamMode.response" ng-required="true" placeholder="Text Message here"></textarea>
-                      <button ng-disabled="!teamMode.response" ng-click="popup(mNumber,selectedId,teamMode.response);closeModal();SMSPost(selectedId,teamMode.response)" class="button button-block button-calm">Send</button>
+                      <button ng-disabled="!teamMode.response" ng-click="popup(mNumber,selectedId,teamMode.response);closeModal();SMSPost(selectedId,teamMode.response)" class="button button-block button-positive">Send</button>
                   </div>                        
               </ion-content>                    
             </ion-modal-view>

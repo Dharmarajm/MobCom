@@ -20,8 +20,8 @@
   </div>
 
 
-  <ion-content class="content_back" padding=true>   
-       <br><br>
+  <ion-content class="content_back search" padding="true">   
+       
           <div class="list" ng-repeat="emp in EmployeesDetails | filter:search">
             <div class="item item-avatar item-icon-right">
               <img src="img/contact.png">
@@ -49,7 +49,7 @@
                   <div class="list list-inset">
                       <p>To : {{nameOpen}}</p>
                       <textarea  class="brd-txt" rows="4" style="width:100%;" ng-model="admin.response" ng-required="true" placeholder="Text Message here"></textarea>
-                      <button ng-disabled="!admin.response" ng-click="popup(mNumber,selectedId,admin.response);closeModal();SMSPost(selectedId,admin.response)" class="button button-block button-calm">Send</button>
+                      <button ng-disabled="!admin.response" ng-click="popup(mNumber,selectedId,admin.response);closeModal();SMSPost(selectedId,admin.response)" class="button button-block button-positive">Send</button>
                   </div>                        
               </ion-content>                    
             </ion-modal-view>

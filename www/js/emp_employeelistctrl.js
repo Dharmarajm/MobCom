@@ -1,5 +1,4 @@
 angular.module('emp_employeelist', [])
-
 .controller('EmpEmployeelistCtrl', function($filter,ionicDatePicker,$scope,$state,$http,$rootScope,$ionicPopup,$cordovaImagePicker,$ionicLoading,$timeout,$ionicModal,$cordovaSms,$cordovaDevice,$ionicHistory) {
 
 /*if(sessionStorage.getItem("image")=='null'){
@@ -36,7 +35,6 @@ angular.module('emp_employeelist', [])
               $ionicLoading.hide(); 
           })
           $scope.EmployeesDetails=response;    
-          console.log($scope.EmployeesDetails) 
           for(var i in $scope.EmployeesDetails){
             if(localStorage.getItem("id")==$scope.EmployeesDetails[i].id){
               if($scope.EmployeesDetails[i].image.url==null){
@@ -58,7 +56,6 @@ angular.module('emp_employeelist', [])
               })
        .success(function(response) {
             $scope.ProjectDetails=response;
-            console.log($scope.ProjectDetails)
                  $scope.projectnameside=$scope.ProjectDetails ;  
                   $scope.projectname = function(objs)
                   {
@@ -161,7 +158,7 @@ angular.module('emp_employeelist', [])
 
 
 
-        $scope.getHours=[1,2,3,4,5,6,7,8,9,10,11,12];  
+        $scope.getHours=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];  
 
         $scope.timesheetcreate=function(hour){
           $scope.hours=hour;
@@ -237,16 +234,12 @@ angular.module('emp_employeelist', [])
             
             };
             $scope.closeModal = function() {
-                console.log('test')
                 $scope.modal.hide();
                 $scope.mode={response:""};
-                console.log($scope.response)
             };
         
 
               $scope.popup=function(mobile_number,id,response){       
-                  console.log(response)
-                  console.log(mobile_number,id,response)  
                   var data=response;  
                  
                 //CONFIGURATION    
@@ -370,7 +363,6 @@ angular.module('emp_employeelist', [])
                                              reader.onloadend = function (evt) {
                                                  var imgData = evt.target.result; // this is your Base64 string
                                                  $rootScope.getimgData=imgData
-                                                 console.log($rootScope.getimgData)
                                              };
                                              reader.readAsDataURL(file);
                                              
@@ -392,7 +384,6 @@ angular.module('emp_employeelist', [])
 
 
                   $scope.ImagePost=function(){
-                           console.log($rootScope.getimgData)
                            var create={
                             "message_log": 
                               {
@@ -400,7 +391,6 @@ angular.module('emp_employeelist', [])
                                 "image": $rootScope.getimgData
                               }
                              }   
-                           console.log(create)
                               $http({
                                 method: 'post',
                                 url:Baseurl+"employees/image_upload",
@@ -439,7 +429,6 @@ angular.module('emp_employeelist', [])
 
                   $scope.moreDetail=function(detail){
                      $rootScope.empdetail=detail; 
-                     console.log($rootScope.empdetail)
                      $state.go("emp_information");
                   }
                   
