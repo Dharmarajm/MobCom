@@ -71,3 +71,10 @@
 button.button.button-small.button-block.button-positive.a{
   background-color:#074F89;  
 }
+button.button.button-small.button-block.button-positive.a.a1{
+  margin-left: -9px;;
+}
+
+button.button.button-small.button-block.button-positive.a.a3{
+  left:10px;
+}
