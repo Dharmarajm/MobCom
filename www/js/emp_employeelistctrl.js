@@ -41,30 +41,6 @@ angular.module('emp_employeelist', [])
                   }
         })
 
-
-          $http.get(Baseurl+'time_sheets/date',{
-            headers: { "Authorization": "Token token="+$scope.AuthToken}
-          })
-          .success(function(response) {
-             $scope.start=new Date(response.start_date);
-             $scope.end=new Date(response.end_date);  
-                var ipObj1 = {
-                      from: $scope.start,
-                      to: $scope.end,
-                     callback: function (val) {  //Mandatory 
-                      $scope.selectdate = $filter('date')(val, "yyyy-MM-dd");
-                      },             
-                    };
-           
-                  $scope.openDatePicker = function(){
-                    ionicDatePicker.openDatePicker(ipObj1);
-                  };
-            })
-  
-
-
-     
-     
           
 
 
@@ -109,6 +85,40 @@ angular.module('emp_employeelist', [])
                 if($scope.Timesheets!=undefined){                  
                   $scope.FromDate=$scope.Timesheets.from_date;
                   $scope.ToDate=$scope.Timesheets.to_date;
+
+                  if($scope.WeekStatus == 'current'){
+                       $scope.start=new Date($scope.FromDate);
+                       $scope.end=new Date($scope.ToDate);  
+                          var ipObj1 = {
+                          from: $scope.start,
+                          to: $scope.end,
+                          inputDate:new Date(),
+                           callback: function (val) {  //Mandatory 
+                            $scope.selectdate = $filter('date')(val, "yyyy-MM-dd");
+                            },             
+                        };
+               
+                        $scope.openDatePicker = function(){
+                          ionicDatePicker.openDatePicker(ipObj1);
+                        };
+                  }else{
+                     $scope.start=new Date($scope.FromDate);
+                     $scope.end=new Date($scope.ToDate);  
+                        var ipObj1 = {
+                        from: $scope.start,
+                        to: $scope.end,
+                        inputDate:$scope.start,
+                         callback: function (val) {  //Mandatory 
+                          $scope.selectdate = $filter('date')(val, "yyyy-MM-dd");
+                          },             
+                      };
+             
+                      $scope.openDatePicker = function(){
+                        ionicDatePicker.openDatePicker(ipObj1);
+                      };
+                  }
+
+                            
                 }
                 $scope.TimesheetsDetails=response.time_sheet;
 
@@ -155,24 +165,94 @@ angular.module('emp_employeelist', [])
         $scope.getHours=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];  
 
         $scope.timesheetcreate=function(hour){
-           $scope.hours=hour;
-            $scope.Day11=0;
+                     $scope.Day_approval1=0;
+
+                 $scope.hours=hour;
+             
+                if($scope.projectnametype == undefined || $scope.projectnametype=="" || $scope.projectnametype==null){
+                  alert("Please select the project name")
+                }else if($scope.selectdate == undefined || $scope.selectdate=="" || $scope.selectdate==null){
+                  alert("Please select the date")
+                } else if($scope.hours == undefined || $scope.hours==null || $scope.hours==""){
+                  alert("Please select the hours")
+                }else {
+
+
+                  /* if($scope.TimesheetsDetails!=undefined){
+                      for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {                   
+
+                        if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null){
+                          
+                          if($scope.TimesheetsDetails[i].approval_status1 == true && $scope.TimesheetsDetails[i].approval_status1!=null){
+                          $scope.Day_approval1 +=$scope.TimesheetsDetails[i].day1;
+                            $scope.Result1=parseInt($scope.Day_approval1)+parseInt($scope.hours);
+
+                            if($scope.Result1 > 24){
+                               $scope.day_values1=24 - $scope.Day_approval1;
+                              alert("You have avaiable only  "+$scope.day_values1+" hours")
+                              return;
+                            }
+                        }else if($scope.selectdate != $scope.TimesheetsDetails[i].date1 && $scope.projectnametype != $scope.TimesheetsDetails[i].project_name){
+                             $scope.Day_approval1 +=$scope.TimesheetsDetails[i].day1;
+                            $scope.Result1=parseInt($scope.Day_approval1)+parseInt($scope.hours);
+
+                            if($scope.Result1 > 24){
+                               $scope.day_values1=24 - $scope.Day_approval1;
+                              alert("You have avaiable only  "+$scope.day_values1+" hours")
+                              return;
+                            }
+                        }
+                      }
+                    }
+                  }*/
+
+                   var create={           
+                        "date":$scope.selectdate,
+                        "hours":$scope.hours,
+                        "project_id":$scope.projectnametype,
+                        "employee_id":$rootScope.EmployeeID_timesheet
+                      }           
+
+                    $http({
+                      method: 'post',
+                      url:Baseurl+"time_sheets",
+                      data: create,
+                      headers: { "Authorization": "Token token="+$scope.AuthToken}                  
+                    }).then(function(response) {
+                      $scope.show=2;
+                          if(response.data.message){
+                            alert(response.data.message)                   
+                            $scope.selectdate='';
+                            $scope.projectnametype="";
+                            $scope.hour="";                      
+                            $scope.Timesheetcal();
+                          }else if(response.data.id){
+                             alert("success")
+                             $scope.selectdate='';
+                             $scope.projectnametype="";
+                             $scope.hour="";                     
+                             $scope.Timesheetcal();
+                          }                                      
+                   })
+                }
+
+          }  
+
+          /*  
+
+
+
+
+     $scope.Day11=0;
             $scope.Day22=0;
             $scope.Day33=0;
             $scope.Day44=0;
             $scope.Day55=0;
             $scope.Day66=0;
             $scope.Day77=0;
+            $scope.Day_no_approval1=0;
             
- 
-         
-          if($scope.projectnametype == undefined || $scope.projectnametype=="" || $scope.projectnametype==null){
-            alert("Please select the project name")
-          }else if($scope.selectdate == undefined || $scope.selectdate=="" || $scope.selectdate==null){
-            alert("Please select the date")
-          } else if($scope.hours == undefined || $scope.hours==null || $scope.hours==""){
-            alert("Please select the hours")
-          }else {
+                   if($scope.TimesheetsDetails!=undefined){
                    for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {                   
 
                         if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null && $scope.TimesheetsDetails[i].approval_status1 == true && $scope.TimesheetsDetails[i].approval_status1!=null){
@@ -231,41 +311,27 @@ angular.module('emp_employeelist', [])
                               alert("You have avaiable only  "+$scope.day_values+" hours")
                               return;
                             }
+                        }else if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null){
+                          
+                          console.log($scope.selectdate+"======"+$scope.TimesheetsDetails[i].date1)
+
+                          console.log($scope.projectnametype+"======"+$scope.TimesheetsDetails[i].project_name  )
+
+
+                          $scope.Day_no_approval1 +=$scope.TimesheetsDetails[i].day1;
+                            $scope.ss=parseInt($scope.Day_no_approval1)+parseInt($scope.hours);
+                            if($scope.ss > 24){
+                               $scope.day_values=24 - $scope.Day_no_approval1;
+                              alert("You have avaiable only  "+$scope.day_values+" hours")
+                              return;
+                            }
                         }
-                 }
+
+                      }
+                 }*/
                 
                    
-           var create={           
-                  "date":$scope.selectdate,
-                  "hours":$scope.hours,
-                  "project_id":$scope.projectnametype,
-                  "employee_id":$rootScope.EmployeeID_timesheet
-                }           
-
-              $http({
-                method: 'post',
-                url:Baseurl+"time_sheets",
-                data: create,
-                headers: { "Authorization": "Token token="+$scope.AuthToken}                  
-              }).then(function(response) {
-                    if(response.data.message){
-                      alert(response.data.message)
-                     
-                      $scope.selectdate='';
-                      $scope.projectnametype="";
-                      $scope.hour="";                      
-                      $scope.Timesheetcal();
-                    }else if(response.data.id){
-                       alert("success")
-                       $scope.selectdate='';
-                       $scope.projectnametype="";
-                       $scope.hour="";                     
-                       $scope.Timesheetcal();
-                    }                                      
-             })
-            }
-
-          }  
+          
 
  
 
@@ -275,7 +341,8 @@ angular.module('emp_employeelist', [])
           }
 
          
-        $scope.call = function(number,id){ 
+    
+         $scope.call = function(number,id){ 
           
             window.plugins.CallNumber.callNumber(function(result){
               if (window.PhoneCallTrap) {
@@ -284,10 +351,12 @@ angular.module('emp_employeelist', [])
               }
              //success logic goes here
             }, function(error){
-              alert(error)
+             // alert(error)
              //error logic goes here
             }, number) 
           };
+
+
 
 
           $ionicModal.fromTemplateUrl("templates/modal.html", {
@@ -321,7 +390,6 @@ angular.module('emp_employeelist', [])
                     var options = {
                       replaceLineBreaks: false, // true to replace \n by a new line, false by default
                       android: {
-                          //intent: 'INTENT' // send SMS with the native android SMS messaging
                           intent: '' // send SMS without open any other app
                         }
                     };
@@ -512,7 +580,8 @@ angular.module('emp_employeelist', [])
                     $ionicHistory.goBack();
                   }
 
+                  $scope.add=function(){
+                    $scope.show=1;
+                  }
+
  })
-
-
-

@@ -13,3 +13,10 @@ button.button.button-positive.activated{
 .item.activated{
 	background-color: #fff;
 }
+
+div.col.col-30.timeright{
+	margin-right:-8px;
+}
+div.col.col-40.timeleft{
+	margin-left: -8px;
+}

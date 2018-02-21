@@ -14,7 +14,7 @@
         <div class="row">
           <div class="col col-50">Client Name</div>
           <div class="col col-50">
-             <select ng-model="clientnameside"  ng-change="clientname(clientnameside)" ng-options="g.name for g in ClientDetails">
+             <select ng-model="clientnameside"  ng-change="clientname(clientnameside)" ng-options="g.name for g in ClientDetails" style="width:100%">
               <option value="" style="display:true">---Select---</option>
               </select>
           </div>
@@ -23,14 +23,14 @@
         <div class="row">
           <div class="col col-50">Project Name</div>
           <div class="col col-50">
-             <input type="text" name="name" ng-model="name">
+             <input type="text" name="name" ng-model="name" style="width:100%">
           </div>
         </div>
 
         <div class="row">
           <div class="col col-50">Budget</div>
           <div class="col col-50">
-             <input type="number" name="budget" ng-model="budget">
+             <input type="number" name="budget" ng-model="budget" style="width:100%">
           </div>
         </div>
 

@@ -260,7 +260,10 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     }else if(localStorage.getItem("role")=='Admin'){
      $urlRouterProvider.otherwise('/admin_dashboard'); 
     }  
+  }else{
+    $urlRouterProvider.otherwise('/login');  
   }
+  
   
 })
 
