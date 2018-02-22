@@ -2,7 +2,7 @@ angular.module('admin_employeelist', [])
 
 .controller('AdminEmployeelistCtrl', function($filter,ionicDatePicker,$scope,$state,$http,$rootScope,$ionicPopup,$ionicLoading,$timeout,$ionicModal,$cordovaSms,$cordovaDevice) {
 
-      /*$rootScope.EmployeeID=localStorage.getItem("id")
+      $rootScope.EmployeeID=localStorage.getItem("id")
       $scope.AuthToken=localStorage.getItem("auth_token")
 
       $ionicLoading.show
@@ -300,7 +300,7 @@ angular.module('admin_employeelist', [])
                          }) 
                      }                  
                   }          
- */
+ 
 
  })
 

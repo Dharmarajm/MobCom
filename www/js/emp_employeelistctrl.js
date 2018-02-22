@@ -1,7 +1,7 @@
 angular.module('emp_employeelist', [])
 .controller('EmpEmployeelistCtrl', function($filter,ionicDatePicker,$scope,$state,$http,$rootScope,$ionicPopup,$cordovaImagePicker,$ionicLoading,$timeout,$ionicModal,$cordovaSms,$cordovaDevice,$ionicHistory) {
-
-
+      
+      $scope.hour_values=24;
       $scope.search="";
       $scope.ImageUrl='';
       $rootScope.EmployeeID_timesheet=localStorage.getItem("id")
@@ -37,7 +37,7 @@ angular.module('emp_employeelist', [])
                   $scope.projectname = function(objs)
                   {
                        $scope.projectnametype=objs.id;
-                       
+                       $scope.project_name=objs.name;                    
                   }
         })
 
@@ -82,9 +82,18 @@ angular.module('emp_employeelist', [])
               })
            .success(function(response) {
                    $scope.Timesheets=response.date;
+                   $scope.TimesheetsDetails=response.time_sheet;
                 if($scope.Timesheets!=undefined){                  
                   $scope.FromDate=$scope.Timesheets.from_date;
                   $scope.ToDate=$scope.Timesheets.to_date;
+              
+               $scope.Dates_Record=[];
+                  for(var i=0;i<7;i++){
+                    $scope.mydate = new Date($scope.FromDate);
+                    $scope.newdate = $scope.mydate.setDate($scope.mydate.getDate() + i); 
+                    $scope.All_Dates = $filter('date')($scope.newdate, "yyyy-MM-dd");
+                    $scope.Dates_Record.push($scope.All_Dates);
+                  }
 
                   if($scope.WeekStatus == 'current'){
                        $scope.start=new Date($scope.FromDate);
@@ -95,10 +104,12 @@ angular.module('emp_employeelist', [])
                           inputDate:new Date(),
                            callback: function (val) {  //Mandatory 
                             $scope.selectdate = $filter('date')(val, "yyyy-MM-dd");
+                            $scope.hours_cal();
+                            
                             },             
                         };
                
-                        $scope.openDatePicker = function(){
+                        $scope.openDatePicker = function(){                          
                           ionicDatePicker.openDatePicker(ipObj1);
                         };
                   }else{
@@ -110,25 +121,28 @@ angular.module('emp_employeelist', [])
                         inputDate:$scope.start,
                          callback: function (val) {  //Mandatory 
                           $scope.selectdate = $filter('date')(val, "yyyy-MM-dd");
+                          $scope.hours_cal();
+                          $scope.isDisabled = true;
                           },             
                       };
              
-                      $scope.openDatePicker = function(){
+                      $scope.openDatePicker = function(){                        
                         ionicDatePicker.openDatePicker(ipObj1);
                       };
                   }
 
                             
                 }
-                $scope.TimesheetsDetails=response.time_sheet;
+                
 
                 $scope.ID=[]
                 if($scope.TimesheetsDetails!=undefined){
                     for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {                   
                       
                         if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null){
-                          $scope.Day1 +=$scope.TimesheetsDetails[i].day1;
-                          $scope.ID.push($scope.TimesheetsDetails[i].id1);
+                          $scope.Day1 +=$scope.TimesheetsDetails[i].day1;                          
+                          $scope.ID.push($scope.TimesheetsDetails[i].id1);  
+                          
                         }
                         if($scope.TimesheetsDetails[i].day2!=undefined && $scope.TimesheetsDetails[i].day2!="" && $scope.TimesheetsDetails[i].day2!=null){
                           $scope.Day2 +=$scope.TimesheetsDetails[i].day2;
@@ -157,16 +171,132 @@ angular.module('emp_employeelist', [])
                     }
                 }              
             })
-
+            
          }
 
+          $scope.hours_cal=function(){
+            $scope.hour_values=24;
+            $scope.Day_hours1=0;
+            $scope.Day_hours2=0;
+            $scope.Day_hours3=0;
+            $scope.Day_hours4=0;
+            $scope.Day_hours5=0;
+            $scope.Day_hours6=0;
+            $scope.Day_hours7=0;  
+
+            if($scope.TimesheetsDetails!=undefined){
+                  if($scope.Dates_Record[0] == $scope.selectdate ){
+                    for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {   
+                      if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null){
+                         $scope.Day_hours1 +=$scope.TimesheetsDetails[i].day1;                 
+                         if($scope.project_name == $scope.TimesheetsDetails[i].project_name && $scope.selectdate == $scope.TimesheetsDetails[i].date1){
+                            var result=$scope.Day1 - $scope.TimesheetsDetails[i].day1;  
+                            $scope.hour_values=24 - result;                      
+                          }else{
+                            $scope.hour_values=24 - $scope.Day_hours1;                      
+                          }
+                      }
+                    }
+                  }
+
+              if($scope.Dates_Record[1] == $scope.selectdate ){
+                for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {   
+                  if($scope.TimesheetsDetails[i].day2!=undefined && $scope.TimesheetsDetails[i].day2!="" && $scope.TimesheetsDetails[i].day2!=null){
+                      $scope.Day_hours2 +=$scope.TimesheetsDetails[i].day2;                  
+                      if($scope.project_name == $scope.TimesheetsDetails[i].project_name && $scope.selectdate == $scope.TimesheetsDetails[i].date2){                          
+                          var result=$scope.Day2 - $scope.TimesheetsDetails[i].day2;  
+                          $scope.hour_values=24 - result;                    
+                      }else{
+                          $scope.hour_values=24 - $scope.Day_hours2;
+                      }                  
+                  }
+                }
+              }
 
 
-        $scope.getHours=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];  
+              if($scope.Dates_Record[2] == $scope.selectdate ){
+                for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {   
+                  if($scope.TimesheetsDetails[i].day3!=undefined && $scope.TimesheetsDetails[i].day3!="" && $scope.TimesheetsDetails[i].day3!=null){
+                      $scope.Day_hours3 +=$scope.TimesheetsDetails[i].day3;                  
+                      if($scope.project_name == $scope.TimesheetsDetails[i].project_name && $scope.selectdate == $scope.TimesheetsDetails[i].date3){                          
+                          var result=$scope.Day3 - $scope.TimesheetsDetails[i].day3;  
+                          $scope.hour_values=24 - result;                    
+                      }else{
+                          $scope.hour_values=24 - $scope.Day_hours3;
+                      }                  
+                  }
+                }
+              }
+
+
+              if($scope.Dates_Record[3] == $scope.selectdate ){
+                for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {   
+                  if($scope.TimesheetsDetails[i].day4!=undefined && $scope.TimesheetsDetails[i].day4!="" && $scope.TimesheetsDetails[i].day4!=null){
+                      $scope.Day_hours4 +=$scope.TimesheetsDetails[i].day4;                  
+                      if($scope.project_name == $scope.TimesheetsDetails[i].project_name && $scope.selectdate == $scope.TimesheetsDetails[i].date4){                          
+                          var result=$scope.Day4 - $scope.TimesheetsDetails[i].day4;  
+                          $scope.hour_values=24 - result;                    
+                      }else{
+                          $scope.hour_values=24 - $scope.Day_hours4;
+                      }                  
+                  }
+                }
+              }
+
+
+
+              if($scope.Dates_Record[4] == $scope.selectdate ){
+                for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {   
+                  if($scope.TimesheetsDetails[i].day5!=undefined && $scope.TimesheetsDetails[i].day5!="" && $scope.TimesheetsDetails[i].day5!=null){
+                      $scope.Day_hours5 +=$scope.TimesheetsDetails[i].day5;                  
+                      if($scope.project_name == $scope.TimesheetsDetails[i].project_name && $scope.selectdate == $scope.TimesheetsDetails[i].date5){                          
+                          var result=$scope.Day5 - $scope.TimesheetsDetails[i].day5;  
+                          $scope.hour_values=24 - result;                    
+                      }else{
+                          $scope.hour_values=24 - $scope.Day_hours5;
+                      }                  
+                  }
+                }
+              }
+
+
+              if($scope.Dates_Record[5] == $scope.selectdate ){
+                for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {   
+                  if($scope.TimesheetsDetails[i].day6!=undefined && $scope.TimesheetsDetails[i].day6!="" && $scope.TimesheetsDetails[i].day6!=null){
+                      $scope.Day_hours6 +=$scope.TimesheetsDetails[i].day6;                  
+                      if($scope.project_name == $scope.TimesheetsDetails[i].project_name && $scope.selectdate == $scope.TimesheetsDetails[i].date6){                          
+                          var result=$scope.Day6 - $scope.TimesheetsDetails[i].day6;  
+                          $scope.hour_values=24 - result;                    
+                      }else{
+                          $scope.hour_values=24 - $scope.Day_hours6;
+                      }                  
+                  }
+                }
+              }
+
+
+              if($scope.Dates_Record[6] == $scope.selectdate ){
+                for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {   
+                  if($scope.TimesheetsDetails[i].day7!=undefined && $scope.TimesheetsDetails[i].day7!="" && $scope.TimesheetsDetails[i].day7!=null){
+                      $scope.Day_hours7 +=$scope.TimesheetsDetails[i].day7;                  
+                      if($scope.project_name == $scope.TimesheetsDetails[i].project_name && $scope.selectdate == $scope.TimesheetsDetails[i].date7){                          
+                          var result=$scope.Day7 - $scope.TimesheetsDetails[i].day7;  
+                          $scope.hour_values=24 - result;                    
+                      }else{
+                          $scope.hour_values=24 - $scope.Day_hours7;
+                      }                  
+                  }
+                }
+              }
+
+
+             }
+          }
+
 
         $scope.timesheetcreate=function(hour){
-                     $scope.Day_approval1=0;
 
+                 
                  $scope.hours=hour;
              
                 if($scope.projectnametype == undefined || $scope.projectnametype=="" || $scope.projectnametype==null){
@@ -176,35 +306,6 @@ angular.module('emp_employeelist', [])
                 } else if($scope.hours == undefined || $scope.hours==null || $scope.hours==""){
                   alert("Please select the hours")
                 }else {
-
-
-                  /* if($scope.TimesheetsDetails!=undefined){
-                      for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {                   
-
-                        if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null){
-                          
-                          if($scope.TimesheetsDetails[i].approval_status1 == true && $scope.TimesheetsDetails[i].approval_status1!=null){
-                          $scope.Day_approval1 +=$scope.TimesheetsDetails[i].day1;
-                            $scope.Result1=parseInt($scope.Day_approval1)+parseInt($scope.hours);
-
-                            if($scope.Result1 > 24){
-                               $scope.day_values1=24 - $scope.Day_approval1;
-                              alert("You have avaiable only  "+$scope.day_values1+" hours")
-                              return;
-                            }
-                        }else if($scope.selectdate != $scope.TimesheetsDetails[i].date1 && $scope.projectnametype != $scope.TimesheetsDetails[i].project_name){
-                             $scope.Day_approval1 +=$scope.TimesheetsDetails[i].day1;
-                            $scope.Result1=parseInt($scope.Day_approval1)+parseInt($scope.hours);
-
-                            if($scope.Result1 > 24){
-                               $scope.day_values1=24 - $scope.Day_approval1;
-                              alert("You have avaiable only  "+$scope.day_values1+" hours")
-                              return;
-                            }
-                        }
-                      }
-                    }
-                  }*/
 
                    var create={           
                         "date":$scope.selectdate,
@@ -219,6 +320,7 @@ angular.module('emp_employeelist', [])
                       data: create,
                       headers: { "Authorization": "Token token="+$scope.AuthToken}                  
                     }).then(function(response) {
+                       $scope.hour_values=24;
                       $scope.show=2;
                           if(response.data.message){
                             alert(response.data.message)                   
@@ -238,97 +340,6 @@ angular.module('emp_employeelist', [])
 
           }  
 
-          /*  
-
-
-
-
-     $scope.Day11=0;
-            $scope.Day22=0;
-            $scope.Day33=0;
-            $scope.Day44=0;
-            $scope.Day55=0;
-            $scope.Day66=0;
-            $scope.Day77=0;
-            $scope.Day_no_approval1=0;
-            
-                   if($scope.TimesheetsDetails!=undefined){
-                   for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {                   
-
-                        if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null && $scope.TimesheetsDetails[i].approval_status1 == true && $scope.TimesheetsDetails[i].approval_status1!=null){
-                          $scope.Day11 +=$scope.TimesheetsDetails[i].day1;
-                            $scope.ss=parseInt($scope.Day11)+parseInt($scope.hours);
-                            if($scope.ss > 24){
-                               $scope.day_values=24 - $scope.Day11;
-                              alert("You have avaiable only  "+$scope.day_values+" hours")
-                              return;
-                            }
-                        }else if($scope.TimesheetsDetails[i].day2!=undefined && $scope.TimesheetsDetails[i].day2!="" && $scope.TimesheetsDetails[i].day2!=null && $scope.TimesheetsDetails[i].approval_status2 == true && $scope.TimesheetsDetails[i].approval_status2!=null){
-                          $scope.Day22 +=$scope.TimesheetsDetails[i].day2;
-                            $scope.ss=parseInt($scope.Day22)+parseInt($scope.hours);
-                            if($scope.ss > 24){
-                               $scope.day_values=24 - $scope.Day22;
-                              alert("You have avaiable only  "+$scope.day_values+" hours")
-                              return;
-                            }
-                        }else if($scope.TimesheetsDetails[i].day3!=undefined && $scope.TimesheetsDetails[i].day3!="" && $scope.TimesheetsDetails[i].day3!=null && $scope.TimesheetsDetails[i].approval_status3 == true && $scope.TimesheetsDetails[i].approval_status3!=null){
-                          $scope.Day33 +=$scope.TimesheetsDetails[i].day3;
-                            $scope.ss=parseInt($scope.Day33)+parseInt($scope.hours);
-                            if($scope.ss > 24){
-                               $scope.day_values=24 - $scope.Day33;
-                              alert("You have avaiable only  "+$scope.day_values+" hours")
-                              return;
-                            }
-                        }else if($scope.TimesheetsDetails[i].day4!=undefined && $scope.TimesheetsDetails[i].day4!="" && $scope.TimesheetsDetails[i].day4!=null && $scope.TimesheetsDetails[i].approval_status4 == true && $scope.TimesheetsDetails[i].approval_status4!=null){
-                          $scope.Day44 +=$scope.TimesheetsDetails[i].day4;
-                            $scope.ss=parseInt($scope.Day44)+parseInt($scope.hours);
-                            if($scope.ss > 24){
-                               $scope.day_values=24 - $scope.Day44;
-                              alert("You have avaiable only  "+$scope.day_values+" hours")
-                              return;
-                            }
-                        }else if($scope.TimesheetsDetails[i].day5!=undefined && $scope.TimesheetsDetails[i].day5!="" && $scope.TimesheetsDetails[i].day5!=null && $scope.TimesheetsDetails[i].approval_status5 == true && $scope.TimesheetsDetails[i].approval_status5!=null){
-                          $scope.Day55 +=$scope.TimesheetsDetails[i].day5;
-                            $scope.ss=parseInt($scope.Day55)+parseInt($scope.hours);
-                            if($scope.ss > 24){
-                               $scope.day_values=24 - $scope.Day55;
-                              alert("You have avaiable only  "+$scope.day_values+" hours")
-                              return;
-                            }
-                        }else if($scope.TimesheetsDetails[i].day6!=undefined && $scope.TimesheetsDetails[i].day6!="" && $scope.TimesheetsDetails[i].day6!=null && $scope.TimesheetsDetails[i].approval_status6 == true && $scope.TimesheetsDetails[i].approval_status6!=null){
-                          $scope.Day66 +=$scope.TimesheetsDetails[i].day6;
-                            $scope.ss=parseInt($scope.Day66)+parseInt($scope.hours);
-                            if($scope.ss > 24){
-                               $scope.day_values=24 - $scope.Day66;
-                              alert("You have avaiable only  "+$scope.day_values+" hours")
-                              return;
-                            }
-                        }else if($scope.TimesheetsDetails[i].day7!=undefined && $scope.TimesheetsDetails[i].day7!="" && $scope.TimesheetsDetails[i].day7!=null && $scope.TimesheetsDetails[i].approval_status7 == true && $scope.TimesheetsDetails[i].approval_status7!=null){
-                          $scope.Day77 +=$scope.TimesheetsDetails[i].day7;
-                            $scope.ss=parseInt($scope.Day77)+parseInt($scope.hours);
-                            if($scope.ss > 24){
-                               $scope.day_values=24 - $scope.Day77;
-                              alert("You have avaiable only  "+$scope.day_values+" hours")
-                              return;
-                            }
-                        }else if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null){
-                          
-                          console.log($scope.selectdate+"======"+$scope.TimesheetsDetails[i].date1)
-
-                          console.log($scope.projectnametype+"======"+$scope.TimesheetsDetails[i].project_name  )
-
-
-                          $scope.Day_no_approval1 +=$scope.TimesheetsDetails[i].day1;
-                            $scope.ss=parseInt($scope.Day_no_approval1)+parseInt($scope.hours);
-                            if($scope.ss > 24){
-                               $scope.day_values=24 - $scope.Day_no_approval1;
-                              alert("You have avaiable only  "+$scope.day_values+" hours")
-                              return;
-                            }
-                        }
-
-                      }
-                 }*/
                 
                    
           
@@ -585,3 +596,16 @@ angular.module('emp_employeelist', [])
                   }
 
  })
+
+
+.filter('range', function() {
+  return function(input, total) {
+    total = parseInt(total);
+
+    for (var i=1; i<=total; i++) {
+      input.push(i);
+    }
+
+    return input;
+  };
+})
