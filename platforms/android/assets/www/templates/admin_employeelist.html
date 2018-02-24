@@ -20,8 +20,8 @@
   </div>
 
 
-  <ion-content class="content_back" padding=true>   
-       <br><br>
+  <ion-content class="content_back search" padding="true">   
+       
           <div class="list" ng-repeat="emp in EmployeesDetails | filter:search">
             <div class="item item-avatar item-icon-right">
               <img src="img/contact.png">
@@ -29,10 +29,10 @@
               <p>{{emp.designation}}</p>
             </div>
             <div class="item row">
-              <i class="icon icon-clr line ion-android-call col col-20" ng-click="call(emp.mobile_number,emp.id);CallPost(emp.id)">&nbsp;CALL</i>
+              <i class="icon icon-clr line ion-android-call col col-20" ng-click="call(emp.mobile_number,emp.id);CallPost(emp.id)">&nbsp;CALL&nbsp;</i>
               <i class="icon icon-clr line ion-android-textsms col col-20" ng-click="openModal(emp.mobile_number,emp.id,emp.first_name)">&nbsp;SMS</i>
               <i class="icon icon-clr line ion-ios-time-outline col col-30" ng-click="timesheet(emp.id,emp.first_name)">&nbsp;TIMESHEET</i>
-              <i class="icon icon-clr ion-android-share col col-30" ng-click="assigntoemp(emp.id,emp.first_name)">&nbsp;ASSGIN</i>
+              <i class="icon icon-clr ion-android-share col col-30" ng-click="assigntoemp(emp.id,emp.first_name)">&nbsp;ASSIGN</i>
             </div>
           </div>
 
@@ -49,7 +49,7 @@
                   <div class="list list-inset">
                       <p>To : {{nameOpen}}</p>
                       <textarea  class="brd-txt" rows="4" style="width:100%;" ng-model="admin.response" ng-required="true" placeholder="Text Message here"></textarea>
-                      <button ng-disabled="!admin.response" ng-click="popup(mNumber,selectedId,admin.response);closeModal();SMSPost(selectedId,admin.response)" class="button button-block button-calm">Send</button>
+                      <button ng-disabled="!admin.response" ng-click="popup(mNumber,selectedId,admin.response);closeModal();SMSPost(selectedId,admin.response)" class="button button-block button-positive">Send</button>
                   </div>                        
               </ion-content>                    
             </ion-modal-view>

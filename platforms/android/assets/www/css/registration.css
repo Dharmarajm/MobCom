@@ -13,7 +13,12 @@
     color: #fff;
     border-radius: 10px 10px !important;
 }
-
+button.button.button-block.button-darker{
+    /*border-color:#E96E28;*/
+    background-color:#E96E28;
+    color: #fff;
+    border-radius: 10px 10px !important; 
+}
 
 .goback{
     text-align: center;

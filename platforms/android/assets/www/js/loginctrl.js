@@ -62,11 +62,11 @@ angular.module('login', [])
 	}        
 
 
-	        $scope.ForgotPasswordModal = function() 
-        {
-                  $scope.data = { resetMail:"" ,resetPassword:"" };
+	        $scope.ForgotPasswordModal = function() {
+                  
+                  $scope.data = { resetMail:"" };
 
-                  var customTemplate ='<label class="item item-input"><input type="email" ng-model="data.resetMail" placeholder="your Email"></label>' + '<br>' +'<label class="item item-input"><input type="text" ng-model="data.resetPassword" placeholder="new Password"></label>';
+                  var customTemplate ='<label class="item item-input"><input type="email" ng-model="data.resetMail" placeholder="your Email"></label>';
                   var myPopup = $ionicPopup.show({
                   template: customTemplate,
                   title: 'Reset your password',
@@ -79,37 +79,40 @@ angular.module('login', [])
                       text: 'Ok',
                       type: 'button-positive',
                       onTap: function(e) {
-
+                        
                         if($scope.data.resetMail==""){
                             var alertPopup8 =$ionicPopup.alert({
                             title: "Error",
-                            content: "Please entry the email-id"
+                            content: "Please enter the E-mail"
                           })
-                        }else
-                          if($scope.data.resetPassword==""){
-                            var alertPopup8 =$ionicPopup.alert({
-                              title: "Error",
-                              content: "Please entry the new Password"
-                            })
-                          }
-                         else {
-                        $http.get(Baseurl+'users/forgot_password?email='+$scope.data.resetMail+'&password='+$scope.data.resetPassword)
-                      .success(function(response) {
+                        }else {
+                          $ionicLoading.show({
+                            content: 'Loading',
+                            animation: 'fade-in',
+                            showBackdrop: true,
+                            maxWidth: 200,
+                            showDelay: 0
+                          });
+                        $http.get(Baseurl+'users/forgot_password?email='+$scope.data.resetMail)
+                        .success(function(response) {
                       	console.log(response)
-                        if(response==true){
+                          $timeout(function () {
+                              $ionicLoading.hide(); 
+                          })
                            var alertPopup6 =$ionicPopup.alert({
                            title: "Reset Password",
-                           content: "Your password is reset sucessfully"
+                           content: response.message
                           })
-                        }else if(response==false){
-                           var alertPopup7 =$ionicPopup.alert({
-                           title: "Error",
-                           content: "Your  Email-ID is wrong.Please try again"
-                          })
-                        } 
-                   
                         })
-
+                       .error(function(error){
+                          $timeout(function () {
+                              $ionicLoading.hide(); 
+                          })
+                          var alertPopup6 =$ionicPopup.alert({
+                           title: "Reset Password",
+                           content: "Failed to connect the server"
+                          })
+                        }) 
                           /*return $scope.data.wifi;*/
                         }
                       }

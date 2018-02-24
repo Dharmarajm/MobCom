@@ -22,7 +22,6 @@ angular.module('admin_employeelist', [])
               $ionicLoading.hide(); 
           })
           $scope.EmployeesDetails=response;    
-          console.log($scope.EmployeesDetails)
        })
 
           $scope.timesheet=function(id,name){
@@ -40,7 +39,7 @@ angular.module('admin_employeelist', [])
           }
 
           if($rootScope.EmployeeID_toassign!=undefined){
-               $http.get(Baseurl+'employees/assigned_project?employee_id='+$rootScope.EmployeeID_toassign,{
+               $http.get(Baseurl+'employees/unassigned_project?employee_id='+$rootScope.EmployeeID_toassign,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               }).success(function(response) {
                     $scope.AllProject=response;
@@ -88,39 +87,46 @@ angular.module('admin_employeelist', [])
            $http.get(Baseurl+'time_sheets/employee_time_sheet?employee_id='+$rootScope.EmployeeID_timesheet+'&date='+$scope.WeekStatus,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               }).success(function(response) {
-                $scope.Timesheets=response[0];
+                $scope.Timesheets=response.date;
                 if($scope.Timesheets!=undefined){                  
-                  $scope.FromDate=$scope.Timesheets[0].from_date;
-                  $scope.ToDate=$scope.Timesheets[0].to_date;
+                  $scope.FromDate=$scope.Timesheets.from_date;
+                  $scope.ToDate=$scope.Timesheets.to_date;
                 }
-                $scope.TimesheetsDetails=response[1];
-                $scope.ID=[]
+                   $scope.TimesheetsDetails=response.time_sheet;
+                 $scope.ID=[]
                 if($scope.TimesheetsDetails!=undefined){
-                    for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {
-                      $scope.ID.push($scope.TimesheetsDetails[i].id);
+                    for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {                   
+                      
                         if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null){
                           $scope.Day1 +=$scope.TimesheetsDetails[i].day1;
+                          $scope.ID.push($scope.TimesheetsDetails[i].id1);
                         }
                         if($scope.TimesheetsDetails[i].day2!=undefined && $scope.TimesheetsDetails[i].day2!="" && $scope.TimesheetsDetails[i].day2!=null){
                           $scope.Day2 +=$scope.TimesheetsDetails[i].day2;
+                          $scope.ID.push($scope.TimesheetsDetails[i].id2);
                         }
                         if($scope.TimesheetsDetails[i].day3!=undefined && $scope.TimesheetsDetails[i].day3!="" && $scope.TimesheetsDetails[i].day3!=null){
                           $scope.Day3 +=$scope.TimesheetsDetails[i].day3;
+                          $scope.ID.push($scope.TimesheetsDetails[i].id3);
                         }
                         if($scope.TimesheetsDetails[i].day4!=undefined && $scope.TimesheetsDetails[i].day4!="" && $scope.TimesheetsDetails[i].day4!=null){
                           $scope.Day4 +=$scope.TimesheetsDetails[i].day4;
+                          $scope.ID.push($scope.TimesheetsDetails[i].id4);
                         }
                         if($scope.TimesheetsDetails[i].day5!=undefined && $scope.TimesheetsDetails[i].day5!="" && $scope.TimesheetsDetails[i].day5!=null){
                           $scope.Day5 +=$scope.TimesheetsDetails[i].day5;
+                          $scope.ID.push($scope.TimesheetsDetails[i].id5);
                         }
                         if($scope.TimesheetsDetails[i].day6!=undefined && $scope.TimesheetsDetails[i].day6!="" && $scope.TimesheetsDetails[i].day6!=null){
                           $scope.Day6 +=$scope.TimesheetsDetails[i].day6;
+                          $scope.ID.push($scope.TimesheetsDetails[i].id6);
                         }
                         if($scope.TimesheetsDetails[i].day7!=undefined && $scope.TimesheetsDetails[i].day7!="" && $scope.TimesheetsDetails[i].day7!=null){
                           $scope.Day7 +=$scope.TimesheetsDetails[i].day7;
+                          $scope.ID.push($scope.TimesheetsDetails[i].id7);
                         }
                     }
-                }               
+                }            
             })
 
          }

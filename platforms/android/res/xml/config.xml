@@ -33,6 +33,12 @@
     <feature name="Permissions">
         <param name="android-package" value="com.android.plugins.Permissions" />
     </feature>
+    <feature name="CallNumber">
+        <param name="android-package" value="mx.ferreyra.callnumber.CFCallNumber" />
+    </feature>
+    <feature name="Sms">
+        <param name="android-package" value="com.cordova.plugins.sms.Sms" />
+    </feature>
     <name>EmployeesNew</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -76,10 +82,4 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="orientation" value="portrait" />
-    <feature name="CallNumber">
-        <param name="android-package" value="mx.ferreyra.callnumber.CFCallNumber" />
-    </feature>
-    <feature name="Sms">
-        <param name="android-package" value="com.cordova.plugins.sms.Sms" />
-    </feature>
 </widget>

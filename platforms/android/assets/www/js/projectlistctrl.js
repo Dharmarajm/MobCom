@@ -68,8 +68,11 @@ angular.module('projectlist', [])
                      $scope.clientnameside=$scope.ClientDetails ;  
                       $scope.clientname = function(objs)
                       {
+                          if(objs!=null){
                            $scope.clientnametype=objs.id;
-                           
+                          }else{
+                           $scope.clientnametype=null; 
+                          }
                       }
             })
             
@@ -78,7 +81,6 @@ angular.module('projectlist', [])
            $scope.budget=="";
             
            $scope.createproject=function(name,budget){
-            
              if($scope.clientnametype=="" || $scope.clientnametype==null || $scope.clientnametype==undefined){
                 alert("Please Select the Client Name")
              }else if(name=="" || name==null || name==undefined){

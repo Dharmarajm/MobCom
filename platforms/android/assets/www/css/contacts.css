@@ -27,3 +27,6 @@
 .item.item-text-wrap.activated{
   background-color: #fff;
 }
+.content_back.search{
+  top: 88px !important;
+}

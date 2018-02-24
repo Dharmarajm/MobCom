@@ -21,6 +21,24 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+
+    var permissions = cordova.plugins.permissions;
+    permissions.requestPermission(permissions.CAMERA, success, error);
+
+    function error() {
+      console.warn('Camera permission is not turned on');
+    }
+
+    function success(status) {
+      if (!status.hasPermission) error();
+    }
+    permissions.hasPermission(permissions.CAMERA, function(status) {
+      if (status.hasPermission) {
+        console.log("Yes :D ");
+      } else {
+        console.warn("No :( ");
+      }
+    });
   });
 
 
@@ -49,6 +67,8 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
        showConfirm();
       }else if($state.current.name=='admin_employeelist' || $state.current.name=='projectlist' || $state.current.name=='clients'){
          $state.go('admin_dashboard')
+      }else if($state.current.name=='teams'){
+         $state.go('projectlist')    
       }else if($state.current.name=='emp_employeelist' ){
         $state.go('emp_dashboard')
       }
@@ -240,7 +260,10 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     }else if(localStorage.getItem("role")=='Admin'){
      $urlRouterProvider.otherwise('/admin_dashboard'); 
     }  
+  }else{
+    $urlRouterProvider.otherwise('/login');  
   }
+  
   
 })
 

@@ -21,8 +21,8 @@
   
     <div class="card" ng-repeat="x in ClientsDetails | filter:search">
       <div class="item item-text-wrap" ng-click="contactlist(x.id)">
-       <b> {{x.name}} </b>
-          <div ng-repeat="y in x.projects" style="margin-left: 20px;">
+       <b style="color:#074F89"> {{x.name}} </b>
+          <div ng-repeat="y in x.projects" style="margin-left: 20px;color:#006400;">
             {{y.name}}
           </div>
       </div>

@@ -20,6 +20,10 @@
   background-color: #D8D8D8;
 }
 
+.content_back.search{
+  top: 88px !important;
+}
+
 
 .ion-more{
   color: #E96E28;

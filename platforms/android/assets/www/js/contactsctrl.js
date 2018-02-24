@@ -30,6 +30,7 @@ angular.module('contacts', [])
               })
            .success(function(response) {
               $scope.ContactsDetails=response;     
+              console.log($scope.ContactsDetails)
              })
 
 
@@ -75,7 +76,7 @@ angular.module('contacts', [])
           });
 
           $scope.openModal = function(mobile_number,id,pname) {
-
+            $scope.contactMode={response:""};
             $scope.mNumber=mobile_number;
             $scope.selectedId=id;
             $scope.nameOpen=pname;
@@ -83,12 +84,13 @@ angular.module('contacts', [])
             
             };
             $scope.closeModal = function() {
+                $scope.contactMode={response:""};
                 $scope.modal.hide();
             };
         
 
            $scope.popup=function(mobile_number,id,response){       
-
+                $scope.contactMode={response:""};
                   var data=response;                   
                 //CONFIGURATION    
                     var options = {

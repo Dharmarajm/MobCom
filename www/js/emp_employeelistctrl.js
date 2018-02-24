@@ -36,8 +36,13 @@ angular.module('emp_employeelist', [])
                  $scope.projectnameside=$scope.ProjectDetails ;  
                   $scope.projectname = function(objs)
                   {
+                     if(objs!=null){
                        $scope.projectnametype=objs.id;
                        $scope.project_name=objs.name;                    
+                     }else{
+                       $scope.projectnametype=null;   
+                     }
+                       
                   }
         })
 
@@ -296,7 +301,6 @@ angular.module('emp_employeelist', [])
 
         $scope.timesheetcreate=function(hour){
 
-                 
                  $scope.hours=hour;
              
                 if($scope.projectnametype == undefined || $scope.projectnametype=="" || $scope.projectnametype==null){
