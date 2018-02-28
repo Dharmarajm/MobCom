@@ -56,7 +56,15 @@ angular.module('login', [])
 						
 					}                   
 				
-	          })
+	          }).error(function(error){
+              $timeout(function () {
+              $ionicLoading.hide(); 
+              })
+              var alertPopup3 =$ionicPopup.alert({
+              title: "Login Error",
+              content: "Failed to connect the server"
+              })
+            })
 	        }
 
 	}        

@@ -87,7 +87,10 @@ angular.module('emp_employeelist', [])
               })
            .success(function(response) {
                    $scope.Timesheets=response.date;
+                   console.log($scope.Timesheets)
                    $scope.TimesheetsDetails=response.time_sheet;
+                   console.log($scope.TimesheetsDetails)
+                   console.log(arguments)
                 if($scope.Timesheets!=undefined){                  
                   $scope.FromDate=$scope.Timesheets.from_date;
                   $scope.ToDate=$scope.Timesheets.to_date;
@@ -96,6 +99,7 @@ angular.module('emp_employeelist', [])
                   for(var i=0;i<7;i++){
                     $scope.mydate = new Date($scope.FromDate);
                     $scope.newdate = $scope.mydate.setDate($scope.mydate.getDate() + i); 
+                    console.log($scope.newdate)
                     $scope.All_Dates = $filter('date')($scope.newdate, "yyyy-MM-dd");
                     $scope.Dates_Record.push($scope.All_Dates);
                   }
