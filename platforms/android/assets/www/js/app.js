@@ -23,7 +23,7 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     }
 
     var permissions = cordova.plugins.permissions;
-    permissions.requestPermission(permissions.CAMERA, success, error);
+    permissions.requestPermission(permissions.READ_EXTERNAL_STORAGE, success, error);
 
     function error() {
       console.warn('Camera permission is not turned on');
@@ -32,7 +32,7 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     function success(status) {
       if (!status.hasPermission) error();
     }
-    permissions.hasPermission(permissions.CAMERA, function(status) {
+    permissions.hasPermission(permissions.READ_EXTERNAL_STORAGE, function(status) {
       if (status.hasPermission) {
         console.log("Yes :D ");
       } else {
@@ -40,10 +40,6 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
       }
     });
   });
-
-
-
-
 
  $ionicPlatform.registerBackButtonAction(function(e) {
     e.preventDefault();

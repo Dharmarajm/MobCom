@@ -35,6 +35,9 @@
               <i class="icon icon-clr ion-ios-time-outline col col-40" ng-click="timesheet_project(x.id,x.name)">&nbsp;TIMESHEET</i> 
             </a>
           </div>
+          <div ng-show="ProjectDetails.length==0">
+             <center>No Projects</center>
+          </div>
 
   </ion-content>
 </ion-view>

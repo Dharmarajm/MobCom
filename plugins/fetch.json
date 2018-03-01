@@ -56,6 +56,30 @@
         "is_top_level": true,
         "variables": {}
     },
+    "cordova-plugin-compat": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-compat"
+        },
+        "is_top_level": false,
+        "variables": {}
+    },
+    "cordova-sms-plugin": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-sms-plugin"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-android-permissions": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-android-permissions"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
     "cordova-plugin-image-picker": {
         "source": {
             "type": "registry",
@@ -68,38 +92,6 @@
         "source": {
             "type": "registry",
             "id": "cordova-plugin-file@4.3.3"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-compat": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-compat"
-        },
-        "is_top_level": false,
-        "variables": {}
-    },
-    "cordova-plugin-android-permissions": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-android-permissions"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-call-number": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-call-number"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-sms-plugin": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-sms-plugin"
         },
         "is_top_level": true,
         "variables": {}

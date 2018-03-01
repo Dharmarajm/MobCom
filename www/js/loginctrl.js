@@ -18,8 +18,7 @@ angular.module('login', [])
 			content: "Please enter your password"
 			})
 		}else{
-
-			
+	
 				$ionicLoading.show
 				({
 				content: 'Loading',

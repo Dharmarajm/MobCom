@@ -18,7 +18,7 @@ angular.module('emp_employeelist', [])
           $scope.EmployeesDetails=response;    
           for(var i in $scope.EmployeesDetails){
             if(localStorage.getItem("id")==$scope.EmployeesDetails[i].id){
-              if($scope.EmployeesDetails[i].image.url==null){
+              if($scope.EmployeesDetails[i].image.url==null || $scope.EmployeesDetails[i].image.url==undefined || $scope.EmployeesDetails[i].image.url==""){
                 $scope.ImageUrl='';
               }else{
                 $scope.ImageUrl=$scope.EmployeesDetails[i].image.url;

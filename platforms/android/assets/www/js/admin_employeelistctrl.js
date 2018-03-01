@@ -22,6 +22,10 @@ angular.module('admin_employeelist', [])
               $ionicLoading.hide(); 
           })
           $scope.EmployeesDetails=response;    
+       }).error(function(error){
+         $timeout(function () {
+              $ionicLoading.hide(); 
+          })
        })
 
           $scope.timesheet=function(id,name){

@@ -16,12 +16,6 @@
         "cordova-plugin-device": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
-        },
-        "cordova-plugin-image-picker": {
-            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
-        },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         },
@@ -34,13 +28,16 @@
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         },
+        "cordova-sms-plugin": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
         "cordova-plugin-android-permissions": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         },
-        "cordova-plugin-call-number": {
+        "cordova-plugin-image-picker": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         },
-        "cordova-sms-plugin": {
+        "cordova-plugin-file": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         }
     },
