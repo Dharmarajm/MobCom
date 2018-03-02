@@ -6,7 +6,7 @@ angular.module('emp_employeelist', [])
       $scope.ImageUrl='';
       $rootScope.EmployeeID_timesheet=localStorage.getItem("id")
       $scope.AuthToken=localStorage.getItem("auth_token")
-      $scope.getlocalurl="http://192.168.1.52:5050" 
+      $scope.getlocalurl="http://mobcom.altiussolution.com" 
 
        $http.get(Baseurl+'employees',{
           headers: { "Authorization": "Token token="+$scope.AuthToken}
