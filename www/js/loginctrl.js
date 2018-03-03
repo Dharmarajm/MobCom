@@ -3,47 +3,20 @@ angular.module('login', [])
 .controller('LoginCtrl', function($scope,$state,$http,$rootScope,$ionicPopup,$ionicLoading,$timeout) {
 
     $scope.user = {username :"", password :""};
-
-    cordova.getAppVersion.getVersionNumber(function (version) {
-     var mobversion = version;
-      if(mobversion!="0.0.2"){
-       var myPopup = $ionicPopup.confirm({
-        title: "Mobcom",
-        template: 'New version available',
-          buttons: [{ text: 'EXIT',
-          type: 'button-dark',
-          onTap: function(){
-            ionic.Platform.exitApp();
-          }
-          },{
-           text: 'UPDATE',
-           type: 'button-positive',
-           onTap: function(){
-             hockeyapp.checkForUpdate();
-           }
-        }]
-      });
-      myPopup.then(function(res) {
-       myNullAction();
-      }); 
-     }
-    console.log(mobversion)
-   });
     
     $scope.login=function(){
-		  
 		
-		if($scope.user.username==""){
-			var alertPopup = $ionicPopup.alert({
-			title: "Error",
-			content: "Please enter your username"
-			})
-		}else if($scope.user.password==""){
-			var alertPopup1 =$ionicPopup.alert({
-			title: "Error",
-			content: "Please enter your password"
-			})
-		}else{
+      if($scope.user.username==""){
+		  	var alertPopup = $ionicPopup.alert({
+		  	title: "Error",
+		  	content: "Please enter your username"
+		  	})
+		  }else if($scope.user.password==""){
+		  	var alertPopup1 =$ionicPopup.alert({
+		  	title: "Error",
+		  	content: "Please enter your password"
+		  	})
+		  }else{
 	
 				$ionicLoading.show
 				({
