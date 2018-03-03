@@ -4,6 +4,32 @@ angular.module('login', [])
 
     $scope.user = {username :"", password :""};
 
+    cordova.getAppVersion.getVersionNumber(function (version) {
+     var mobversion = version;
+      if(mobversion!="0.0.2"){
+       var myPopup = $ionicPopup.confirm({
+        title: "Mobcom",
+        template: 'New version available',
+          buttons: [{ text: 'EXIT',
+          type: 'button-dark',
+          onTap: function(){
+            ionic.Platform.exitApp();
+          }
+          },{
+           text: 'UPDATE',
+           type: 'button-positive',
+           onTap: function(){
+             hockeyapp.checkForUpdate();
+           }
+        }]
+      });
+      myPopup.then(function(res) {
+       myNullAction();
+      }); 
+     }
+    console.log(mobversion)
+   });
+    
     $scope.login=function(){
 		  
 		

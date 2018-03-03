@@ -39,6 +39,12 @@
         },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
+        "cordova-plugin-app-version": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
+        "cordova-plugin-hockeyapp": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         }
     },
     "dependent_plugins": {

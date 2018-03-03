@@ -8,6 +8,7 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
 
 .run(function($ionicPlatform,$ionicPopup, $rootScope, $state, $ionicHistory, $timeout) {
   $ionicPlatform.ready(function(){
+
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -39,7 +40,52 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
         console.warn("No :( ");
       }
     });
+   
+   document.addEventListener("deviceready", function() {
+     hockeyapp.start(success, error, "APP_ID");
+     console.log(hockeyapp.start(success, error, "b960af9f828f49f69f2f360ec1e10f4e"))
+     function error(error) {
+      console.log(error);
+     }
+
+     function success(status) {
+      console.log(status);
+     }
+     
+   }, false);
+   
+   cordova.getAppVersion.getVersionNumber(function (version) {
+     var mobversion = version;
+      if(mobversion!="0.0.2"){
+       var myPopup = $ionicPopup.confirm({
+        title: "Mobcom",
+        template: 'New version available',
+          buttons: [{ text: 'EXIT',
+          type: 'button-dark',
+          onTap: function(){
+            ionic.Platform.exitApp();
+          }
+          },{
+           text: 'UPDATE',
+           type: 'button-positive',
+           onTap: function(){
+             hockeyapp.checkForUpdate();
+             myPopup.show();
+           }
+        }]
+      });
+      myPopup.then(function(res) {
+       myNullAction();
+      }); 
+     }
+    console.log(mobversion)
+   });
+    
   });
+  
+  var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
+    return; // do nothing
+  }, 401);
 
  $ionicPlatform.registerBackButtonAction(function(e) {
     e.preventDefault();
@@ -92,6 +138,27 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
       });
       
     }
+
+   /*if($state.current.name=='login'){
+    if(mobversion!="0.0.2"){
+      var myPopup = $ionicPopup.confirm({
+        title: "Mobcom",
+        template: 'New version available',
+          buttons: [{ text: 'EXIT',
+          type: 'button-dark',
+          onTap: function(){
+            ionic.Platform.exitApp();
+          }
+          },{
+           text: 'UPDATE',
+           type: 'button-positive',
+           onTap: function(){
+             hockeyapp.checkForUpdate();
+           }
+        }]
+      });
+    }
+   } */
 
 })
 

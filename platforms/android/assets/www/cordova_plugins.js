@@ -237,6 +237,23 @@ module.exports = [
             "cordova"
         ],
         "runs": true
+    },
+    {
+        "id": "cordova-plugin-app-version.AppVersionPlugin",
+        "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
+        "pluginId": "cordova-plugin-app-version",
+        "clobbers": [
+            "cordova.getAppVersion"
+        ]
+    },
+    {
+        "id": "cordova-plugin-hockeyapp.HockeyApp",
+        "file": "plugins/cordova-plugin-hockeyapp/www/hockeyapp.js",
+        "pluginId": "cordova-plugin-hockeyapp",
+        "clobbers": [
+            "hockeyapp",
+            "hockeyApp"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -253,7 +270,9 @@ module.exports.metadata =
     "cordova-plugin-android-permissions": "1.0.0",
     "cordova-plugin-image-picker": "1.1.1",
     "cordova-plugin-compat": "1.2.0",
-    "cordova-plugin-file": "4.3.3"
+    "cordova-plugin-file": "4.3.3",
+    "cordova-plugin-app-version": "0.1.9",
+    "cordova-plugin-hockeyapp": "5.1.2"
 };
 // BOTTOM OF METADATA
 });
