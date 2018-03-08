@@ -27,7 +27,7 @@ angular.module('login', [])
 				showDelay: 0
 				});
 
-		        $http.get(Baseurl+'users/login_validation?email=' + $scope.user.username +"&password="+$scope.user.password)
+		     $http.get(Baseurl+'users/login_validation?email=' + $scope.user.username +"&password="+$scope.user.password)
 				 .success(function(response) {
 					$timeout(function () {
 							$ionicLoading.hide(); 

@@ -204,7 +204,7 @@ angular.module('projectlist', [])
                     if($scope.ProjectApprovalID.length == 0){
                         alert("No Data")
                     }else{
-                         $http.get(Baseurl+'projects/approval_status?project_id='+$scope.ProjectApprovalID,{
+                         $http.get(Baseurl+'projects/approval_status?project_id='+$rootScope.ID,{
                             headers: { "Authorization": "Token token="+$scope.AuthToken}
                           })
                          .success(function(response) {

@@ -42,7 +42,7 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     });
    
    document.addEventListener("deviceready", function() {
-     hockeyapp.start(success, error, "b960af9f828f49f69f2f360ec1e10f4e");
+     hockeyapp.start(success, error, "d78f3b26d9ef457bae79f314c65fd400");
      function error(error) {
       console.log(error);
      }
@@ -55,7 +55,7 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
    
    cordova.getAppVersion.getVersionNumber(function (version) {
        var mobversion = version;
-       $http.get(base+'employees/get_version').success(function(res){
+       $http.get(Baseurl+'employees/get_version').success(function(res){
         var setVersion=res.version_no;
         console.log(setVersion)
         if(mobversion != setVersion){
@@ -334,8 +334,8 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
 })
 
 
-var Baseurl='http://mobcom.altiussolution.com/api/v1/';
-var base="http://192.168.1.52:4000/api/v1/";
+/*var Baseurl='http://mobcom.altiussolution.com/api/v1/';*/
+var Baseurl='http://192.168.1.52:5757/api/v1/'
 
 
 
