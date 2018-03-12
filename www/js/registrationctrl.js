@@ -48,7 +48,7 @@ angular.module('registration', [])
     		     $state.go("login");
            })*/
 
-           $http.get(Baseurl+'users/user_registration?id='+$rootScope.reg.id+'&email='+$rootScope.reg.email+'&password='+$scope.confirm.password)
+           $http.get(Baseurl+'users/user_registration?id='+$rootScope.reg.id+'&email='+$rootScope.reg.email+'&password='+$scope.confirm.password+'&app_version='+version)
               .success(function(response) {
                   alert("success")
                   $state.go("login");
@@ -87,7 +87,7 @@ angular.module('registration', [])
             showDelay: 0
             });
 
-            $http.get(Baseurl+'employees/employee_details?email=' + $scope.confirm.emailid)
+            $http.get(Baseurl+'employees/employee_details?email=' + $scope.confirm.emailid+'&app_version='+version)
               .success(function(response) {
                 $timeout(function () {
                     $ionicLoading.hide(); 

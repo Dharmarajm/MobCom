@@ -6,10 +6,9 @@ angular.module('emp_employeelist', [])
       $scope.ImageUrl='';
       $rootScope.EmployeeID_timesheet=localStorage.getItem("id")
       $scope.AuthToken=localStorage.getItem("auth_token")
-      /*$scope.getlocalurl="http://mobcom.altiussolution.com"*/
-      $scope.getlocalurl="http://192.168.1.52:5757/api/v1/" 
+      $scope.getlocalurl="http://mobcom.altiussolution.com" 
 
-       $http.get(Baseurl+'employees',{
+       $http.get(Baseurl+'employees?app_version='+version,{
           headers: { "Authorization": "Token token="+$scope.AuthToken}
           })
          .success(function(response) {
@@ -29,8 +28,7 @@ angular.module('emp_employeelist', [])
           }
        })
 
-         $http.get(Baseurl+'employees/assigned_project?employee_id='+$rootScope.EmployeeID_timesheet,{
-                headers: { "Authorization": "Token token="+$scope.AuthToken}
+         $http.get(Baseurl+'employees/assigned_project?employee_id='+$rootScope.EmployeeID_timesheet+"&app_version="+version,{headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
              .success(function(response) {
                $scope.ProjectDetails=response;
@@ -46,9 +44,6 @@ angular.module('emp_employeelist', [])
                        
                   }
         })
-
-          
-
 
             $scope.WeekStatus='current';
 
@@ -83,7 +78,7 @@ angular.module('emp_employeelist', [])
             $scope.Day5=0;
             $scope.Day6=0;
             $scope.Day7=0;
-           $http.get(Baseurl+'time_sheets/employee_time_sheet?employee_id='+$rootScope.EmployeeID_timesheet+'&date='+$scope.WeekStatus,{
+           $http.get(Baseurl+'time_sheets/employee_time_sheet?employee_id='+$rootScope.EmployeeID_timesheet+'&date='+$scope.WeekStatus+"&app_version="+version,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
            .success(function(response) {
@@ -320,12 +315,12 @@ angular.module('emp_employeelist', [])
                         "date":$scope.selectdate,
                         "hours":$scope.hours,
                         "project_id":$scope.projectnametype,
-                        "employee_id":$rootScope.EmployeeID_timesheet
+                        "employee_id":$rootScope.EmployeeID_timesheet,
                       }           
 
                     $http({
                       method: 'post',
-                      url:Baseurl+"time_sheets",
+                      url:Baseurl+"time_sheets?app_version="+version,
                       data: create,
                       headers: { "Authorization": "Token token="+$scope.AuthToken}                  
                     }).then(function(response) {
@@ -461,7 +456,7 @@ angular.module('emp_employeelist', [])
 
                            $http({
                             method: 'post',
-                            url:Baseurl+"logs/call_create",
+                            url:Baseurl+"logs/call_create?app_version="+version,
                             data: create,
                            headers: { "Authorization": "Token token="+$scope.AuthToken}                  
                           }).then(function(response) {                                
@@ -476,14 +471,15 @@ angular.module('emp_employeelist', [])
                                 "from_employee_id":$rootScope.EmployeeID_timesheet,
                                 "to_employee_id": selectedId,
                                 "to_contact_id": 0,
-                                "message":response
+                                "message":response,
                               }
                              }   
 
                               $http({
                                 method: 'post',
-                                url:Baseurl+"logs/message_create",
-                                data: create    
+                                url:Baseurl+"logs/message_create?app_version="+version,
+                                data: create,
+                                headers: { "Authorization": "Token token="+$scope.AuthToken}    
                               }).then(function(response) {
 
                              })
@@ -556,7 +552,7 @@ angular.module('emp_employeelist', [])
                              }   
                               $http({
                                 method: 'post',
-                                url:Baseurl+"employees/image_upload",
+                                url:Baseurl+"employees/image_upload?app_version="+version,
                                 data: create,
                                 headers: { "Authorization": "Token token="+$scope.AuthToken}    
                               }).then(function(response) {

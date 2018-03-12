@@ -8,7 +8,7 @@ angular.module('contacts', [])
 
        
 
-         $http.get(Baseurl+'clients/client_projects',{
+         $http.get(Baseurl+'clients/client_projects?app_version='+version,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
          .success(function(response) {
@@ -25,7 +25,7 @@ angular.module('contacts', [])
 
 
         if($rootScope.ClientID!=undefined){
-            $http.get(Baseurl+'clients/client_contacts?client_id='+$rootScope.ClientID,{
+            $http.get(Baseurl+'clients/client_contacts?client_id='+$rootScope.ClientID+'&app_version='+version,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
            .success(function(response) {
@@ -34,7 +34,7 @@ angular.module('contacts', [])
              })
 
 
-           $http.get(Baseurl+'clients/'+$rootScope.ClientID,{
+           $http.get(Baseurl+'clients/'+$rootScope.ClientID+'&app_version='+version,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
            .success(function(response) {
@@ -147,7 +147,7 @@ angular.module('contacts', [])
 
                           $http({
                             method: 'post',
-                            url:Baseurl+"logs/call_create",
+                            url:Baseurl+"logs/call_create?app_version="+version,
                             data: create ,
                              headers: { "Authorization": "Token token="+$scope.AuthToken}                 
                           }).then(function(response) {                                
@@ -168,7 +168,7 @@ angular.module('contacts', [])
 
                               $http({
                                 method: 'post',
-                                url:Baseurl+"logs/message_create",
+                                url:Baseurl+"logs/message_create?app_version="+version,
                                 data: create ,
                                 headers: { "Authorization": "Token token="+$scope.AuthToken}                
                               }).then(function(response) {

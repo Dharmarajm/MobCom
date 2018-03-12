@@ -5,7 +5,7 @@ angular.module('projectlist', [])
         $scope.AuthToken=localStorage.getItem("auth_token")
         $scope.search=""; 
 
-            $http.get(Baseurl+'projects',{
+            $http.get(Baseurl+'projects?app_version='+version,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
              .success(function(response) {             	
@@ -21,7 +21,7 @@ angular.module('projectlist', [])
              	$scope.ProjectID=id;
               $rootScope.Projectname=name;
              	$state.go("teams");         
-                $http.get(Baseurl+'projects/project_employee?project_id='+$scope.ProjectID,{
+                $http.get(Baseurl+'projects/project_employee?project_id='+$scope.ProjectID+'&app_version='+version,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
 	             .success(function(response) {             	
@@ -36,7 +36,7 @@ angular.module('projectlist', [])
               $rootScope.Projectname=name;
               $rootScope.Projectbudget=budget;
               $state.go("cost");        
-                $http.get(Baseurl+'time_sheets/cost_estimate?project_id='+$scope.ProjectID,{
+                $http.get(Baseurl+'time_sheets/cost_estimate?project_id='+$scope.ProjectID+'&app_version='+version,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
                .success(function(response) {              
@@ -45,7 +45,7 @@ angular.module('projectlist', [])
             }
 
            $rootScope.projectlist=function(){
-                $http.get(Baseurl+'projects',{
+                $http.get(Baseurl+'projects?app_version='+version,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
                .success(function(response) {              
@@ -60,7 +60,7 @@ angular.module('projectlist', [])
 		    }
 
 
-            $http.get(Baseurl+'clients',{
+            $http.get(Baseurl+'clients?app_version='+version,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
            .success(function(response) {
@@ -96,7 +96,7 @@ angular.module('projectlist', [])
 
                $http({
                  method: 'post',
-                 url:Baseurl+"projects",
+                 url:Baseurl+"projects?app_version="+version,
                  data: create,
                  headers: { "Authorization": "Token token="+$scope.AuthToken}                  
                }).then(function(response) {
@@ -159,7 +159,7 @@ angular.module('projectlist', [])
             $scope.Day5=0;
             $scope.Day6=0;
             $scope.Day7=0;
-           $http.get(Baseurl+'time_sheets/project_working_hours?project_id='+$rootScope.ID+'&date='+$scope.WeekStatus,{
+           $http.get(Baseurl+'time_sheets/project_working_hours?project_id='+$rootScope.ID+'&date='+$scope.WeekStatus+'&app_version='+version,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
            .success(function(response) {
@@ -204,7 +204,7 @@ angular.module('projectlist', [])
                     if($scope.ProjectApprovalID.length == 0){
                         alert("No Data")
                     }else{
-                         $http.get(Baseurl+'projects/approval_status?project_id='+$scope.ProjectApprovalID,{
+                         $http.get(Baseurl+'projects/approval_status?project_id='+$rootScope.ID+'&app_version='+version,{
                             headers: { "Authorization": "Token token="+$scope.AuthToken}
                           })
                          .success(function(response) {
@@ -317,7 +317,7 @@ angular.module('projectlist', [])
              
                     $http({
                       method: 'post',
-                      url:Baseurl+"logs/call_create",
+                      url:Baseurl+"logs/call_create?app_version="+version,
                       data: create,
                       headers: {"Authorization": "Token token="+$scope.AuthToken}    
                     }).then(function(response) {                                
@@ -338,7 +338,7 @@ angular.module('projectlist', [])
             
                         $http({
                           method: 'post',
-                          url:Baseurl+"logs/message_create",
+                          url:Baseurl+"logs/message_create?app_version="+version,
                           data: create,
                           headers: {"Authorization": "Token token="+$scope.AuthToken}    
                         }).then(function(response) {

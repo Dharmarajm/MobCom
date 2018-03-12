@@ -26,8 +26,8 @@ angular.module('login', [])
 				maxWidth: 200,
 				showDelay: 0
 				});
-
-		     $http.get(Baseurl+'users/login_validation?email=' + $scope.user.username +"&password="+$scope.user.password)
+         
+		     $http.get(Baseurl+'users/login_validation?email='+$scope.user.username+"&password="+$scope.user.password+"&app_version="+version)
 				 .success(function(response) {
 					$timeout(function () {
 							$ionicLoading.hide(); 
@@ -64,8 +64,7 @@ angular.module('login', [])
               })
             })
 	        }
-
-	}        
+	  }        
 
 
 	        $scope.ForgotPasswordModal = function() {
@@ -99,7 +98,7 @@ angular.module('login', [])
                             maxWidth: 200,
                             showDelay: 0
                           });
-                        $http.get(Baseurl+'users/forgot_password?email='+$scope.data.resetMail)
+                        $http.get(Baseurl+'users/forgot_password?email='+$scope.data.resetMail+"&app_version="+version)
                         .success(function(response) {
                       	console.log(response)
                           $timeout(function () {
