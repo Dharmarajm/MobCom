@@ -10,10 +10,25 @@
         "call-number": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         },
+        "cordova-plugin-android-permissions": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
+        "cordova-plugin-app-version": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         },
         "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
+        "cordova-plugin-hockeyapp": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
+        "cordova-plugin-image-picker": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         },
         "cordova-plugin-splashscreen": {
@@ -25,25 +40,10 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         },
-        "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
-        },
         "cordova-sms-plugin": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         },
-        "cordova-plugin-android-permissions": {
-            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
-        },
-        "cordova-plugin-image-picker": {
-            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
-        },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
-        },
-        "cordova-plugin-app-version": {
-            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
-        },
-        "cordova-plugin-hockeyapp": {
+        "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         }
     },

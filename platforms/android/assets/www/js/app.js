@@ -336,8 +336,8 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
 
 var Baseurl='http://mobcom.altiussolution.com/api/v1/';
 
-/*var Baseurl='http://192.168.1.52:5757/api/v1/';*/
-var version="0.0.3"
+//var Baseurl='http://192.168.1.52:5757/api/v1/';
+var versioncheck="0.0.6"
 
 
 

@@ -14,7 +14,7 @@ angular.module('admin_employeelist', [])
         showDelay: 0
         });
 
-        $http.get(Baseurl+'employees?app_version='+version,{
+        $http.get(Baseurl+'employees?app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
          .success(function(response) {
@@ -43,7 +43,7 @@ angular.module('admin_employeelist', [])
           }
 
           if($rootScope.EmployeeID_toassign!=undefined){
-               $http.get(Baseurl+'employees/unassigned_project?employee_id='+$rootScope.EmployeeID_toassign+'&app_version='+version,{
+               $http.get(Baseurl+'employees/unassigned_project?employee_id='+$rootScope.EmployeeID_toassign+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               }).success(function(response) {
                     $scope.AllProject=response;
@@ -88,7 +88,7 @@ angular.module('admin_employeelist', [])
             $scope.Day5=0;
             $scope.Day6=0;
             $scope.Day7=0;
-           $http.get(Baseurl+'time_sheets/employee_time_sheet?employee_id='+$rootScope.EmployeeID_timesheet+'&date='+$scope.WeekStatus+'&app_version='+version,{
+           $http.get(Baseurl+'time_sheets/employee_time_sheet?employee_id='+$rootScope.EmployeeID_timesheet+'&date='+$scope.WeekStatus+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               }).success(function(response) {
                 $scope.Timesheets=response.date;
@@ -143,7 +143,7 @@ angular.module('admin_employeelist', [])
                 alert("Please select the project name")
             }else{
 
-              $http.get(Baseurl+'employees/project_assign?project_id='+$scope.projectnametype+"&employee_id="+$rootScope.EmployeeID_toassign+'&app_version='+version,{
+              $http.get(Baseurl+'employees/project_assign?project_id='+$scope.projectnametype+"&employee_id="+$rootScope.EmployeeID_toassign+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
              .success(function(response) {
@@ -262,7 +262,7 @@ angular.module('admin_employeelist', [])
 
                           $http({
                             method: 'post',
-                            url:Baseurl+"logs/call_create?app_version="+version,
+                            url:Baseurl+"logs/call_create?app_version="+versioncheck,
                             data: create,
                             headers: {"Authorization": "Token token="+$scope.AuthToken}    
                           }).then(function(response) {                                
@@ -283,7 +283,7 @@ angular.module('admin_employeelist', [])
 
                               $http({
                                 method: 'post',
-                                url:Baseurl+"logs/message_create?app_version="+version,
+                                url:Baseurl+"logs/message_create?app_version="+versioncheck,
                                 data: create,
                                 headers: {"Authorization": "Token token="+$scope.AuthToken}    
                               }).then(function(response) {
@@ -297,7 +297,7 @@ angular.module('admin_employeelist', [])
                     if($scope.ID.length == 0){
                         alert("No Data")
                     }else{
-                         $http.get(Baseurl+'time_sheets/time_approval_status?id='+$scope.ID+"&app_version="+version,{
+                         $http.get(Baseurl+'time_sheets/time_approval_status?id='+$scope.ID+"&app_version="+versioncheck,{
                             headers: { "Authorization": "Token token="+$scope.AuthToken}
                           })
                          .success(function(response) {

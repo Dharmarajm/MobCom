@@ -8,7 +8,7 @@ angular.module('emp_employeelist', [])
       $scope.AuthToken=localStorage.getItem("auth_token")
       $scope.getlocalurl="http://mobcom.altiussolution.com" 
 
-       $http.get(Baseurl+'employees?app_version='+version,{
+       $http.get(Baseurl+'employees?app_version='+versioncheck,{
           headers: { "Authorization": "Token token="+$scope.AuthToken}
           })
          .success(function(response) {
@@ -28,7 +28,7 @@ angular.module('emp_employeelist', [])
           }
        })
 
-         $http.get(Baseurl+'employees/assigned_project?employee_id='+$rootScope.EmployeeID_timesheet+"&app_version="+version,{headers: { "Authorization": "Token token="+$scope.AuthToken}
+         $http.get(Baseurl+'employees/assigned_project?employee_id='+$rootScope.EmployeeID_timesheet+"&app_version="+versioncheck,{headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
              .success(function(response) {
                $scope.ProjectDetails=response;
@@ -78,15 +78,12 @@ angular.module('emp_employeelist', [])
             $scope.Day5=0;
             $scope.Day6=0;
             $scope.Day7=0;
-           $http.get(Baseurl+'time_sheets/employee_time_sheet?employee_id='+$rootScope.EmployeeID_timesheet+'&date='+$scope.WeekStatus+"&app_version="+version,{
+           $http.get(Baseurl+'time_sheets/employee_time_sheet?employee_id='+$rootScope.EmployeeID_timesheet+'&date='+$scope.WeekStatus+"&app_version="+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
            .success(function(response) {
                    $scope.Timesheets=response.date;
-                   console.log($scope.Timesheets)
                    $scope.TimesheetsDetails=response.time_sheet;
-                   console.log($scope.TimesheetsDetails)
-                   console.log(arguments)
                 if($scope.Timesheets!=undefined){                  
                   $scope.FromDate=$scope.Timesheets.from_date;
                   $scope.ToDate=$scope.Timesheets.to_date;
@@ -102,7 +99,7 @@ angular.module('emp_employeelist', [])
 
                   if($scope.WeekStatus == 'current'){
                        $scope.start=new Date($scope.FromDate);
-                       $scope.end=new Date($scope.ToDate);  
+                       $scope.end=new Date();  
                           var ipObj1 = {
                           from: $scope.start,
                           to: $scope.end,
@@ -138,39 +135,52 @@ angular.module('emp_employeelist', [])
 
                             
                 }
-                
+                $scope.Day1=0;
+                $scope.Day2=0;
+                $scope.Day3=0;
+                $scope.Day4=0;
+                $scope.Day5=0;
+                $scope.Day6=0;
+                $scope.Day7=0;
 
                 $scope.ID=[]
                 if($scope.TimesheetsDetails!=undefined){
                     for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {                   
                       
                         if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null){
-                          $scope.Day1 +=$scope.TimesheetsDetails[i].day1;                          
+                          $scope.Day1 +=$scope.TimesheetsDetails[i].day1;
+                          console.log($scope.Day1)                          
                           $scope.ID.push($scope.TimesheetsDetails[i].id1);  
                           
                         }
                         if($scope.TimesheetsDetails[i].day2!=undefined && $scope.TimesheetsDetails[i].day2!="" && $scope.TimesheetsDetails[i].day2!=null){
                           $scope.Day2 +=$scope.TimesheetsDetails[i].day2;
+                          console.log($scope.Day2)
                           $scope.ID.push($scope.TimesheetsDetails[i].id2);
                         }
                         if($scope.TimesheetsDetails[i].day3!=undefined && $scope.TimesheetsDetails[i].day3!="" && $scope.TimesheetsDetails[i].day3!=null){
                           $scope.Day3 +=$scope.TimesheetsDetails[i].day3;
+                          console.log($scope.Day3)
                           $scope.ID.push($scope.TimesheetsDetails[i].id3);
                         }
                         if($scope.TimesheetsDetails[i].day4!=undefined && $scope.TimesheetsDetails[i].day4!="" && $scope.TimesheetsDetails[i].day4!=null){
                           $scope.Day4 +=$scope.TimesheetsDetails[i].day4;
+                          console.log($scope.Day4)
                           $scope.ID.push($scope.TimesheetsDetails[i].id4);
                         }
                         if($scope.TimesheetsDetails[i].day5!=undefined && $scope.TimesheetsDetails[i].day5!="" && $scope.TimesheetsDetails[i].day5!=null){
                           $scope.Day5 +=$scope.TimesheetsDetails[i].day5;
+                          console.log($scope.Day5)
                           $scope.ID.push($scope.TimesheetsDetails[i].id5);
                         }
                         if($scope.TimesheetsDetails[i].day6!=undefined && $scope.TimesheetsDetails[i].day6!="" && $scope.TimesheetsDetails[i].day6!=null){
                           $scope.Day6 +=$scope.TimesheetsDetails[i].day6;
+                          console.log($scope.Day6)
                           $scope.ID.push($scope.TimesheetsDetails[i].id6);
                         }
                         if($scope.TimesheetsDetails[i].day7!=undefined && $scope.TimesheetsDetails[i].day7!="" && $scope.TimesheetsDetails[i].day7!=null){
                           $scope.Day7 +=$scope.TimesheetsDetails[i].day7;
+                          console.log($scope.Day7)
                           $scope.ID.push($scope.TimesheetsDetails[i].id7);
                         }
                     }
@@ -320,7 +330,7 @@ angular.module('emp_employeelist', [])
 
                     $http({
                       method: 'post',
-                      url:Baseurl+"time_sheets?app_version="+version,
+                      url:Baseurl+"time_sheets?app_version="+versioncheck,
                       data: create,
                       headers: { "Authorization": "Token token="+$scope.AuthToken}                  
                     }).then(function(response) {
@@ -456,7 +466,7 @@ angular.module('emp_employeelist', [])
 
                            $http({
                             method: 'post',
-                            url:Baseurl+"logs/call_create?app_version="+version,
+                            url:Baseurl+"logs/call_create?app_version="+versioncheck,
                             data: create,
                            headers: { "Authorization": "Token token="+$scope.AuthToken}                  
                           }).then(function(response) {                                
@@ -477,7 +487,7 @@ angular.module('emp_employeelist', [])
 
                               $http({
                                 method: 'post',
-                                url:Baseurl+"logs/message_create?app_version="+version,
+                                url:Baseurl+"logs/message_create?app_version="+versioncheck,
                                 data: create,
                                 headers: { "Authorization": "Token token="+$scope.AuthToken}    
                               }).then(function(response) {
@@ -552,7 +562,7 @@ angular.module('emp_employeelist', [])
                              }   
                               $http({
                                 method: 'post',
-                                url:Baseurl+"employees/image_upload?app_version="+version,
+                                url:Baseurl+"employees/image_upload?app_version="+versioncheck,
                                 data: create,
                                 headers: { "Authorization": "Token token="+$scope.AuthToken}    
                               }).then(function(response) {
