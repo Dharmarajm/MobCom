@@ -35,12 +35,24 @@ angular.module('projectlist', [])
               $scope.ProjectID=id;
               $rootScope.Projectname=name;
               $rootScope.Projectbudget=budget;
-              $state.go("cost");        
+              $state.go("cost");
+                   
                 $http.get(Baseurl+'time_sheets/cost_estimate?project_id='+$scope.ProjectID+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
-               .success(function(response) {              
-                  $rootScope.Cost=response;
+               .success(function(response) { 
+                  $rootScope.total_ctc=0;
+                  $rootScope.total_hr=0;
+                  $rootScope.total_amt=0;
+                  $rootScope.costs=response;
+                    for(var i in response){
+                       $rootScope.total_ctc += response[i].ctc;
+
+                       $rootScope.total_hr += response[i].hours;
+                       $rootScope.total_amt += response[i].amount;
+                    }  
+                  
+                  
                 }) 
             }
 
@@ -145,7 +157,7 @@ angular.module('projectlist', [])
           }
 
         
-
+        
         $scope.Timesheetcal=function(WeekStatu){  
             if(WeekStatu!=undefined){
               $scope.WeekStatus=WeekStatu;
@@ -159,6 +171,7 @@ angular.module('projectlist', [])
             $scope.Day5=0;
             $scope.Day6=0;
             $scope.Day7=0;
+            $scope.CheckApprove=false;
            $http.get(Baseurl+'time_sheets/project_working_hours?project_id='+$rootScope.ID+'&date='+$scope.WeekStatus+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
@@ -170,6 +183,16 @@ angular.module('projectlist', [])
                 }
                 $scope.ProjectApprovalID=[];
                 $scope.TimesheetsDetails=response[1];
+                console.log($scope.TimesheetsDetails)
+                $scope.showApprove = [];
+                $scope.Day1=0;
+                $scope.Day2=0;
+                $scope.Day3=0;
+                $scope.Day4=0;
+                $scope.Day5=0;
+                $scope.Day6=0;
+                $scope.Day7=0;
+                $scope.CheckApprove=false;
                 if($scope.TimesheetsDetails!=undefined){
                     for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {
                       $scope.ProjectApprovalID.push($scope.TimesheetsDetails[i].id);
@@ -194,6 +217,20 @@ angular.module('projectlist', [])
                         if($scope.TimesheetsDetails[i].day7!=undefined && $scope.TimesheetsDetails[i].day7!="" && $scope.TimesheetsDetails[i].day7!=null){
                           $scope.Day7 +=$scope.TimesheetsDetails[i].day7;
                         }
+
+                         if(($scope.TimesheetsDetails[i].approval_status1 == false && $scope.TimesheetsDetails[i].approval_status1 != undefined) || ($scope.TimesheetsDetails[i].approval_status2 == false && $scope.TimesheetsDetails[i].approval_status2 != undefined) || ($scope.TimesheetsDetails[i].approval_status3 == false && $scope.TimesheetsDetails[i].approval_status3 != undefined) || ($scope.TimesheetsDetails[i].approval_status4 == false && $scope.TimesheetsDetails[i].approval_status4 != undefined) || ($scope.TimesheetsDetails[i].approval_status5 == false && $scope.TimesheetsDetails[i].approval_status5 != undefined) || ($scope.TimesheetsDetails[i].approval_status6 == false && $scope.TimesheetsDetails[i].approval_status6 != undefined) || ($scope.TimesheetsDetails[i].approval_status7 == false && $scope.TimesheetsDetails[i].approval_status7 != undefined)){
+                          $scope.showApprove.push("Not Approval");
+                         }else{
+                           
+                           $scope.showApprove.push("Approval");
+                         }
+                    }
+                    console.log($scope.showApprove)      
+                    for(var k in $scope.showApprove){
+                      if($scope.showApprove[k]!='Approval'){
+                       $scope.CheckApprove=true;
+                       console.log($scope.showApprove[k])
+                      }
                     }
                 }               
             })
@@ -273,13 +310,13 @@ angular.module('projectlist', [])
           }     
           
 
-          $ionicModal.fromTemplateUrl("templates/my-modal.html", {
+         /* $ionicModal.fromTemplateUrl("templates/my-modal.html", {
             scope: $scope,
             animation: 'slide-in-up'
           }).then(function (modal) {
             $scope.modal = modal;
             return modal;
-          });
+          });*/
           
           $scope.teamMode={response:""};
 

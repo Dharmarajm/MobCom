@@ -40,23 +40,23 @@
         <tbody>          
           <tr ng-repeat="x in TimesheetsDetails">
             <td>{{x.employee_name }}</td>
-            <td>{{x.day7}}</td>
-            <td>{{x.day1}}</td>
-            <td>{{x.day2}}</td>
-            <td>{{x.day3}}</td>
-            <td>{{x.day4}}</td>
-            <td>{{x.day5}}</td>
-            <td>{{x.day6}}</td>            
+            <td>{{((x.day1)==0) ? 'A' : x.day1}}</td>
+            <td>{{((x.day2)==0) ? 'A' : x.day2}}</td>
+            <td>{{((x.day3)==0) ? 'A' : x.day3}}</td>
+            <td>{{((x.day4)==0) ? 'A' : x.day4}}</td>
+            <td>{{((x.day5)==0) ? 'A' : x.day5}}</td>
+            <td>{{((x.day6)==0) ? 'A' : x.day6}}</td>  
+            <td>{{((x.day7)==0) ? 'A' : x.day7}}</td>   
           </tr> 
           <tr style="background-color:#9f9f9f">
             <td>Total</td>
-            <td>{{Day7}}</td>
             <td>{{Day1}}</td>
             <td>{{Day2}}</td>
             <td>{{Day3}}</td>
             <td>{{Day4}}</td>
             <td>{{Day5}}</td>
             <td>{{Day6}}</td>
+            <td>{{Day7}}</td>
           </tr>        
         </tbody>
       </table>

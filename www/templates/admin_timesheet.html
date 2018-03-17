@@ -11,7 +11,7 @@
   
   <ion-content class="content_back" padding=true>
 
-<h6><center>{{EmployeeName}}</center></h6>
+  <h4><center>{{EmployeeName}}</center></h4>
 
          <div class="row">   
              <div class="col col-25"> From Date :</div>
@@ -34,16 +34,21 @@
             <td>Sat</td>
           </tr>
         </thead>
+        <style type="text/css">
+        .colo{
+         color:#E96E28;
+        }
+        </style>
         <tbody>          
           <tr ng-repeat="x in TimesheetsDetails">
-            <td>{{x.project_name}}</td>            
-            <td>{{x.day1}}</td>
-            <td>{{x.day2}}</td>
-            <td>{{x.day3}}</td>
-            <td>{{x.day4}}</td>
-            <td>{{x.day5}}</td>
-            <td>{{x.day6}}</td>  
-            <td>{{x.day7}}</td>          
+            <td>{{((x.project_name)=='nil') ? 'No Projects' : x.project_name}}</td>            
+            <td ng-class="{'colo' : x.approval_status1==true }" >{{((x.day1)==0) ? 'A' : x.day1}}</td>
+            <td ng-class="{'colo' : x.approval_status2==true }" >{{((x.day2)==0) ? 'A' : x.day2}}</td>
+            <td ng-class="{'colo' : x.approval_status3==true }" >{{((x.day3)==0) ? 'A' : x.day3}}</td>
+            <td ng-class="{'colo' : x.approval_status4==true }" >{{((x.day4)==0) ? 'A' : x.day4}}</td>
+            <td ng-class="{'colo' : x.approval_status5==true }" >{{((x.day5)==0) ? 'A' : x.day5}}</td>
+            <td ng-class="{'colo' : x.approval_status6==true }" >{{((x.day6)==0) ? 'A' : x.day6}}</td>
+            <td ng-class="{'colo' : x.approval_status7==true }" >{{((x.day7)==0) ? 'A' : x.day7}}</td>              
           </tr> 
           <tr style="background-color:#9f9f9f">
             <td>Total</td>            
@@ -61,7 +66,7 @@
        <div class="row">
             <div class="col col-50"></div>           
             <div class="col col-50">
-              <button class="button button-small button-block button-positive a a3" ng-click="Approval()">Approval</button>
+              <button class="button button-small button-block button-positive a a3"  ng-show="shApprove==true" ng-click="Approval()">Approve</button>
             </div>
         </div>
 

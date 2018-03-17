@@ -78,3 +78,14 @@ button.button.button-small.button-block.button-positive.a.a1{
 button.button.button-small.button-block.button-positive.a.a3{
   left:10px;
 }
+
+div.row.check{
+  margin-left:-3px;
+  background-color: #D8D8D8;
+}
+li.item.item-toggle.noborder{
+  background-color: #D8D8D8;
+}
+.toggle .track{
+  background-color:#ef473a;
+}

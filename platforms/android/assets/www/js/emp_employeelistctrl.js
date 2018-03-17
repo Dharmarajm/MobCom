@@ -4,6 +4,7 @@ angular.module('emp_employeelist', [])
       $scope.hour_values=24;
       $scope.search="";
       $scope.ImageUrl='';
+      $scope.EMP={ turnClearAppData:'Present' }
       $rootScope.EmployeeID_timesheet=localStorage.getItem("id")
       $scope.AuthToken=localStorage.getItem("auth_token")
       $scope.getlocalurl="http://mobcom.altiussolution.com" 
@@ -63,7 +64,6 @@ angular.module('emp_employeelist', [])
               $scope.Timesheetcal($scope.WeekStatus);
           }
 
-        
 
         $scope.Timesheetcal=function(WeekStatu){  
             if(WeekStatu!=undefined){
@@ -83,7 +83,20 @@ angular.module('emp_employeelist', [])
               })
            .success(function(response) {
                    $scope.Timesheets=response.date;
-                   $scope.TimesheetsDetails=response.time_sheet;
+                  if(response.time_sheet!=undefined){ 
+                   $scope.TimesheetsDetl=response.time_sheet;
+                   /*New code Begins here*/
+                   $scope.TimesheetsDetails=[];
+                   if($scope.TimesheetsDetl.length>1){
+                     for(var i=0;i<$scope.TimesheetsDetl.length;i++){
+                       if($scope.TimesheetsDetl[i].project_name!='nil'){
+                        $scope.TimesheetsDetails.push($scope.TimesheetsDetl[i]);
+                       }
+                     }
+                   }
+                  } 
+                   /*End here*/
+                  
                 if($scope.Timesheets!=undefined){                  
                   $scope.FromDate=$scope.Timesheets.from_date;
                   $scope.ToDate=$scope.Timesheets.to_date;
@@ -92,7 +105,6 @@ angular.module('emp_employeelist', [])
                   for(var i=0;i<7;i++){
                     $scope.mydate = new Date($scope.FromDate);
                     $scope.newdate = $scope.mydate.setDate($scope.mydate.getDate() + i); 
-                    console.log($scope.newdate)
                     $scope.All_Dates = $filter('date')($scope.newdate, "yyyy-MM-dd");
                     $scope.Dates_Record.push($scope.All_Dates);
                   }
@@ -149,38 +161,31 @@ angular.module('emp_employeelist', [])
                       
                         if($scope.TimesheetsDetails[i].day1!=undefined && $scope.TimesheetsDetails[i].day1!="" && $scope.TimesheetsDetails[i].day1!=null){
                           $scope.Day1 +=$scope.TimesheetsDetails[i].day1;
-                          console.log($scope.Day1)                          
                           $scope.ID.push($scope.TimesheetsDetails[i].id1);  
                           
                         }
                         if($scope.TimesheetsDetails[i].day2!=undefined && $scope.TimesheetsDetails[i].day2!="" && $scope.TimesheetsDetails[i].day2!=null){
                           $scope.Day2 +=$scope.TimesheetsDetails[i].day2;
-                          console.log($scope.Day2)
                           $scope.ID.push($scope.TimesheetsDetails[i].id2);
                         }
                         if($scope.TimesheetsDetails[i].day3!=undefined && $scope.TimesheetsDetails[i].day3!="" && $scope.TimesheetsDetails[i].day3!=null){
                           $scope.Day3 +=$scope.TimesheetsDetails[i].day3;
-                          console.log($scope.Day3)
                           $scope.ID.push($scope.TimesheetsDetails[i].id3);
                         }
                         if($scope.TimesheetsDetails[i].day4!=undefined && $scope.TimesheetsDetails[i].day4!="" && $scope.TimesheetsDetails[i].day4!=null){
                           $scope.Day4 +=$scope.TimesheetsDetails[i].day4;
-                          console.log($scope.Day4)
                           $scope.ID.push($scope.TimesheetsDetails[i].id4);
                         }
                         if($scope.TimesheetsDetails[i].day5!=undefined && $scope.TimesheetsDetails[i].day5!="" && $scope.TimesheetsDetails[i].day5!=null){
                           $scope.Day5 +=$scope.TimesheetsDetails[i].day5;
-                          console.log($scope.Day5)
                           $scope.ID.push($scope.TimesheetsDetails[i].id5);
                         }
                         if($scope.TimesheetsDetails[i].day6!=undefined && $scope.TimesheetsDetails[i].day6!="" && $scope.TimesheetsDetails[i].day6!=null){
                           $scope.Day6 +=$scope.TimesheetsDetails[i].day6;
-                          console.log($scope.Day6)
                           $scope.ID.push($scope.TimesheetsDetails[i].id6);
                         }
                         if($scope.TimesheetsDetails[i].day7!=undefined && $scope.TimesheetsDetails[i].day7!="" && $scope.TimesheetsDetails[i].day7!=null){
                           $scope.Day7 +=$scope.TimesheetsDetails[i].day7;
-                          console.log($scope.Day7)
                           $scope.ID.push($scope.TimesheetsDetails[i].id7);
                         }
                     }
@@ -310,24 +315,31 @@ angular.module('emp_employeelist', [])
 
 
         $scope.timesheetcreate=function(hour){
-
+                 
                  $scope.hours=hour;
-             
-                if($scope.projectnametype == undefined || $scope.projectnametype=="" || $scope.projectnametype==null){
+
+                if($scope.projectnametype == undefined && $scope.EMP.turnClearAppData=='Present' || $scope.projectnametype=="" && $scope.EMP.turnClearAppData=='Present' || $scope.projectnametype==null && $scope.EMP.turnClearAppData=='Present'){
                   alert("Please select the project name")
                 }else if($scope.selectdate == undefined || $scope.selectdate=="" || $scope.selectdate==null){
                   alert("Please select the date")
-                } else if($scope.hours == undefined || $scope.hours==null || $scope.hours==""){
+                } else if($scope.hours == 0 && $scope.EMP.turnClearAppData=='Present' || $scope.hours == undefined && $scope.EMP.turnClearAppData=='Present' || $scope.hours == null && $scope.EMP.turnClearAppData=='Present' || $scope.hours == "" && $scope.EMP.turnClearAppData=='Present'){
                   alert("Please select the hours")
                 }else {
-
+                   if($scope.EMP.turnClearAppData=='Present'){
+                      $scope.EMPC=true;
+                   }else{
+                      $scope.EMPC=false;
+                      $scope.projectnametype=null; 
+                      $scope.hours=0;
+                   }
                    var create={           
                         "date":$scope.selectdate,
                         "hours":$scope.hours,
                         "project_id":$scope.projectnametype,
                         "employee_id":$rootScope.EmployeeID_timesheet,
+                        "attendance_log": $scope.EMPC
                       }           
-
+                    console.log(create)
                     $http({
                       method: 'post',
                       url:Baseurl+"time_sheets?app_version="+versioncheck,
@@ -346,7 +358,8 @@ angular.module('emp_employeelist', [])
                              alert("success")
                              $scope.selectdate='';
                              $scope.projectnametype="";
-                             $scope.hour="";                     
+                             $scope.hour="";
+                             $scope.EMP.turnClearAppData=='Present'                     
                              $scope.Timesheetcal();
                           }                                      
                    })
