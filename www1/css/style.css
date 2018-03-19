@@ -1,0 +1,26 @@
+/* Empty. Add your own CSS if you like */
+
+.button-danger {
+    background-color: #074F89 !important;
+    color: #fff;
+}
+button.button.button-positive{
+	background-color: #074F89;
+}
+button.button.button-positive.activated{
+    background-color: #074F89;	
+}
+.item.activated{
+	background-color: #fff;
+}
+
+div.col.col-30.timeright{
+	margin-right:-8px;
+}
+div.col.col-40.timeleft{
+	margin-left: -8px;
+}
+div.col.col-30.timeleft{
+	margin-right:0px;
+	margin-left:-8px;
+}

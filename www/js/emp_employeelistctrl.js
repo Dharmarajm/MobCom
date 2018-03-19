@@ -4,7 +4,6 @@ angular.module('emp_employeelist', [])
       $scope.hour_values=24;
       $scope.search="";
       $scope.ImageUrl='';
-      $scope.EMP={ turnClearAppData:'Present' }
       $rootScope.EmployeeID_timesheet=localStorage.getItem("id")
       $scope.AuthToken=localStorage.getItem("auth_token")
       $scope.getlocalurl="http://mobcom.altiussolution.com" 
@@ -64,6 +63,7 @@ angular.module('emp_employeelist', [])
               $scope.Timesheetcal($scope.WeekStatus);
           }
 
+        
 
         $scope.Timesheetcal=function(WeekStatu){  
             if(WeekStatu!=undefined){
@@ -83,20 +83,7 @@ angular.module('emp_employeelist', [])
               })
            .success(function(response) {
                    $scope.Timesheets=response.date;
-                  if(response.time_sheet!=undefined){ 
-                   $scope.TimesheetsDetl=response.time_sheet;
-                   /*New code Begins here*/
-                   $scope.TimesheetsDetails=[];
-                   if($scope.TimesheetsDetl.length>1){
-                     for(var i=0;i<$scope.TimesheetsDetl.length;i++){
-                       if($scope.TimesheetsDetl[i].project_name!='nil'){
-                        $scope.TimesheetsDetails.push($scope.TimesheetsDetl[i]);
-                       }
-                     }
-                   }
-                  } 
-                   /*End here*/
-                  
+                   $scope.TimesheetsDetails=response.time_sheet;
                 if($scope.Timesheets!=undefined){                  
                   $scope.FromDate=$scope.Timesheets.from_date;
                   $scope.ToDate=$scope.Timesheets.to_date;
@@ -315,23 +302,27 @@ angular.module('emp_employeelist', [])
 
 
         $scope.timesheetcreate=function(hour){
-                 
+
                  $scope.hours=hour;
 
-                if($scope.projectnametype == undefined && $scope.EMP.turnClearAppData=='Present' || $scope.projectnametype=="" && $scope.EMP.turnClearAppData=='Present' || $scope.projectnametype==null && $scope.EMP.turnClearAppData=='Present'){
-                  alert("Please select the project name")
+             
+                if($scope.projectnametype == undefined || $scope.projectnametype=="" || $scope.projectnametype==null){
+                  var alertPopuptimepro= $ionicPopup.alert({
+                  title: "MobCom",
+                  content: "Please select the project name"
+                  })
                 }else if($scope.selectdate == undefined || $scope.selectdate=="" || $scope.selectdate==null){
-                  alert("Please select the date")
-                } else if($scope.hours == 0 && $scope.EMP.turnClearAppData=='Present' || $scope.hours == undefined && $scope.EMP.turnClearAppData=='Present' || $scope.hours == null && $scope.EMP.turnClearAppData=='Present' || $scope.hours == "" && $scope.EMP.turnClearAppData=='Present'){
-                  alert("Please select the hours")
+                  var alertPopuptimedate= $ionicPopup.alert({
+                  title: "MobCom",
+                  content: "Please select the date"
+                  })
+                } else if($scope.hours == undefined || $scope.hours==null || $scope.hours==""){
+                  var alertPopuptimehour= $ionicPopup.alert({
+                  title: "MobCom",
+                  content: "Please select the hours"
+                  })
                 }else {
-                   if($scope.EMP.turnClearAppData=='Present'){
-                      $scope.EMPC=true;
-                   }else{
-                      $scope.EMPC=false;
-                      $scope.projectnametype=null; 
-                      $scope.hours=0;
-                   }
+                   $scope.EMPC=true;
                    var create={           
                         "date":$scope.selectdate,
                         "hours":$scope.hours,
@@ -339,7 +330,7 @@ angular.module('emp_employeelist', [])
                         "employee_id":$rootScope.EmployeeID_timesheet,
                         "attendance_log": $scope.EMPC
                       }           
-                    console.log(create)
+
                     $http({
                       method: 'post',
                       url:Baseurl+"time_sheets?app_version="+versioncheck,
@@ -349,20 +340,25 @@ angular.module('emp_employeelist', [])
                        $scope.hour_values=24;
                       $scope.show=2;
                           if(response.data.message){
-                            alert(response.data.message)                   
+                            var alertPopuptimesheet1= $ionicPopup.alert({
+                            title: "MobCom",
+                            content: response.data.message
+                            })                    
                             $scope.selectdate='';
                             $scope.projectnametype="";
                             $scope.hour="";                      
                             $scope.Timesheetcal();
                           }else if(response.data.id){
-                             alert("success")
+                             var alertPopuptimesheet2= $ionicPopup.alert({
+                             title: "MobCom",
+                             content: "Timesheet has been updated"
+                             })
                              $scope.selectdate='';
                              $scope.projectnametype="";
                              $scope.hour="";
-                             $scope.EMP.turnClearAppData=='Present'                     
                              $scope.Timesheetcal();
-                          }                                      
-                   })
+                          }     
+                   })                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                 }
 
           }  
@@ -526,7 +522,6 @@ angular.module('emp_employeelist', [])
                         
                        $cordovaImagePicker.getPictures(options)
                          .then(function (results) {
-                             console.log('Image URI: ' + results[0]);
                              /*$scope.Image=results[0];*/
                               $scope.Image=[];
                              if (results[0] != undefined) {

@@ -61,7 +61,10 @@ angular.module('contacts', [])
               }
              //success logic goes here
             }, function(error){
-              alert(error)
+              var alertPopupcallcontact= $ionicPopup.alert({
+              title: "MobCom",
+              content: error
+              })
              //error logic goes here
             }, number) 
           };

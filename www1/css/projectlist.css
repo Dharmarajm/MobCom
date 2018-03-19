@@ -1,0 +1,82 @@
+.button-danger {
+    background-color: #074F89 !important;
+    color: #fff;
+}
+
+.icon-clr{
+  color: #E96E28;
+}
+.line {
+    border-right: 1px solid;
+    border-color: #c3c3c3;
+}
+.icon-color{
+  color: #E96E28;
+  font-size: 34px;
+}
+
+
+ .content_back{
+  background-color: #D8D8D8;
+}
+
+.content_back.search{
+  top: 88px !important;
+}
+
+
+.ion-more{
+  color: #E96E28;
+}
+
+.bar{
+    width: 100%;
+    background-color: #074F89;
+ }
+.close{
+  color: #ffffff;
+    font-size: 22px;
+}
+
+.titletext{
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    font-size: 15pt; 
+}
+
+
+
+
+
+.bg-color{
+  background-color: #074F89;
+  color: #fff;
+}
+
+
+
+.group{
+  position:relative; 
+  border-radius: 10px 10px; 
+  width: 100%;
+}
+
+.remove{
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #E96E28;
+    border: none;
+    color: white;
+}
+
+
+.add{
+  color:  #074F89;
+    font-size: 22px;
+}
+
+button.button.button-small.button-block.button-positive.a{
+  background-color:#074F89;  
+}

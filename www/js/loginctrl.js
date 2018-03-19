@@ -33,7 +33,10 @@ angular.module('login', [])
 							$ionicLoading.hide(); 
 					})
 					if(response == false){
-						alert("username and password wrong")
+						var alertPopup4 =$ionicPopup.alert({
+             title: "Login Error",
+             content: "username and password wrong"
+            })
 						 $scope.user.username="";
 						 $scope.user.password="";
 					}else{

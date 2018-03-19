@@ -50,7 +50,10 @@ angular.module('registration', [])
 
            $http.get(Baseurl+'users/user_registration?id='+$rootScope.reg.id+'&email='+$rootScope.reg.email+'&password='+$scope.confirm.password+'&app_version='+versioncheck)
               .success(function(response) {
-                  alert("success")
+                  var alertPopupRegistrate= $ionicPopup.alert({
+                  title: "MobCom",
+                  content: "You are registered successfully"
+                  })
                   $state.go("login");
             })  
       }
@@ -93,9 +96,15 @@ angular.module('registration', [])
                     $ionicLoading.hide(); 
                 })                           
                    if(response == true){
-                    alert("Already registered")
+                    var alertPopupnext= $ionicPopup.alert({
+                    title: "MobCom",
+                    content: "Already registered"
+                    })
                    }else if(response == false){
-                    alert("Email id is not avaiable")
+                    var alertPopupnext1= $ionicPopup.alert({
+                    title: "MobCom",
+                    content: "Email id is not avaiable"
+                    })
                    }else{
                       $state.go("employeedetails")
                       $rootScope.reg=response[0];

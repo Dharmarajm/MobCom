@@ -8,7 +8,7 @@ angular.module('projectlist', [])
             $http.get(Baseurl+'projects?app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
-             .success(function(response) {             	
+             .success(function(response) {              
                 $scope.ProjectDetails=response;
             })
 
@@ -18,16 +18,16 @@ angular.module('projectlist', [])
 
 
              $scope.teams=function(id,name){              
-             	$scope.ProjectID=id;
+              $scope.ProjectID=id;
               $rootScope.Projectname=name;
-             	$state.go("teams");         
+              $state.go("teams");         
                 $http.get(Baseurl+'projects/project_employee?project_id='+$scope.ProjectID+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
-	             .success(function(response) {             	
-	                $rootScope.TeamMember=response;
+               .success(function(response) {              
+                  $rootScope.TeamMember=response;
                   console.log($rootScope.TeamMember)
-	            })
+              })
            }
 
 
@@ -65,11 +65,11 @@ angular.module('projectlist', [])
               })
            }
 
-		  	 
+         
 
-		    $scope.NewProject=function(){
-		    	$state.go("createnewproject");
-		    }
+        $scope.NewProject=function(){
+          $state.go("createnewproject");
+        }
 
 
             $http.get(Baseurl+'clients?app_version='+versioncheck,{
@@ -94,11 +94,20 @@ angular.module('projectlist', [])
             
            $scope.createproject=function(name,budget){
              if($scope.clientnametype=="" || $scope.clientnametype==null || $scope.clientnametype==undefined){
-                alert("Please Select the Client Name")
+               var alertPopupcreatePro= $ionicPopup.alert({
+               title: "MobCom",
+               content: "Please Select the Client Name"
+               })
              }else if(name=="" || name==null || name==undefined){
-               alert("Enter the Project Name")
+               var alertPopupProName= $ionicPopup.alert({
+               title: "MobCom",
+               content: "Enter the Project Name"
+               })
              }else if(budget=="" || budget==null || budget==undefined){
-              alert("Enter the Project budget Amount");
+              var alertPopupProBud= $ionicPopup.alert({
+               title: "MobCom",
+               content: "Enter the Project budget Amount"
+              })
              }else{
                  var create={           
                   "client_id":$scope.clientnametype,
@@ -112,7 +121,10 @@ angular.module('projectlist', [])
                  data: create,
                  headers: { "Authorization": "Token token="+$scope.AuthToken}                  
                }).then(function(response) {
-                 alert("success")
+                 var alertPopupProCreate= $ionicPopup.alert({
+                  title: "MobCom",
+                  content: "Project has been created"
+                  })
                  $state.go("projectlist");
                })
              }
@@ -239,13 +251,19 @@ angular.module('projectlist', [])
 
          $scope.ProjectApproval=function(){
                     if($scope.ProjectApprovalID.length == 0){
-                        alert("No Data")
+                        var alertPopupProjectA= $ionicPopup.alert({
+                        title: "MobCom",
+                        content: "No data found"
+                        })
                     }else{
                          $http.get(Baseurl+'projects/approval_status?project_id='+$rootScope.ID+'&app_version='+versioncheck,{
                             headers: { "Authorization": "Token token="+$scope.AuthToken}
                           })
                          .success(function(response) {
-                          alert("success")
+                          var alertPopupProjectAS= $ionicPopup.alert({
+                          title: "MobCom",
+                          content: $rootScope.Projectname+" Project timesheet has been approved"
+                          })
                          }) 
                      }                  
           }
@@ -386,5 +404,3 @@ angular.module('projectlist', [])
 
 
  })
-
-

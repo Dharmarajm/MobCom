@@ -196,7 +196,10 @@ angular.module('admin_employeelist', [])
 
   $scope.assignto = function() {
     if ($scope.projectnametype == undefined) {
-      alert("Please select the project name")
+      var alertPopupProject = $ionicPopup.alert({
+      title: "MobCom",
+      content: "Please select the project name"
+      })   
     } else {
 
       $http.get(Baseurl + 'employees/project_assign?project_id=' + $scope.projectnametype + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
@@ -205,7 +208,10 @@ angular.module('admin_employeelist', [])
           }
         })
         .success(function(response) {
-          alert("success")
+          var alertPopupassignProject = $ionicPopup.alert({
+          title: "MobCom",
+          content: "Project has been assigned"
+          })
           $state.go("admin_employeelist");
         })
     }
@@ -362,7 +368,10 @@ angular.module('admin_employeelist', [])
 
   $scope.Approval = function() {
     if ($scope.ID.length == 0) {
-      alert("No Data")
+       var alertPopupProApprove= $ionicPopup.alert({
+       title: "MobCom",
+       content: "No Data Found"
+       })
     } else {
       $http.get(Baseurl + 'time_sheets/time_approval_status?id=' + $scope.ID + "&app_version=" + versioncheck, {
           headers: {
@@ -370,7 +379,10 @@ angular.module('admin_employeelist', [])
           }
         })
         .success(function(response) {
-          alert("success")
+          var alertPopupAppSuccess= $ionicPopup.alert({
+          title: "MobCom",
+          content: $rootScope.EmployeeName+" timesheet has been approved"
+          })
         })
     }
   }
