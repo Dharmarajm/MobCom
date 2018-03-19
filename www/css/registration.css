@@ -112,7 +112,7 @@ placeholder { /* Firefox 19+ */ color: pink; }.button.button-positive {
     font-style:"Rubik";
 
 }*/
-.popup-open .popup {
+/*.popup-open .popup {
     pointer-events: auto;
     background-color: white;
 }
@@ -133,4 +133,7 @@ body, .ionic-body {
     border-bottom: 1px solid #696666;
     text-align: center;
      font-family: "Rubik";
+}*/
+button.button.button-positive.activated,button.button.button-positive{
+    color:#fff;
 }

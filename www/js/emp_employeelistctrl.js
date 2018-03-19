@@ -347,7 +347,7 @@ angular.module('emp_employeelist', [])
                             $scope.selectdate='';
                             $scope.projectnametype="";
                             $scope.hour="";                      
-                            $scope.Timesheetcal();
+                            $scope.Timesheetcal($scope.WeekStatus);
                           }else if(response.data.id){
                              var alertPopuptimesheet2= $ionicPopup.alert({
                              title: "MobCom",
@@ -356,7 +356,7 @@ angular.module('emp_employeelist', [])
                              $scope.selectdate='';
                              $scope.projectnametype="";
                              $scope.hour="";
-                             $scope.Timesheetcal();
+                             $scope.Timesheetcal($scope.WeekStatus);
                           }     
                    })                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                 }
@@ -434,8 +434,8 @@ angular.module('emp_employeelist', [])
                           if(success==true)
                           {
                             var myPopup = $ionicPopup.show({
-                            template: number,
-                            title: "Message has been sent",
+                            template: "Message has been sent",
+                            title: "MobCom",
                             buttons: [
                             {
                               text: 'OK',
@@ -446,8 +446,8 @@ angular.module('emp_employeelist', [])
                           }
                       }, function(error) {                       
                          var myPopup = $ionicPopup.show({
-                              template: number,
-                              title: "Message can't sent",
+                              template: "Message can't sent",
+                              title: "MobCom",
                               buttons: [
                               {
                               text: 'OK',

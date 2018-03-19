@@ -103,7 +103,6 @@ angular.module('login', [])
                           });
                         $http.get(Baseurl+'users/forgot_password?email='+$scope.data.resetMail+"&app_version="+versioncheck)
                         .success(function(response) {
-                      	console.log(response)
                           $timeout(function () {
                               $ionicLoading.hide(); 
                           })

@@ -1,6 +1,6 @@
 angular.module('admin_employeelist', [])
 
-.controller('AdminEmployeelistCtrl', function($filter, ionicDatePicker, $scope, $state, $http, $rootScope, $ionicPopup, $ionicLoading, $timeout, $ionicModal, $cordovaSms, $cordovaDevice) {
+.controller('AdminEmployeelistCtrl', function($filter, ionicDatePicker, $scope, $state, $http, $rootScope, $ionicPopup, $ionicLoading,$ionicPlatform, $timeout, $ionicModal, $cordovaSms, $cordovaDevice) {
 
   $rootScope.EmployeeID = localStorage.getItem("id")
   $scope.AuthToken = localStorage.getItem("auth_token")
@@ -50,8 +50,16 @@ angular.module('admin_employeelist', [])
         "Authorization": "Token token=" + $scope.AuthToken
       }
     }).success(function(response) {
-      $scope.AllProject = response;
-      console.log($scope.AllProject)
+      $scope.AllProject=[];
+      for(var i in response){
+       $scope.AllProject.push({"budget":response[i].budget,
+                               "client_id":response[i].client_id,
+                               "id":response[i].id,
+                               "name":response[i].name,
+                               "status":response[i].status,
+                               "selected":false
+                              })
+      }
       $scope.projectnameside = $scope.AllProject;
       $scope.projectname = function(objs) {
         $scope.projectnametype = objs.id;
@@ -62,7 +70,10 @@ angular.module('admin_employeelist', [])
 
   $scope.getOptionsSelected = function(options, valueProperty, selectedProperty){
     var optionsSelected = $filter('filter')(options, function(option) {return option[selectedProperty] == true; });
-    return optionsSelected.map(function(group){ return group[valueProperty]; }).join(", ");
+    $rootScope.optionsSelect=optionsSelected;
+    if(optionsSelected!=undefined){
+     return optionsSelected.map(function(group){ return group[valueProperty]; }).join(", ");  
+    }
   };
 
 
@@ -118,7 +129,6 @@ angular.module('admin_employeelist', [])
           for (var i = 0; i < $scope.TimesheetsDetl.length; i++) {
             if ($scope.TimesheetsDetl[i].project_name != 'nil') {
               $scope.TimesheetsDetails.push($scope.TimesheetsDetl[i]);
-              console.log($scope.TimesheetsDetails)
             }
           }
         }else {
@@ -195,27 +205,46 @@ angular.module('admin_employeelist', [])
 
 
   $scope.assignto = function() {
-    if ($scope.projectnametype == undefined) {
+    console.log($rootScope.optionsSelect)
+    if ($rootScope.optionsSelect.length == 0) {
       var alertPopupProject = $ionicPopup.alert({
       title: "MobCom",
       content: "Please select the project name"
       })   
     } else {
+      $scope.selectProject=[];
+      for(var i in $rootScope.optionsSelect){
+        $scope.selectProject.push($rootScope.optionsSelect[i].id)
+      }
 
-      $http.get(Baseurl + 'employees/project_assign?project_id=' + $scope.projectnametype + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
+      $http.get(Baseurl + 'employees/project_assign?project_id=' + $scope.selectProject + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
           headers: {
             "Authorization": "Token token=" + $scope.AuthToken
           }
         })
         .success(function(response) {
-          var alertPopupassignProject = $ionicPopup.alert({
-          title: "MobCom",
-          content: "Project has been assigned"
+          var alertPopupassignProject = $ionicPopup.show({
+            template: 'Project has been assigned',
+            title: "MobCom",
+            buttons: [{
+              text: 'OK',
+              type: 'button-positive',
+              onTap: function(e) {
+                $state.go("admin_employeelist");
+                
+              }
+            }]
           })
-          $state.go("admin_employeelist");
+          alertPopupassignProject.then(function(res) {
+           myNullAction();
+          }); 
         })
     }
   }
+
+  var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
+    return; // do nothing
+  }, 401);
 
   $scope.back = function() {
     $state.go("admin_employeelist");
@@ -264,7 +293,6 @@ angular.module('admin_employeelist', [])
 
   };
   $scope.closeModal = function() {
-    console.log('test')
     $scope.admin = {
       response: ""
     };
@@ -291,8 +319,8 @@ angular.module('admin_employeelist', [])
       .then(function(success) {
         if (success == true) {
           var myPopup = $ionicPopup.show({
-            template: number,
-            title: "Message has been sent",
+            template: 'Message has been sent',
+            title: "MobCom",
             buttons: [{
               text: 'OK',
               type: 'button-dark',
@@ -304,8 +332,8 @@ angular.module('admin_employeelist', [])
         }
       }, function(error) {
         var myPopup = $ionicPopup.show({
-          template: number,
-          title: "Message can't sent",
+          template: "Message can't sent",
+          title: "MobCom",
           buttons: [{
             text: 'OK',
             type: 'button-dark',
@@ -379,10 +407,22 @@ angular.module('admin_employeelist', [])
           }
         })
         .success(function(response) {
-          var alertPopupAppSuccess= $ionicPopup.alert({
-          title: "MobCom",
-          content: $rootScope.EmployeeName+" timesheet has been approved"
+        
+          var alertPopupAppSuccess = $ionicPopup.show({
+            template: $rootScope.EmployeeName+" timesheet has been approved",
+            title: "MobCom",
+            buttons: [{
+              text: 'OK',
+              type: 'button-positive',
+              onTap: function(e) {
+                $scope.Timesheetcal($scope.WeekStatus)
+              }
+            }]
           })
+          alertPopupAppSuccess.then(function(res) {
+           myNullAction();
+          });
+         
         })
     }
   }
