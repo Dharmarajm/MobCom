@@ -14,9 +14,13 @@ button.button.button-positive.activated{
   background-color: #fff;
 }
 
+div.col.col-30.timeleft{
+  margin-left:-8px;
+  margin-right:0;
+}
 div.col.col-30.timeright{
   margin-right:-8px;
 }
-div.col.col-40.timeleft{
+div.col.col-40.timeright{
   margin-left: -8px;
 }

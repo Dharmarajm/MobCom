@@ -120,7 +120,7 @@ angular.module('projectlist', [])
                  data: create,
                  headers: { "Authorization": "Token token="+$scope.AuthToken}                  
                }).then(function(response) {
-                 var alertPopupProCreate = $ionicPopup.show({
+                 var alertPopupProCreate = $ionicPopup.alert({
                   template: 'Project has been created',
                   title: "MobCom",
                   buttons: [{
@@ -131,16 +131,16 @@ angular.module('projectlist', [])
                     }
                   }]
                 })
-                alertPopupProCreate.then(function(res) {
+               /* alertPopupProCreate.then(function(res) {
                  myNullAction();
-                }); 
+                }); */
                })
              }
            }
            
-           var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
+           /*var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
              return; // do nothing
-           }, 401);
+           }, 401);*/
         
 
            $scope.costback=function(){
@@ -206,7 +206,6 @@ angular.module('projectlist', [])
                 }
                 $scope.ProjectApprovalID=[];
                 $scope.TimesheetsDetails=response[1];
-                $scope.showApprove = [];
                 $scope.Day1=0;
                 $scope.Day2=0;
                 $scope.Day3=0;
@@ -214,6 +213,7 @@ angular.module('projectlist', [])
                 $scope.Day5=0;
                 $scope.Day6=0;
                 $scope.Day7=0;
+                $scope.showApprove=[];
                 $scope.CheckApprove=false;
                 if($scope.TimesheetsDetails!=undefined){
                     for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {
@@ -269,7 +269,7 @@ angular.module('projectlist', [])
                           })
                          .success(function(response) {
                           
-                          var alertPopupProjectAS = $ionicPopup.show({
+                          var alertPopupProjectAS = $ionicPopup.alert({
                             template: $rootScope.Projectname+" Project timesheet has been approved",
                             title: "MobCom",
                             buttons: [{
@@ -280,9 +280,10 @@ angular.module('projectlist', [])
                               }
                             }]
                           })
-                          alertPopupProjectAS.then(function(res) {
+                          $scope.Timesheetcal($scope.WeekStatus)
+                          /*alertPopupProjectAS.then(function(res) {
                            myNullAction();
-                          });
+                          });*/
                          }) 
                      }                  
           }
@@ -319,7 +320,7 @@ angular.module('projectlist', [])
                       .then(function(success) {     
                           if(success==true)
                           {
-                            var myPopup = $ionicPopup.show({
+                            var myPopup = $ionicPopup.alert({
                             template:  "Message has been sent",
                             title: "MobCom",
                             buttons: [
@@ -331,7 +332,7 @@ angular.module('projectlist', [])
                             })
                           }
                       }, function(error) {                       
-                         var myPopup = $ionicPopup.show({
+                         var myPopup = $ionicPopup.alert({
                               template: "Message can't sent",
                               title: "MobCom",
                               buttons: [

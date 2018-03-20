@@ -1,11 +1,11 @@
 angular.module('admin_employeelist', [])
 
-.controller('AdminEmployeelistCtrl', function($filter, ionicDatePicker, $scope, $state, $http, $rootScope, $ionicPopup, $ionicLoading, $timeout, $ionicModal, $cordovaSms, $cordovaDevice) {
+.controller('AdminEmployeelistCtrl', function($filter, ionicDatePicker, $scope, $state, $http, $rootScope, $ionicPopup, $ionicLoading,$ionicPlatform, $timeout, $ionicModal, $cordovaSms, $cordovaDevice) {
 
   $rootScope.EmployeeID = localStorage.getItem("id")
   $scope.AuthToken = localStorage.getItem("auth_token")
-
-
+  $scope.all=true;
+  $scope.approve_state=true;
   $ionicLoading.show({
     content: 'Loading',
     animation: 'fade-in',
@@ -13,7 +13,7 @@ angular.module('admin_employeelist', [])
     maxWidth: 200,
     showDelay: 0
   });
-
+  
   $http.get(Baseurl + 'employees?app_version=' + versioncheck, {
       headers: {
         "Authorization": "Token token=" + $scope.AuthToken
@@ -24,11 +24,24 @@ angular.module('admin_employeelist', [])
         $ionicLoading.hide();
       })
       $scope.EmployeesDetails = response;
+      console.log($scope.EmployeesDetails)
     }).error(function(error) {
       $timeout(function() {
         $ionicLoading.hide();
       })
     })
+  
+   
+  $scope.checkStatus=function(approve_state){
+    if(approve_state == true){
+      $scope.all=false;
+      $scope.approve_state=true;
+    }
+    else{
+      $scope.all=false;
+      $scope.approve_state=false;
+    }
+  }
 
   $scope.timesheet = function(id, name) {
     $rootScope.EmployeeID_timesheet = id;
@@ -50,7 +63,16 @@ angular.module('admin_employeelist', [])
         "Authorization": "Token token=" + $scope.AuthToken
       }
     }).success(function(response) {
-      $scope.AllProject = response;
+      $scope.AllProject=[];
+      for(var i in response){
+       $scope.AllProject.push({"budget":response[i].budget,
+                               "client_id":response[i].client_id,
+                               "id":response[i].id,
+                               "name":response[i].name,
+                               "status":response[i].status,
+                               "selected":false
+                              })
+      }
       $scope.projectnameside = $scope.AllProject;
       $scope.projectname = function(objs) {
         $scope.projectnametype = objs.id;
@@ -58,6 +80,14 @@ angular.module('admin_employeelist', [])
       }
     })
   }
+
+  $scope.getOptionsSelected = function(options, valueProperty, selectedProperty){
+    var optionsSelected = $filter('filter')(options, function(option) {return option[selectedProperty] == true; });
+    $rootScope.optionsSelect=optionsSelected;
+    if(optionsSelected!=undefined){
+     return optionsSelected.map(function(group){ return group[valueProperty]; }).join(", ");  
+    }
+  };
 
 
   $scope.WeekStatus = 'current';
@@ -91,6 +121,7 @@ angular.module('admin_employeelist', [])
     $scope.Day5 = 0;
     $scope.Day6 = 0;
     $scope.Day7 = 0;
+    $scope.shApprove=false;
     $http.get(Baseurl + 'time_sheets/employee_time_sheet?employee_id=' + $rootScope.EmployeeID_timesheet + '&date=' + $scope.WeekStatus + '&app_version=' + versioncheck, {
       headers: {
         "Authorization": "Token token=" + $scope.AuthToken
@@ -103,54 +134,27 @@ angular.module('admin_employeelist', [])
       }
       if (response.time_sheet != undefined) {
         $scope.TimesheetsDetl = response.time_sheet;
+        
         /*New code Begins here*/
         $scope.TimesheetsDetails = [];
         if ($scope.TimesheetsDetl.length > 1) {
+          $scope.TimesheetsDetails = []; 
           for (var i = 0; i < $scope.TimesheetsDetl.length; i++) {
             if ($scope.TimesheetsDetl[i].project_name != 'nil') {
               $scope.TimesheetsDetails.push($scope.TimesheetsDetl[i]);
-              console.log($scope.TimesheetsDetails)
-            }
-
-          }
-          $scope.shApprove = true;
-          $scope.showApprove = [];
-          for (var i in $scope.TimesheetsDetails) {
-            console.log(($scope.TimesheetsDetails[i].approval_status1 != true || $scope.TimesheetsDetails[i].approval_status1 == undefined || $scope.TimesheetsDetails[i].approval_status1 == null ) && ($scope.TimesheetsDetails[i].approval_status2 != true || $scope.TimesheetsDetails[i].approval_status2 == undefined || $scope.TimesheetsDetails[i].approval_status2 == null )&&($scope.TimesheetsDetails[i].approval_status3 != true || $scope.TimesheetsDetails[i].approval_status3 == undefined || $scope.TimesheetsDetails[i].approval_status3 == null)&&($scope.TimesheetsDetails[i].approval_status4 != true || $scope.TimesheetsDetails[i].approval_status4 == undefined || $scope.TimesheetsDetails[i].approval_status4 == null)&&($scope.TimesheetsDetails[i].approval_status5 != true || $scope.TimesheetsDetails[i].approval_status5 == undefined || $scope.TimesheetsDetails[i].approval_status5 == null)&&($scope.TimesheetsDetails[i].approval_status6 != true || $scope.TimesheetsDetails[i].approval_status6 == undefined || $scope.TimesheetsDetails[i].approval_status6 == null)&&($scope.TimesheetsDetails[i].approval_status7 != true || $scope.TimesheetsDetails[i].approval_status7 == undefined || $scope.TimesheetsDetails[i].approval_status7 == null))
-            if(($scope.TimesheetsDetails[i].approval_status1 != true || $scope.TimesheetsDetails[i].approval_status1 == undefined || $scope.TimesheetsDetails[i].approval_status1 == null ) && ($scope.TimesheetsDetails[i].approval_status2 != true || $scope.TimesheetsDetails[i].approval_status2 == undefined || $scope.TimesheetsDetails[i].approval_status2 == null )&&($scope.TimesheetsDetails[i].approval_status3 != true || $scope.TimesheetsDetails[i].approval_status3 == undefined || $scope.TimesheetsDetails[i].approval_status3 == null)&&($scope.TimesheetsDetails[i].approval_status4 != true || $scope.TimesheetsDetails[i].approval_status4 == undefined || $scope.TimesheetsDetails[i].approval_status4 == null)&&($scope.TimesheetsDetails[i].approval_status5 != true || $scope.TimesheetsDetails[i].approval_status5 == undefined || $scope.TimesheetsDetails[i].approval_status5 == null)&&($scope.TimesheetsDetails[i].approval_status6 != true || $scope.TimesheetsDetails[i].approval_status6 == undefined || $scope.TimesheetsDetails[i].approval_status6 == null)&&($scope.TimesheetsDetails[i].approval_status7 != true || $scope.TimesheetsDetails[i].approval_status7 == undefined || $scope.TimesheetsDetails[i].approval_status7 == null)){
-              $scope.showApprove.push("Not Approval");
-            }
-            else{
-              $scope.showApprove.push("Approval");
             }
           }
-
-          console.log($scope.showApprove)
-
-
-
-          if($scope.showApprove == true) {
-            alert("hai")
-            $scope.shApprove = true;
+        }else {
+          $scope.TimesheetsDetails = [];
+          for(var i = 0; i < $scope.TimesheetsDetl.length; i++) {
+              $scope.TimesheetsDetails.push($scope.TimesheetsDetl[i]);
           }
-          else{
-            alert("bey")
-           $scope.shApprove = false; 
-          }
-
-          /*if($scope.showApprove.length!=0){
-            var array=$scope.showApprove;
-            !!array.reduce(function(a, b){ return (a === b) ? a : NaN; });
-            console.log(array)
-          }*/
-
-
-        } else {
-          $scope.TimesheetsDetails = response.time_sheet;
         }
+       
         /*End here*/
-
       }
+
+
       $scope.Day1 = 0;
       $scope.Day2 = 0;
       $scope.Day3 = 0;
@@ -158,7 +162,9 @@ angular.module('admin_employeelist', [])
       $scope.Day5 = 0;
       $scope.Day6 = 0;
       $scope.Day7 = 0;
+      $scope.showApprove = [];
       $scope.ID = []
+      $scope.shApprove=false;
       if ($scope.TimesheetsDetails != undefined) {
         for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {
 
@@ -190,6 +196,18 @@ angular.module('admin_employeelist', [])
             $scope.Day7 += $scope.TimesheetsDetails[i].day7;
             $scope.ID.push($scope.TimesheetsDetails[i].id7);
           }
+
+          if(($scope.TimesheetsDetails[i].approval_status1 == false && $scope.TimesheetsDetails[i].approval_status1 != undefined) || ($scope.TimesheetsDetails[i].approval_status2 == false && $scope.TimesheetsDetails[i].approval_status2 != undefined) || ($scope.TimesheetsDetails[i].approval_status3 == false && $scope.TimesheetsDetails[i].approval_status3 != undefined) || ($scope.TimesheetsDetails[i].approval_status4 == false && $scope.TimesheetsDetails[i].approval_status4 != undefined) || ($scope.TimesheetsDetails[i].approval_status5 == false && $scope.TimesheetsDetails[i].approval_status5 != undefined) || ($scope.TimesheetsDetails[i].approval_status6 == false && $scope.TimesheetsDetails[i].approval_status6 != undefined) || ($scope.TimesheetsDetails[i].approval_status7 == false && $scope.TimesheetsDetails[i].approval_status7 != undefined)){
+           $scope.showApprove.push("Not Approval");
+          }else{
+           $scope.showApprove.push("Approval");
+          }
+        }
+
+        for(var k in $scope.showApprove){
+          if($scope.showApprove[k]!='Approval'){
+           $scope.shApprove=true;
+          }
         }
       }
 
@@ -200,22 +218,56 @@ angular.module('admin_employeelist', [])
 
 
   $scope.assignto = function() {
-    if ($scope.projectnametype == undefined) {
-      alert("Please select the project name")
+    console.log($rootScope.optionsSelect)
+    if ($rootScope.optionsSelect.length == 0) {
+      var alertPopupProject = $ionicPopup.alert({
+      title: "MobCom",
+      content: "Please select the project name"
+      })   
     } else {
-
-      $http.get(Baseurl + 'employees/project_assign?project_id=' + $scope.projectnametype + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
+      /*$scope.selectProject=[];*/
+      for(var i in $rootScope.optionsSelect){
+        /*$scope.selectProject.push($rootScope.optionsSelect[i].id)*/
+        $http.get(Baseurl + 'employees/project_assign?project_id=' + $rootScope.optionsSelect[i].id + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
           headers: {
             "Authorization": "Token token=" + $scope.AuthToken
           }
         })
         .success(function(response) {
-          alert("success")
-          $state.go("admin_employeelist");
+          
         })
+      }
+      $state.go("admin_employeelist");
+      /*$http.get(Baseurl + 'employees/project_assign?project_id=' + $scope.selectProject + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
+          headers: {
+            "Authorization": "Token token=" + $scope.AuthToken
+          }
+        })
+        .success(function(response) {
+          var alertPopupassignProject = $ionicPopup.show({
+            template: 'Project has been assigned',
+            title: "MobCom",
+            buttons: [{
+              text: 'OK',
+              type: 'button-positive',
+              onTap: function(e) {
+                $state.go("admin_employeelist");
+                
+              }
+            }]
+          })
+          alertPopupassignProject.then(function(res) {
+           myNullAction();
+          }); 
+        })*/
+        
     }
   }
 
+  /*var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
+    return; // do nothing
+  }, 401);
+*/
   $scope.back = function() {
     $state.go("admin_employeelist");
   }
@@ -263,7 +315,6 @@ angular.module('admin_employeelist', [])
 
   };
   $scope.closeModal = function() {
-    console.log('test')
     $scope.admin = {
       response: ""
     };
@@ -289,9 +340,9 @@ angular.module('admin_employeelist', [])
       .send(mobile_number, data, options)
       .then(function(success) {
         if (success == true) {
-          var myPopup = $ionicPopup.show({
-            template: number,
-            title: "Message has been sent",
+          var myPopup = $ionicPopup.alert({
+            template: 'Message has been sent',
+            title: "MobCom",
             buttons: [{
               text: 'OK',
               type: 'button-dark',
@@ -302,9 +353,9 @@ angular.module('admin_employeelist', [])
           })
         }
       }, function(error) {
-        var myPopup = $ionicPopup.show({
-          template: number,
-          title: "Message can't sent",
+        var myPopup = $ionicPopup.alert({
+          template: "Message can't sent",
+          title: "MobCom",
           buttons: [{
             text: 'OK',
             type: 'button-dark',
@@ -367,7 +418,10 @@ angular.module('admin_employeelist', [])
 
   $scope.Approval = function() {
     if ($scope.ID.length == 0) {
-      alert("No Data")
+       var alertPopupProApprove= $ionicPopup.alert({
+       title: "MobCom",
+       content: "No Data Found"
+       })
     } else {
       $http.get(Baseurl + 'time_sheets/time_approval_status?id=' + $scope.ID + "&app_version=" + versioncheck, {
           headers: {
@@ -375,10 +429,90 @@ angular.module('admin_employeelist', [])
           }
         })
         .success(function(response) {
-          alert("success")
+        
+          var alertPopupAppSuccess = $ionicPopup.alert({
+            template: $rootScope.EmployeeName+" timesheet has been approved",
+            title: "MobCom",
+            buttons: [{
+              text: 'OK',
+              type: 'button-positive',
+              onTap: function(e) {
+                $scope.Timesheetcal($scope.WeekStatus)
+              }
+            }]
+          })
+          $scope.Timesheetcal($scope.WeekStatus)
+          /*alertPopupAppSuccess.then(function(res) {
+           myNullAction();
+          });*/
+         
         })
     }
   }
 
 
-})
+}).directive('ionMultipleSelect', ['$ionicModal', '$ionicGesture', function ($ionicModal, $ionicGesture) {
+  return {
+    restrict: 'E',
+    scope: {
+      options : "="
+    },
+    controller: function ($scope, $element, $attrs) {
+      $scope.multipleSelect = {
+        title:            $attrs.title || "Select Options",
+        tempOptions:      [],
+        keyProperty:      $attrs.keyProperty || "id",
+        valueProperty:    $attrs.valueProperty || "value",
+        selectedProperty: $attrs.selectedProperty || "selected",
+        templateUrl:      $attrs.templateUrl || 'templates/multipleSelect.html',
+        renderCheckbox:   $attrs.renderCheckbox ? $attrs.renderCheckbox == "true" : true,
+        animation:        $attrs.animation || 'slide-in-up'
+      };
+
+      $scope.OpenModalFromTemplate = function (templateUrl) {
+        $ionicModal.fromTemplateUrl(templateUrl, {
+          scope: $scope,
+          animation: $scope.multipleSelect.animation
+        }).then(function (modal) {
+          $scope.modal = modal;
+          $scope.modal.show();
+        });
+      };
+      
+      $ionicGesture.on('tap', function (e) {
+       $scope.multipleSelect.tempOptions = $scope.options.map(function(option){
+         var tempOption = { };
+         tempOption[$scope.multipleSelect.keyProperty] = option[$scope.multipleSelect.keyProperty];
+         tempOption[$scope.multipleSelect.valueProperty] = option[$scope.multipleSelect.valueProperty];
+         tempOption[$scope.multipleSelect.selectedProperty] = option[$scope.multipleSelect.selectedProperty];
+         
+         return tempOption;
+       });
+        $scope.OpenModalFromTemplate($scope.multipleSelect.templateUrl);
+      }, $element);
+      
+      $scope.saveOptions = function(){
+        for(var i = 0; i < $scope.multipleSelect.tempOptions.length; i++){
+          var tempOption = $scope.multipleSelect.tempOptions[i];
+          for(var j = 0; j < $scope.options.length; j++){
+            var option = $scope.options[j];
+            if(tempOption[$scope.multipleSelect.keyProperty] == option[$scope.multipleSelect.keyProperty]){
+              option[$scope.multipleSelect.selectedProperty] = tempOption[$scope.multipleSelect.selectedProperty];
+              break;
+            }
+          }
+        }
+        $scope.closeModal();
+      };
+      
+      $scope.closeModal = function () {
+        $scope.modal.remove();
+      };
+      $scope.$on('$destroy', function () {
+          if ($scope.modal){
+              $scope.modal.remove();
+          }
+      });
+    }
+  };
+}]);

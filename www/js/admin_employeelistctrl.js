@@ -4,8 +4,8 @@ angular.module('admin_employeelist', [])
 
   $rootScope.EmployeeID = localStorage.getItem("id")
   $scope.AuthToken = localStorage.getItem("auth_token")
-
-
+  $scope.all=true;
+  $scope.approve_state=true;
   $ionicLoading.show({
     content: 'Loading',
     animation: 'fade-in',
@@ -13,7 +13,7 @@ angular.module('admin_employeelist', [])
     maxWidth: 200,
     showDelay: 0
   });
-
+  
   $http.get(Baseurl + 'employees?app_version=' + versioncheck, {
       headers: {
         "Authorization": "Token token=" + $scope.AuthToken
@@ -24,11 +24,24 @@ angular.module('admin_employeelist', [])
         $ionicLoading.hide();
       })
       $scope.EmployeesDetails = response;
+      console.log($scope.EmployeesDetails)
     }).error(function(error) {
       $timeout(function() {
         $ionicLoading.hide();
       })
     })
+  
+   
+  $scope.checkStatus=function(approve_state){
+    if(approve_state == true){
+      $scope.all=false;
+      $scope.approve_state=true;
+    }
+    else{
+      $scope.all=false;
+      $scope.approve_state=false;
+    }
+  }
 
   $scope.timesheet = function(id, name) {
     $rootScope.EmployeeID_timesheet = id;
@@ -212,12 +225,20 @@ angular.module('admin_employeelist', [])
       content: "Please select the project name"
       })   
     } else {
-      $scope.selectProject=[];
+      /*$scope.selectProject=[];*/
       for(var i in $rootScope.optionsSelect){
-        $scope.selectProject.push($rootScope.optionsSelect[i].id)
+        /*$scope.selectProject.push($rootScope.optionsSelect[i].id)*/
+        $http.get(Baseurl + 'employees/project_assign?project_id=' + $rootScope.optionsSelect[i].id + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
+          headers: {
+            "Authorization": "Token token=" + $scope.AuthToken
+          }
+        })
+        .success(function(response) {
+          
+        })
       }
-
-      $http.get(Baseurl + 'employees/project_assign?project_id=' + $scope.selectProject + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
+      $state.go("admin_employeelist");
+      /*$http.get(Baseurl + 'employees/project_assign?project_id=' + $scope.selectProject + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
           headers: {
             "Authorization": "Token token=" + $scope.AuthToken
           }
@@ -238,14 +259,15 @@ angular.module('admin_employeelist', [])
           alertPopupassignProject.then(function(res) {
            myNullAction();
           }); 
-        })
+        })*/
+        
     }
   }
 
-  var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
+  /*var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
     return; // do nothing
   }, 401);
-
+*/
   $scope.back = function() {
     $state.go("admin_employeelist");
   }
@@ -318,7 +340,7 @@ angular.module('admin_employeelist', [])
       .send(mobile_number, data, options)
       .then(function(success) {
         if (success == true) {
-          var myPopup = $ionicPopup.show({
+          var myPopup = $ionicPopup.alert({
             template: 'Message has been sent',
             title: "MobCom",
             buttons: [{
@@ -331,7 +353,7 @@ angular.module('admin_employeelist', [])
           })
         }
       }, function(error) {
-        var myPopup = $ionicPopup.show({
+        var myPopup = $ionicPopup.alert({
           template: "Message can't sent",
           title: "MobCom",
           buttons: [{
@@ -408,7 +430,7 @@ angular.module('admin_employeelist', [])
         })
         .success(function(response) {
         
-          var alertPopupAppSuccess = $ionicPopup.show({
+          var alertPopupAppSuccess = $ionicPopup.alert({
             template: $rootScope.EmployeeName+" timesheet has been approved",
             title: "MobCom",
             buttons: [{
@@ -419,9 +441,10 @@ angular.module('admin_employeelist', [])
               }
             }]
           })
-          alertPopupAppSuccess.then(function(res) {
+          $scope.Timesheetcal($scope.WeekStatus)
+          /*alertPopupAppSuccess.then(function(res) {
            myNullAction();
-          });
+          });*/
          
         })
     }

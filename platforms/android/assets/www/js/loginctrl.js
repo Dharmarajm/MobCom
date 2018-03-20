@@ -33,7 +33,10 @@ angular.module('login', [])
 							$ionicLoading.hide(); 
 					})
 					if(response == false){
-						alert("username and password wrong")
+						var alertPopup4 =$ionicPopup.alert({
+             title: "Login Error",
+             content: "username and password wrong"
+            })
 						 $scope.user.username="";
 						 $scope.user.password="";
 					}else{
@@ -100,7 +103,6 @@ angular.module('login', [])
                           });
                         $http.get(Baseurl+'users/forgot_password?email='+$scope.data.resetMail+"&app_version="+versioncheck)
                         .success(function(response) {
-                      	console.log(response)
                           $timeout(function () {
                               $ionicLoading.hide(); 
                           })

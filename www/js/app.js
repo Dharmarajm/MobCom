@@ -76,9 +76,9 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
            }
          }]
         });
-        myPopup.then(function(res) {
+        /*myPopup.then(function(res) {
          myNullAction();
-        }); 
+        });*/ 
         }
        })
    });
@@ -86,9 +86,9 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
   });
   
 
-  var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
+  /*var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
     return; // do nothing
-  }, 401);
+  }, 401);*/
 
  $ionicPlatform.registerBackButtonAction(function(e) {
     e.preventDefault();
@@ -334,10 +334,10 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
 })
 
 
-//var Baseurl='http://mobcom.altiussolution.com/api/v1/';
+var Baseurl='http://mobcom.altiussolution.com/api/v1/';
 
-var Baseurl='http://192.168.1.52:3300/api/v1/';
-var versioncheck="0.0.3"
+//var Baseurl='http://192.168.1.59:3000/api/v1/';
+var versioncheck="0.0.7"
 
 
 

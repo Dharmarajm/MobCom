@@ -1,6 +1,6 @@
 angular.module('projectlist', [])
 
-.controller('ProjectlistCtrl', function($filter,ionicDatePicker,$scope,$state,$http,$rootScope,$ionicPopup,$ionicLoading,$timeout,$ionicModal,$cordovaSms,$cordovaDevice) {
+.controller('ProjectlistCtrl', function($filter,ionicDatePicker,$scope,$state,$http,$rootScope,$ionicPopup,$ionicPlatform,$ionicLoading,$timeout,$ionicModal,$cordovaSms,$cordovaDevice) {
 
         $scope.AuthToken=localStorage.getItem("auth_token")
         $scope.search=""; 
@@ -8,7 +8,7 @@ angular.module('projectlist', [])
             $http.get(Baseurl+'projects?app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
-             .success(function(response) {             	
+             .success(function(response) {              
                 $scope.ProjectDetails=response;
             })
 
@@ -18,16 +18,15 @@ angular.module('projectlist', [])
 
 
              $scope.teams=function(id,name){              
-             	$scope.ProjectID=id;
+              $scope.ProjectID=id;
               $rootScope.Projectname=name;
-             	$state.go("teams");         
+              $state.go("teams");         
                 $http.get(Baseurl+'projects/project_employee?project_id='+$scope.ProjectID+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
-	             .success(function(response) {             	
-	                $rootScope.TeamMember=response;
-                  console.log($rootScope.TeamMember)
-	            })
+               .success(function(response) {              
+                  $rootScope.TeamMember=response;
+              })
            }
 
 
@@ -35,12 +34,24 @@ angular.module('projectlist', [])
               $scope.ProjectID=id;
               $rootScope.Projectname=name;
               $rootScope.Projectbudget=budget;
-              $state.go("cost");        
+              $state.go("cost");
+                   
                 $http.get(Baseurl+'time_sheets/cost_estimate?project_id='+$scope.ProjectID+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
-               .success(function(response) {              
-                  $rootScope.Cost=response;
+               .success(function(response) { 
+                  $rootScope.total_ctc=0;
+                  $rootScope.total_hr=0;
+                  $rootScope.total_amt=0;
+                  $rootScope.costs=response;
+                    for(var i in response){
+                       $rootScope.total_ctc += response[i].ctc;
+
+                       $rootScope.total_hr += response[i].hours;
+                       $rootScope.total_amt += response[i].amount;
+                    }  
+                  
+                  
                 }) 
             }
 
@@ -53,11 +64,11 @@ angular.module('projectlist', [])
               })
            }
 
-		  	 
+         
 
-		    $scope.NewProject=function(){
-		    	$state.go("createnewproject");
-		    }
+        $scope.NewProject=function(){
+          $state.go("createnewproject");
+        }
 
 
             $http.get(Baseurl+'clients?app_version='+versioncheck,{
@@ -82,11 +93,20 @@ angular.module('projectlist', [])
             
            $scope.createproject=function(name,budget){
              if($scope.clientnametype=="" || $scope.clientnametype==null || $scope.clientnametype==undefined){
-                alert("Please Select the Client Name")
+               var alertPopupcreatePro= $ionicPopup.alert({
+               title: "MobCom",
+               content: "Please Select the Client Name"
+               })
              }else if(name=="" || name==null || name==undefined){
-               alert("Enter the Project Name")
+               var alertPopupProName= $ionicPopup.alert({
+               title: "MobCom",
+               content: "Enter the Project Name"
+               })
              }else if(budget=="" || budget==null || budget==undefined){
-              alert("Enter the Project budget Amount");
+              var alertPopupProBud= $ionicPopup.alert({
+               title: "MobCom",
+               content: "Enter the Project budget Amount"
+              })
              }else{
                  var create={           
                   "client_id":$scope.clientnametype,
@@ -100,12 +120,27 @@ angular.module('projectlist', [])
                  data: create,
                  headers: { "Authorization": "Token token="+$scope.AuthToken}                  
                }).then(function(response) {
-                 alert("success")
-                 $state.go("projectlist");
+                 var alertPopupProCreate = $ionicPopup.alert({
+                  template: 'Project has been created',
+                  title: "MobCom",
+                  buttons: [{
+                    text: 'OK',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                      $state.go("projectlist");
+                    }
+                  }]
+                })
+               /* alertPopupProCreate.then(function(res) {
+                 myNullAction();
+                }); */
                })
              }
            }
-
+           
+           /*var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
+             return; // do nothing
+           }, 401);*/
         
 
            $scope.costback=function(){
@@ -145,7 +180,7 @@ angular.module('projectlist', [])
           }
 
         
-
+        
         $scope.Timesheetcal=function(WeekStatu){  
             if(WeekStatu!=undefined){
               $scope.WeekStatus=WeekStatu;
@@ -159,6 +194,7 @@ angular.module('projectlist', [])
             $scope.Day5=0;
             $scope.Day6=0;
             $scope.Day7=0;
+            $scope.CheckApprove=false;
            $http.get(Baseurl+'time_sheets/project_working_hours?project_id='+$rootScope.ID+'&date='+$scope.WeekStatus+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
@@ -170,6 +206,15 @@ angular.module('projectlist', [])
                 }
                 $scope.ProjectApprovalID=[];
                 $scope.TimesheetsDetails=response[1];
+                $scope.Day1=0;
+                $scope.Day2=0;
+                $scope.Day3=0;
+                $scope.Day4=0;
+                $scope.Day5=0;
+                $scope.Day6=0;
+                $scope.Day7=0;
+                $scope.showApprove=[];
+                $scope.CheckApprove=false;
                 if($scope.TimesheetsDetails!=undefined){
                     for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {
                       $scope.ProjectApprovalID.push($scope.TimesheetsDetails[i].id);
@@ -194,6 +239,18 @@ angular.module('projectlist', [])
                         if($scope.TimesheetsDetails[i].day7!=undefined && $scope.TimesheetsDetails[i].day7!="" && $scope.TimesheetsDetails[i].day7!=null){
                           $scope.Day7 +=$scope.TimesheetsDetails[i].day7;
                         }
+
+                         if(($scope.TimesheetsDetails[i].approval_status1 == false && $scope.TimesheetsDetails[i].approval_status1 != undefined) || ($scope.TimesheetsDetails[i].approval_status2 == false && $scope.TimesheetsDetails[i].approval_status2 != undefined) || ($scope.TimesheetsDetails[i].approval_status3 == false && $scope.TimesheetsDetails[i].approval_status3 != undefined) || ($scope.TimesheetsDetails[i].approval_status4 == false && $scope.TimesheetsDetails[i].approval_status4 != undefined) || ($scope.TimesheetsDetails[i].approval_status5 == false && $scope.TimesheetsDetails[i].approval_status5 != undefined) || ($scope.TimesheetsDetails[i].approval_status6 == false && $scope.TimesheetsDetails[i].approval_status6 != undefined) || ($scope.TimesheetsDetails[i].approval_status7 == false && $scope.TimesheetsDetails[i].approval_status7 != undefined)){
+                          $scope.showApprove.push("Not Approval");
+                         }else{
+                           
+                           $scope.showApprove.push("Approval");
+                         }
+                    }
+                    for(var k in $scope.showApprove){
+                      if($scope.showApprove[k]!='Approval'){
+                       $scope.CheckApprove=true;
+                      }
                     }
                 }               
             })
@@ -202,19 +259,36 @@ angular.module('projectlist', [])
 
          $scope.ProjectApproval=function(){
                     if($scope.ProjectApprovalID.length == 0){
-                        alert("No Data")
+                        var alertPopupProjectA= $ionicPopup.alert({
+                        title: "MobCom",
+                        content: "No data found"
+                        })
                     }else{
                          $http.get(Baseurl+'projects/approval_status?project_id='+$rootScope.ID+'&app_version='+versioncheck,{
                             headers: { "Authorization": "Token token="+$scope.AuthToken}
                           })
                          .success(function(response) {
-                          alert("success")
+                          
+                          var alertPopupProjectAS = $ionicPopup.alert({
+                            template: $rootScope.Projectname+" Project timesheet has been approved",
+                            title: "MobCom",
+                            buttons: [{
+                              text: 'OK',
+                              type: 'button-positive',
+                              onTap: function(e) {
+                                $scope.Timesheetcal($scope.WeekStatus)
+                              }
+                            }]
+                          })
+                          $scope.Timesheetcal($scope.WeekStatus)
+                          /*alertPopupProjectAS.then(function(res) {
+                           myNullAction();
+                          });*/
                          }) 
                      }                  
           }
 
           $scope.call = function(number,id){ 
-            console.log(number,id)
             window.plugins.CallNumber.callNumber(function(result){
               if (window.PhoneCallTrap) {
                 PhoneCallTrap.onCall(function(state) {  
@@ -230,7 +304,6 @@ angular.module('projectlist', [])
 
           $scope.popup=function(mobile_number,id,response){       
                $scope.teamMode={response:""};
-               console.log(mobile_number,id,response)
                   var data=response;  
                  
                 //CONFIGURATION    
@@ -247,9 +320,9 @@ angular.module('projectlist', [])
                       .then(function(success) {     
                           if(success==true)
                           {
-                            var myPopup = $ionicPopup.show({
-                            template: number,
-                            title: "Message has been sent",
+                            var myPopup = $ionicPopup.alert({
+                            template:  "Message has been sent",
+                            title: "MobCom",
                             buttons: [
                             {
                               text: 'OK',
@@ -259,9 +332,9 @@ angular.module('projectlist', [])
                             })
                           }
                       }, function(error) {                       
-                         var myPopup = $ionicPopup.show({
-                              template: number,
-                              title: "Message can't sent",
+                         var myPopup = $ionicPopup.alert({
+                              template: "Message can't sent",
+                              title: "MobCom",
                               buttons: [
                               {
                               text: 'OK',
@@ -273,13 +346,13 @@ angular.module('projectlist', [])
           }     
           
 
-          $ionicModal.fromTemplateUrl("templates/my-modal.html", {
+         /* $ionicModal.fromTemplateUrl("templates/my-modal.html", {
             scope: $scope,
             animation: 'slide-in-up'
           }).then(function (modal) {
             $scope.modal = modal;
             return modal;
-          });
+          });*/
           
           $scope.teamMode={response:""};
 
@@ -298,7 +371,6 @@ angular.module('projectlist', [])
            
             $scope.moreDetail=function(detail){
               $rootScope.empdetail=detail; 
-              console.log($rootScope.empdetail)
               $state.go("emp_information");
             }
 
@@ -349,5 +421,3 @@ angular.module('projectlist', [])
 
 
  })
-
-

@@ -13,7 +13,6 @@ angular.module('contacts', [])
               })
          .success(function(response) {
             $scope.ClientsDetails=response; 
-            console.log($scope.ClientsDetails)    
        })
 
          $scope.search="";
@@ -30,7 +29,6 @@ angular.module('contacts', [])
               })
            .success(function(response) {
               $scope.ContactsDetails=response;     
-              console.log($scope.ContactsDetails)
              })
 
 
@@ -61,7 +59,10 @@ angular.module('contacts', [])
               }
              //success logic goes here
             }, function(error){
-              alert(error)
+              var alertPopupcallcontact= $ionicPopup.alert({
+              title: "MobCom",
+              content: error
+              })
              //error logic goes here
             }, number) 
           };
@@ -107,8 +108,8 @@ angular.module('contacts', [])
                           if(success==true)
                           {
                             var myPopup = $ionicPopup.show({
-                            template: number,
-                            title: "Message has been sent",
+                            template: "Message has been sent",
+                            title: "MobCom",
                             buttons: [
                             {
                               text: 'OK',
@@ -119,8 +120,8 @@ angular.module('contacts', [])
                           }
                       }, function(error) {                       
                          var myPopup = $ionicPopup.show({
-                              template: number,
-                              title: "Message can't sent",
+                              template: "Message can't sent",
+                              title: "MobCom",
                               buttons: [
                               {
                               text: 'OK',

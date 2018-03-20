@@ -8,7 +8,7 @@
              <div class="col col-10"><i class="button-icon ion-log-out close" ng-click="logout()"></i></div>
          </div>
   </ion-header-bar>   
-  <ion-content class="content_back" padding=true>
+  <ion-content class="content_back" padding="true" has-bouncing="false">
       <table class="table table-striped table-bordered">
             <thead>
               <tr class="bg-color">
@@ -18,13 +18,19 @@
                 <td>Total</td>
               </tr>
            </thead>
-            <tbody>          
-              <tr ng-repeat="x in Cost">
+            <tbody>         
+              <tr ng-repeat="x in costs">
                 <td>{{x.name}}</td>
                 <td>{{x.ctc}}</td>
                 <td>{{x.hours}}</td>
                 <td>{{x.amount}}</td>            
-              </tr>        
+              </tr>
+              <tr style="background-color:#9f9f9f">
+               <td>Total</td>
+               <td>{{total_ctc}}</td>
+               <td>{{total_hr}}</td>
+               <td>{{total_amt}}</td>
+              </tr>
             </tbody>
       </table>
       Total Budget : {{Projectbudget}}
