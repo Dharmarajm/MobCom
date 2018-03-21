@@ -29,8 +29,31 @@ angular.module('admin_employeelist', [])
       $timeout(function() {
         $ionicLoading.hide();
       })
+
     })
-  
+    
+    $scope.doRefresh=function(){
+      $scope.all=true;
+      $scope.approve_state=true;
+      $http.get(Baseurl + 'employees?app_version=' + versioncheck, {
+        headers: {
+          "Authorization": "Token token=" + $scope.AuthToken
+        }
+      })
+      .success(function(response) {
+        $timeout(function() {
+          $ionicLoading.hide();
+        })
+        $scope.EmployeesDetails = response;
+        console.log($scope.EmployeesDetails)
+      }).error(function(error) {
+        $timeout(function() {
+          $ionicLoading.hide();
+        })
+      })
+      
+      $scope.$broadcast('scroll.refreshComplete');
+    }  
    
   $scope.checkStatus=function(approve_state){
     if(approve_state == true){

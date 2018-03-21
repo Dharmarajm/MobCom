@@ -21,6 +21,8 @@
 
 
   <ion-content class="content_back search" padding="true">   
+          <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh(approve='')"></ion-refresher>
+
           <div class="row">
            <div class="col col-offset-30 col-30" >
            <li class="item item-toggle" style="background-color:#D8D8D8;">
