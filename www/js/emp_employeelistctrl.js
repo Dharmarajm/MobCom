@@ -325,7 +325,6 @@ $scope.LocalData=[];
 
    $scope.addfield = function() {
 
-     console.log($scope.timesheet)
       if($scope.timesheet.hours==0){
         $scope.attendance=false;
        }
@@ -353,9 +352,6 @@ $scope.LocalData=[];
         title: "MobCom",
         content: "Please select different Project or Date"
         })
-        $scope.timesheet.selectdate='';
-        $scope.timesheet.projectnametype=null;
-        $scope.timesheet.hours=null;
       } 
       else{
         if($scope.timesheet.projectnametype==null || $scope.timesheet.projectnametype=="" || $scope.timesheet.projectnametype==undefined){
@@ -385,7 +381,6 @@ $scope.LocalData=[];
    }
 
         $scope.timesheetcreate=function(){
-               console.log($scope.LocalData)
              /*
                 if($scope.timesheet.selectdate == undefined || $scope.selectdate=="" || $scope.selectdate==null){
                   var alertPopuptimedate= $ionicPopup.alert({
@@ -431,7 +426,15 @@ $scope.LocalData=[];
                     }).then(function(response) {
                        $scope.hour_values=24;
                         $scope.show=2;
-                            
+                          $scope.getApproveData=[];
+                          for(var i in response.data){
+                             if(response.data[i].approval_status==true){
+                              $scope.getApproveData.push($scope.LocalData[i].project_name);
+                             }else{
+                              $scope.getApproveData=[];
+                             }
+                          }
+                          if($scope.getApproveData.length==0){
                             var alertPopuptimesheet1 = $ionicPopup.alert({
                              template: "Timesheet has been created",
                              title: "MobCom",
@@ -446,6 +449,24 @@ $scope.LocalData=[];
                            })
                             $scope.LocalData=[]
                             $scope.Timesheetcal($scope.WeekStatus)
+                          }
+                            
+                          if($scope.getApproveData.length>0){
+                             var alertPopuptimesheet2 = $ionicPopup.show({
+                             template: $scope.getApproveData.toString()+' timesheets already approved',
+                             title: "MobCom",
+                             buttons: [{
+                               text: 'OK',
+                               type: 'button-positive',
+                               onTap: function(e) {
+                                 $scope.LocalData=[]
+                                 $scope.Timesheetcal($scope.WeekStatus)
+                               }
+                             }]
+                           })
+                           $scope.LocalData=[]
+                           $scope.Timesheetcal($scope.WeekStatus)  
+                          }
                           /* alertPopuptimesheet1.then(function(res) {
                             myNullAction();
                            });  */                 
