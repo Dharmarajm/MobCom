@@ -30,7 +30,10 @@
     font-weight: bold;
     color: #ffffff;
     text-align: center;
-    font-size: 15pt; 
+    font-size: 15pt;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis; 
 }
 
 

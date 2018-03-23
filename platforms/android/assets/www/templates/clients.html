@@ -26,6 +26,9 @@
             {{y.name}}
           </div>
       </div>
+    </div>
+    <div class="list" style="color:red;text-align: center;" ng-show="ClientsDetails.length==0 || (ClientsDetails | filter:search).length==0">
+       No Clients found 
     </div>     
   </ion-content>
 </ion-view>
