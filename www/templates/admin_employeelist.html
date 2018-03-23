@@ -20,7 +20,7 @@
   </div>
 
 
-  <ion-content class="content_back search" padding="true">   
+  <ion-content class="content_back search" padding="true" has-bouncing="false">   
           <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh(approve='')"></ion-refresher>
 
           <div class="row">
@@ -38,7 +38,7 @@
            </li>
            </div>
           </div>
-          <div class="list" ng-repeat="emp in EmployeesDetails | filter:approve">
+          <div class="list" ng-repeat="emp in EmployeesDetails | filter:approve | filter:search">
             <div class="item item-avatar item-icon-right">
               <img src="img/contact.png">
               <h2>{{emp.first_name}}</h2>
@@ -50,10 +50,13 @@
               <i class="icon icon-clr line ion-ios-time-outline col col-30" ng-click="timesheet(emp.id,emp.first_name)">&nbsp;TIMESHEET</i>
               <i class="icon icon-clr ion-android-share col col-30" ng-click="assigntoemp(emp.id,emp.first_name)">&nbsp;ASSIGN</i>
             </div>
+          </div><br>
+          <div class="list" style="color:red;text-align:center;" ng-show="(EmployeesDetails | filter:approve | filter:search).length==0 || (EmployeesDetails | filter:search).length==0">
+            No Records found
           </div>
 
-
-          <script id="templates/modal.html" type="text/ng-template">
+  </ion-content>
+  <script id="templates/modal.html" type="text/ng-template">
             <ion-modal-view> 
               <ion-header-bar>
                 <div class="row">
@@ -69,9 +72,6 @@
                   </div>                        
               </ion-content>                    
             </ion-modal-view>
-          </script>
-
-
-  </ion-content>
+  </script>
 
 </ion-view>

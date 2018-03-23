@@ -24,7 +24,6 @@ angular.module('admin_employeelist', [])
         $ionicLoading.hide();
       })
       $scope.EmployeesDetails = response;
-      console.log($scope.EmployeesDetails)
     }).error(function(error) {
       $timeout(function() {
         $ionicLoading.hide();
@@ -102,6 +101,27 @@ angular.module('admin_employeelist', [])
 
       }
     })
+  }
+
+  $scope.selectProject=[]
+  $scope.MultiSelected=function(selectedValues){
+    var chckdata=false;
+    for(var i in $scope.selectProject){
+      console.log($scope.selectProject[i].selected)
+      if($scope.selectProject[i].id == selectedValues.id){
+        chckdata=true;
+        $scope.selectProject.splice(i,1)
+      }
+    }
+    if(chckdata == false){
+      $scope.selectProject.push({
+        id:selectedValues.id,
+        name:selectedValues.name,
+        selected:selectedValues.selected
+
+      })
+    }
+    console.log($scope.selectProject)
   }
 
   $scope.getOptionsSelected = function(options, valueProperty, selectedProperty){
@@ -241,17 +261,16 @@ angular.module('admin_employeelist', [])
 
 
   $scope.assignto = function() {
-    console.log($rootScope.optionsSelect)
-    if ($rootScope.optionsSelect.length == 0) {
+    if ($scope.selectProject.length == 0) {
       var alertPopupProject = $ionicPopup.alert({
       title: "MobCom",
       content: "Please select the project name"
       })   
     } else {
       /*$scope.selectProject=[];*/
-      for(var i in $rootScope.optionsSelect){
+      for(var i in $scope.selectProject){
         /*$scope.selectProject.push($rootScope.optionsSelect[i].id)*/
-        $http.get(Baseurl + 'employees/project_assign?project_id=' + $rootScope.optionsSelect[i].id + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
+        $http.get(Baseurl + 'employees/project_assign?project_id=' + $scope.selectProject[i].id + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
           headers: {
             "Authorization": "Token token=" + $scope.AuthToken
           }

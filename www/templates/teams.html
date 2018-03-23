@@ -21,8 +21,12 @@
               <i class="icon icon-clr ion-more col col-33" ng-click="moreDetail(team)">&nbsp;More Details</i>
             </a>
       </div>
+      <div class="list" style="color:red;text-align:center;" ng-show="TeamMember==false">
+         No Teams found 
+      </div>
 
-      <script id="templates/my-modal.html" type="text/ng-template">
+  </ion-content>
+  <script id="templates/my-modal.html" type="text/ng-template">
             <ion-modal-view> 
               <ion-header-bar>
                 <div class="row">
@@ -38,8 +42,5 @@
                   </div>                        
               </ion-content>                    
             </ion-modal-view>
-      </script>
-      
-
-  </ion-content>
+  </script>
 </ion-view>

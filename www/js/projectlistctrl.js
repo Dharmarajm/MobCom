@@ -346,13 +346,13 @@ angular.module('projectlist', [])
           }     
           
 
-         /* $ionicModal.fromTemplateUrl("templates/my-modal.html", {
+          $ionicModal.fromTemplateUrl("templates/my-modal.html", {
             scope: $scope,
             animation: 'slide-in-up'
           }).then(function (modal) {
             $scope.modal = modal;
             return modal;
-          });*/
+          });
           
           $scope.teamMode={response:""};
 

@@ -82,3 +82,10 @@ button.button.button-small.button-block.button-positive.a.a3{
 .table td.colo{
  color:#E96E28;
 }
+
+button.button.button-icon.ion-close.assign{
+ color:seashell;
+}
+button.button-icon.ion-checkmark.assign{
+ color:seashell;
+}

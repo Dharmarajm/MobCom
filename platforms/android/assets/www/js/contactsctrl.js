@@ -21,23 +21,29 @@ angular.module('contacts', [])
          	$rootScope.ClientID=id;
          	$state.go("contacts");         
          }
-
+        
 
         if($rootScope.ClientID!=undefined){
-            $http.get(Baseurl+'clients/client_contacts?client_id='+$rootScope.ClientID+'&app_version='+versioncheck,{
+            $http.get(Baseurl+'clients/client_contacts?client_id='+$rootScope.ClientID.id+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
            .success(function(response) {
-              $scope.ContactsDetails=response;     
+              $scope.ContactsDetails=response; 
              })
 
-
-           $http.get(Baseurl+'clients/'+$rootScope.ClientID+'&app_version='+versioncheck,{
+         
+          /* $http.get(Baseurl+'clients?id='+$rootScope.ClientID+'&app_version='+versioncheck,{
                 headers: { "Authorization": "Token token="+$scope.AuthToken}
               })
            .success(function(response) {
-              $scope.ClientsAddress=response;     
-             })
+              $scope.ClientsAddress=[]; 
+              console.log(response)    
+              for(var i in response){
+                if(response[i].name==$rootScope.ClientID.name){
+                  console.log(response[i].name)
+                }
+              }
+             })*/
         }
 
 

@@ -12,23 +12,19 @@
 
   <ion-content class="content_back" padding="true" has-bouncing="false">
 
-  <h4><center>{{EmployeeName}}</center></h4>
+  <h3><center style="color:chocolate">{{EmployeeName}}</center></h3>
+  
+  <h5><center>Project List</center></h5>
+        <ul class="list">
 
-        <div class="row">
-          <div class="col col-50 text-center" style="text-align:center;padding-top:13px;">Project Name</div>
-          <div class="col col-50">
-             <!-- <select ng-model="projectnameside"  ng-change="projectname(projectnameside)" ng-options="g.name for g in AllProject" ng-Required="true" >
-              <option value="" style="display:true;width: 100%">Select</option>
-              </select> -->
-              <ion-multiple-select style="width:100%;height:40px;" title="Select Project" options="AllProject" key-property="id" value-property="name" selected-property="selected" class="item item-input item-icon-right">
-               <div class="input-label">
-                {{ getOptionsSelected(AllProject, 'name', 'selected') || 'Select Project' }}
-               </div>
-               <i class="icon ion-android-arrow-dropdown"></i>
-              </ion-multiple-select>
-              <!-- <textarea class="padding" disabled="disabled">{{ getOptionsSelected(AllProject, 'name', 'selected') }}</textarea> -->
-          </div>
-        </div>
+        <li class="item item-checkbox" ng-repeat="option in AllProject" >
+           <label class="checkbox">
+             <input type="checkbox" ng-model="option.selected" ng-change="MultiSelected(option)">
+           </label>
+           {{ option.name}}
+        </li>
+         
+        </ul>
 
          <div class="row">
             <div class="col col-50"></div>
@@ -46,7 +42,7 @@
             <h1 class="title">{{multipleSelect.title}}</h1>
             <button class="button button-icon ion-checkmark assign" ng-click="saveOptions();"></button>
         </ion-header-bar>
-        <ion-content scroll="false">
+        <ion-content scroll="true">
             <ul class="list">
                 <li class="item item-toggle" ng-repeat="option in multipleSelect.tempOptions" ng-if="!multipleSelect.renderCheckbox">
                     {{ option[multipleSelect.valueProperty] }}

@@ -20,12 +20,15 @@
   <ion-content class="content_back search" padding=true>
   
     <div class="card" ng-repeat="x in ClientsDetails | filter:search">
-      <div class="item item-text-wrap" ng-click="contactlist(x.id)">
+      <div class="item item-text-wrap" ng-click="contactlist(x)">
        <b style="color:#074F89"> {{x.name}} </b>
           <div ng-repeat="y in x.projects" style="margin-left: 20px;color:#006400;">
             {{y.name}}
           </div>
       </div>
+    </div>
+    <div class="list" style="color:red;text-align: center;" ng-show="ClientsDetails.length==0 || (ClientsDetails | filter:search).length==0">
+       No Clients found 
     </div>     
   </ion-content>
 </ion-view>

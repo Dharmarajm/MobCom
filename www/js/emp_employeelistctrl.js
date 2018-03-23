@@ -453,7 +453,7 @@ $scope.LocalData=[];
                             
                           if($scope.getApproveData.length>0){
                              var alertPopuptimesheet2 = $ionicPopup.show({
-                             template: $scope.getApproveData.toString()+' timesheets already approved',
+                             template: $scope.getApproveData.toString()+" Approved timesheet couldn't be edited",
                              title: "MobCom",
                              buttons: [{
                                text: 'OK',

@@ -11,10 +11,10 @@
   <ion-content class="content_back" padding="true" has-bouncing="false">
 
       <h5><b>Address</b></h5>
-      {{ClientsAddress.street}} <br>
-      {{ClientsAddress.city}} {{ClientsAddress.pincode}}<br>
-      {{ClientsAddress.state}}<br>
-      {{ClientsAddress.country}}<br>
+      {{ClientID.street}} <br>
+      {{ClientID.city}} {{ClientID.pincode}}<br>
+      {{ClientID.state}}<br>
+      {{ClientID.country}}<br>
       <br>
      <div class="list" ng-repeat="contact in ContactsDetails">
             <a class="item item-avatar item-icon-right">
@@ -26,6 +26,9 @@
               <i class="icon icon-clr line ion-android-call col col-50" ng-click="call(contact.mobile_number,contact.id);CallPost(emp.id)">&nbsp;CALL</i>
               <i class="icon icon-clr ion-android-textsms col col-50" ng-click="openModal(contact.mobile_number,contact.id,contact.name)">&nbsp;MESSAGE</i>
             </a>
+      </div>
+      <div class="list" ng-show="ContactsDetails.length==0" style="color:red">
+          No Contacts  
       </div>
 
 
