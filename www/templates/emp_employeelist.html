@@ -23,7 +23,8 @@
    
           <div class="list" ng-repeat="emp in EmployeesDetails | filter:search">
             <a class="item item-avatar item-icon-right">
-              <img src="{{getlocalurl}}{{emp.image.url}}">              
+              <img src="{{getlocalurl}}{{ImageUrl}}">
+                          
               <h2>{{emp.first_name}}</h2>
               <p>{{emp.designation}}</p>
              </a>
@@ -32,6 +33,9 @@
               <i class="icon icon-clr ion-android-textsms col col-50" ng-click="openModal(emp.mobile_number,emp.id,emp.first_name)">&nbsp;MESSAGE</i>
               <!-- <i class="icon icon-clr ion-more col col-33" ng-click="moreDetail(emp)">&nbsp;More Details</i> -->
             </a>
+          </div>
+          <div class="list" style="color:red;text-align:center;" ng-show="(EmployeesDetails | filter:search).length==0">
+            No Records found
           </div>
 
            <script id="templates/modal.html" type="text/ng-template">

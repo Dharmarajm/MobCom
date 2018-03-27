@@ -21,16 +21,16 @@
 
 
   <ion-content class="content_back search" padding="true" has-bouncing="false">   
-          <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh(approve='')"></ion-refresher>
+          <!-- <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh(approve='')"></ion-refresher> -->
 
           <div class="row">
            <div class="col col-offset-30 col-30" >
            <li class="item item-toggle" style="background-color:#D8D8D8;">
-             <span style="margin-left:-15px;" ng-show="approve_state && !all">Approved Status : Approved</span>
-             <span style="margin-left:-15px;" ng-show="!approve_state && !all">Approved Status : UnApproved</span>
-             <span style="margin-left:-15px;" ng-show="approve_state && all">Approved Status : All</span>
+             
+             <span style="margin-left:-15px;" ng-show="approve_state">Approved Status : UnApproved</span>
+             <span style="margin-left:-15px;" ng-show="!approve_state">Approved Status : All</span>
             <label class="toggle toggle-balanced">
-             <input type="checkbox" ng-model="approve" ng-change="checkStatus(approve)">
+             <input type="checkbox" ng-model="approve_state" ng-change="checkStatus(approve_state)">
              <div class="track">
                <div class="handle"></div>
              </div>

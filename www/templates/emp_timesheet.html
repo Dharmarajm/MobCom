@@ -37,7 +37,7 @@
              </div>
 
              <div class="col col-40">
-               <select ng-model="timesheet.projectnametype" ng-change="hoursempty(timesheet.projectnametype)" ng-options="g.name for g in ProjectDetails" style="width:100%;height:34px;" >
+               <select ng-model="timesheet.projectnametype" ng-change="hoursempty(timesheet.projectnametype)"  ng-options="g.name for g in ProjectDetails" style="width:100%;height:34px;" ng-disabled="datepic">
                   <option value="" style="display: true;">-- select --</option>
                 </select>
              </div> 
@@ -47,7 +47,7 @@
                <!-- <select ng-model="hours"  ng-disabled="selectdate == null" name="input" style="width: 100%;height:34px;" ng-options="gethour for gethour in [] | range:hour_values">
                  <option value="">Hours</option>
                </select> -->
-               <input type="number" style="width: 100%" ng-model="timesheet.hours" min='0' max='24' ng-change="checkProject(timesheet.projectnametype,timesheet.hours)" placeholder="Hours < 24" ng-required="true"/>
+               <input type="number" style="width: 100%" ng-model="timesheet.hours" min='0' max='24' ng-change="checkProject(timesheet.projectnametype,timesheet.hours)" placeholder="Hours < 24" ng-required="true" ng-readonly="datepic"/>
              </div>
          </div>   
 
@@ -115,15 +115,15 @@
       </table>
 
         <div class="row">
-            <div class="col col-50">
+            <div class="col col-33">
               <button class="button button-small button-block button-positive a a1" ng-click="Previous('previous')">Previous</button>
             </div>
-            <div class="col col-50">
-              <button class="button button-small button-block button-positive a a3" ng-click="Current('current')">Current</button>
+            <div class="col col-33">
+              <button class="button button-small button-block button-positive a a2" ng-click="Current('current')">Current</button>
             </div>
-           <!--  <div class="col col-30">
-              <button class="button button-small button-block button-positive a a3" ng-click="Next('next')">Next</button>
-            </div> -->
+            <div class="col col-33">
+              <button class="button button-small button-block button-positive a a3" ng-disabled="week==0" ng-click="Next('previous')">Next</button>
+            </div>
         </div>
   </ion-content>
 </ion-view>
