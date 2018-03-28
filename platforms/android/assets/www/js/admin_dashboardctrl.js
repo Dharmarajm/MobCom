@@ -1,65 +1,20 @@
 angular.module('admin_dashboard', [])
 
-.controller('AdminDashboardCtrl', function($scope,$state,$http,$rootScope,$ionicPopup) {
-
-  
-    $scope.employee=function(){
-		  $state.go("admin_employeelist");
-    }
-
-    $scope.project=function(){
-    $state.go("projectlist")  
-    }
+.controller('AdminDashboardCtrl', function($scope, $state, $http, $rootScope, $ionicPopup) {
 
 
-    $scope.contacts=function(){
-    $state.go("clients")  
-     }
+  $scope.employee = function() {
+    $state.go("admin_employeelist");
+  }
 
-  
-
-     
-     /*$rootScope.logout=function(){
-      $ionicPopup.confirm({
-        title: "Do you want to Logout?",
-        template: '<style>.popup { width:700px; } .popup-head { background-color: #FFFFFF; } .popup-title { color: #000; }</style>',
-          buttons: [{ text: 'OK',
-          type: 'button-positive',
-          onTap: function(){
-            localStorage.clear();
-            $state.go("login")
-          }
-          },{
-           text: 'CANCEL',
-           type: 'button-positive',
-           onTap: function(){}
-        }]
-      });
-      
-    }*/
+  $scope.project = function() {
+    $state.go("projectlist")
+  }
 
 
-
-     /*$rootScope.Exit=function(){
-      $ionicPopup.confirm({
-        title: "Do you want to Exit?",
-        template: '<style>.popup { width:700px; } .popup-head { background-color: #FFFFFF; } .popup-title { color: #000; }</style>',
-          buttons: [{ text: 'OK',
-          type: 'button-danger',
-          onTap: function(){
-            localStorage.clear();
-            $state.go("login")
-          }
-          },{
-           text: 'CANCEL',
-           type: 'button-danger',
-           onTap: function(){}
-        }]
-      });
-      
-    }*/
-
- })
+  $scope.contacts = function() {
+    $state.go("clients")
+  }
 
 
-
+})

@@ -3,13 +3,14 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','registration','admin_dashboard',
-  'emp_dashboard','emp_employeelist','admin_employeelist','projectlist','contacts'])
+angular.module('starter', ['ionic', 'ionic-datepicker', 'ngCordova', 'login', 'registration', 'admin_dashboard',
+  'emp_dashboard', 'emp_employeelist', 'admin_employeelist', 'projectlist', 'contacts'
+])
 
-.run(function($ionicPlatform,$ionicPopup, $rootScope, $state, $ionicHistory, $timeout,$http) {
-  $ionicPlatform.ready(function(){
+.run(function($ionicPlatform, $ionicPopup, $rootScope, $state, $ionicHistory, $timeout, $http) {
+  $ionicPlatform.ready(function() {
 
-    if(window.cordova && window.cordova.plugins.Keyboard) {
+    if (window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -19,7 +20,7 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
       // a much nicer keyboard experience.
       cordova.plugins.Keyboard.disableScroll(true);
     }
-    if(window.StatusBar) {
+    if (window.StatusBar) {
       StatusBar.styleDefault();
     }
 
@@ -40,181 +41,184 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
         console.warn("No :( ");
       }
     });
-   
-   document.addEventListener("deviceready", function() {
-     hockeyapp.start(success, error, "d78f3b26d9ef457bae79f314c65fd400");
-     function error(error) {
-      console.log(error);
-     }
 
-     function success(status) {
-      console.log(status);
-     }
-     
-   }, false);
-   
-   cordova.getAppVersion.getVersionNumber(function (version) {
-       var mobversion = version;
-       $http.get(Baseurl+'employees/get_version').success(function(res){
-        var setVersion=res.version_no;
+    document.addEventListener("deviceready", function() {
+      hockeyapp.start(success, error, "d78f3b26d9ef457bae79f314c65fd400");
+
+      function error(error) {
+        console.log(error);
+      }
+
+      function success(status) {
+        console.log(status);
+      }
+
+    }, false);
+
+    cordova.getAppVersion.getVersionNumber(function(version) {
+      var mobversion = version;
+      $http.get(Baseurl + 'employees/get_version').success(function(res) {
+        var setVersion = res.version_no;
         console.log(setVersion)
-        if(mobversion != setVersion){
-        var myPopup = $ionicPopup.confirm({
-        title: "Mobcom",
-        template: 'New version '+setVersion+' available',
-          buttons: [{ text: 'EXIT',
-          type: 'button-dark',
-          onTap: function(){
-            ionic.Platform.exitApp();
-          }
-          },{
-           text: 'UPDATE',
-           type: 'button-positive',
-           onTap: function(){
-             hockeyapp.checkForUpdate();
-             myPopup.show();
-           }
-         }]
-        });
-        /*myPopup.then(function(res) {
-         myNullAction();
-        });*/ 
+        if (mobversion != setVersion) {
+          var myPopup = $ionicPopup.confirm({
+            title: "Mobcom",
+            template: 'New version ' + setVersion + ' available',
+            buttons: [{
+              text: 'EXIT',
+              type: 'button-dark',
+              onTap: function() {
+                ionic.Platform.exitApp();
+              }
+            }, {
+              text: 'UPDATE',
+              type: 'button-positive',
+              onTap: function() {
+                hockeyapp.checkForUpdate();
+                myPopup.show();
+              }
+            }]
+          });
+          /*myPopup.then(function(res) {
+           myNullAction();
+          });*/
         }
-       })
-   });
-    
+      })
+    });
+
   });
-  
+
 
   /*var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
     return; // do nothing
   }, 401);*/
 
- $ionicPlatform.registerBackButtonAction(function(e) {
+  $ionicPlatform.registerBackButtonAction(function(e) {
     e.preventDefault();
+
     function showConfirm() {
       var confirmPopup = $ionicPopup.show({
-      title : 'Mobcom',
-      template : 'Are you sure you want to exit ?',
-      buttons : [{
-        text : 'Cancel',
-        type : 'button-danger',
-       }, {
-        text : 'Ok',           
-        type : 'button-danger',
-        onTap : function() {
-         ionic.Platform.exitApp();
-        }
-       }]
-      });
-     };
-      if($state.current.name=='login' || $state.current.name=='admin_dashboard' || $state.current.name=='emp_dashboard'){
-       showConfirm();
-      }else if($state.current.name=='admin_employeelist' || $state.current.name=='projectlist' || $state.current.name=='clients'){
-         $state.go('admin_dashboard')
-      }else if($state.current.name=='teams'){
-         $state.go('projectlist')    
-      }else if($state.current.name=='emp_employeelist' ){
-        $state.go('emp_dashboard')
-      }
-      else {
-        navigator.app.backHistory();
-      }
-    }, 100)
-
-
-   $rootScope.logout=function(){
-      $ionicPopup.confirm({
-        title: "Do you want to Logout?",
-        template: '<style>.popup { width:700px; } .popup-head { background-color: #FFFFFF; } .popup-title { color: #000; }</style>',
-          buttons: [{ text: 'OK',
-          type: 'button-positive',
-          onTap: function(){
-            localStorage.clear();
-            $state.go("login")
-          }
-          },{
-           text: 'CANCEL',
-           type: 'button-positive',
-           onTap: function(){}
-        }]
-      });
-      
-    }
-
-   /*if($state.current.name=='login'){
-    if(mobversion!="0.0.2"){
-      var myPopup = $ionicPopup.confirm({
-        title: "Mobcom",
-        template: 'New version available',
-          buttons: [{ text: 'EXIT',
-          type: 'button-dark',
-          onTap: function(){
+        title: 'Mobcom',
+        template: 'Are you sure you want to exit ?',
+        buttons: [{
+          text: 'Cancel',
+          type: 'button-danger',
+        }, {
+          text: 'Ok',
+          type: 'button-danger',
+          onTap: function() {
             ionic.Platform.exitApp();
           }
-          },{
-           text: 'UPDATE',
-           type: 'button-positive',
-           onTap: function(){
-             hockeyapp.checkForUpdate();
-           }
         }]
       });
+    };
+    if ($state.current.name == 'login' || $state.current.name == 'admin_dashboard' || $state.current.name == 'emp_dashboard') {
+      showConfirm();
+    } else if ($state.current.name == 'admin_employeelist' || $state.current.name == 'projectlist' || $state.current.name == 'clients') {
+      $state.go('admin_dashboard')
+    } else if ($state.current.name == 'teams') {
+      $state.go('projectlist')
+    } else if ($state.current.name == 'emp_employeelist') {
+      $state.go('emp_dashboard')
+    } else {
+      navigator.app.backHistory();
     }
-   } */
+  }, 100)
+
+
+  $rootScope.logout = function() {
+    $ionicPopup.confirm({
+      title: "Do you want to Logout?",
+      template: '<style>.popup { width:700px; } .popup-head { background-color: #FFFFFF; } .popup-title { color: #000; }</style>',
+      buttons: [{
+        text: 'OK',
+        type: 'button-positive',
+        onTap: function() {
+          localStorage.clear();
+          $state.go("login")
+        }
+      }, {
+        text: 'CANCEL',
+        type: 'button-positive',
+        onTap: function() {}
+      }]
+    });
+
+  }
+
+  /*if($state.current.name=='login'){
+   if(mobversion!="0.0.2"){
+     var myPopup = $ionicPopup.confirm({
+       title: "Mobcom",
+       template: 'New version available',
+         buttons: [{ text: 'EXIT',
+         type: 'button-dark',
+         onTap: function(){
+           ionic.Platform.exitApp();
+         }
+         },{
+          text: 'UPDATE',
+          type: 'button-positive',
+          onTap: function(){
+            hockeyapp.checkForUpdate();
+          }
+       }]
+     });
+   }
+  } */
 
 })
 
- .config(function (ionicDatePickerProvider) {
-    var datePickerObj = {
-      inputDate: new Date(),
-      titleLabel: 'Select a Date',
-      setLabel: 'Set',
-      //todayLabel: 'Today',
-      closeLabel: 'Close',
-      mondayFirst: false,
-      weeksList: ["S", "M", "T", "W", "T", "F", "S"],
-      monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
-      templateType: 'popup',
-      //from: new Date(1930, 1, 1),
-      //to: new Date()-1,
-      showTodayButton: true,
-      dateFormat: 'dd MMMM yyyy',
-      closeOnSelect: false,
-      disableWeekdays: []
-    };
-    ionicDatePickerProvider.configDatePicker(datePickerObj);
-  })
+.config(function(ionicDatePickerProvider) {
+  var datePickerObj = {
+    inputDate: new Date(),
+    titleLabel: 'Select a Date',
+    setLabel: 'Set',
+    //todayLabel: 'Today',
+    closeLabel: 'Close',
+    mondayFirst: false,
+    weeksList: ["S", "M", "T", "W", "T", "F", "S"],
+    monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+    templateType: 'popup',
+    //from: new Date(1930, 1, 1),
+    //to: new Date()-1,
+    showTodayButton: true,
+    dateFormat: 'dd MMMM yyyy',
+    closeOnSelect: false,
+    disableWeekdays: []
+  };
+  ionicDatePickerProvider.configDatePicker(datePickerObj);
+})
 
 
 
 
 
- 
-.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
-  
-  var jsScrolling = (ionic.Platform.isAndroid() ) ? false : true;
+
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+  var jsScrolling = (ionic.Platform.isAndroid()) ? false : true;
   $ionicConfigProvider.scrolling.jsScrolling(jsScrolling);
   /*$ionicConfigProvider.views.maxCache(0);*/
 
   $stateProvider
 
-  .state('login', {
+    .state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
-    controller:'LoginCtrl'
+    controller: 'LoginCtrl'
   })
 
   .state('registration', {
     url: '/registration',
     templateUrl: 'templates/registration.html',
-    controller:'RegistrationCtrl'
+    controller: 'RegistrationCtrl'
   })
 
   .state('admin_dashboard', {
     url: '/admin_dashboard',
     templateUrl: 'templates/admin_dashboard.html',
-    controller:'AdminDashboardCtrl'
+    controller: 'AdminDashboardCtrl'
   })
 
   .state('emp_dashboard', {
@@ -261,13 +265,13 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     controller: 'ProjectlistCtrl'
   })
 
-   .state('project_timesheet', {
+  .state('project_timesheet', {
     url: '/project_timesheet',
     templateUrl: 'templates/project_timesheet.html',
     controller: 'ProjectlistCtrl'
   })
 
-   .state('createnewproject', {
+  .state('createnewproject', {
     url: '/createnewproject',
     templateUrl: 'templates/createnewproject.html',
     controller: 'ProjectlistCtrl'
@@ -290,7 +294,7 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     url: '/profile',
     templateUrl: 'templates/profile.html',
     controller: 'EmpEmployeelistCtrl'
-  })   
+  })
 
   .state('contacts', {
     url: '/contacts',
@@ -304,40 +308,36 @@ angular.module('starter', ['ionic','ionic-datepicker','ngCordova','login','regis
     controller: 'ContactsCtrl'
   })
 
-   .state('teams', {
+  .state('teams', {
     url: '/teams',
     templateUrl: 'templates/teams.html',
     controller: 'ProjectlistCtrl'
   })
 
-   .state('cost', {
+  .state('cost', {
     url: '/cost',
     templateUrl: 'templates/cost.html',
     controller: 'ProjectlistCtrl'
   })
 
 
-  if(localStorage.length==0){
-      $urlRouterProvider.otherwise('/login');
-   }
-  else if(localStorage.length!=0){
-    if(localStorage.getItem("role")=='Employee'){
-     $urlRouterProvider.otherwise('/emp_dashboard');
-    }else if(localStorage.getItem("role")=='Admin'){
-     $urlRouterProvider.otherwise('/admin_dashboard'); 
-    }  
-  }else{
-    $urlRouterProvider.otherwise('/login');  
+  if (localStorage.length == 0) {
+    $urlRouterProvider.otherwise('/login');
+  } else if (localStorage.length != 0) {
+    if (localStorage.getItem("role") == 'Employee') {
+      $urlRouterProvider.otherwise('/emp_dashboard');
+    } else if (localStorage.getItem("role") == 'Admin') {
+      $urlRouterProvider.otherwise('/admin_dashboard');
+    }
+  } else {
+    $urlRouterProvider.otherwise('/login');
   }
-  
-  
+
+
 })
 
 
-var Baseurl='http://mobcom.altiussolution.com/api/v1/';
+//var Baseurl='http://mobcom.altiussolution.com/api/v1/';
 
-//var Baseurl='http://192.168.1.59:3000/api/v1/';
-var versioncheck="0.0.9"
-
-
-
+var Baseurl = 'http://192.168.1.59:3000/api/v1/';
+var versioncheck = "0.0.3"

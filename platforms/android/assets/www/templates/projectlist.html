@@ -23,7 +23,7 @@
   </div>
   
   <ion-content class="content_back search" padding="true" has-bouncing="false">
-          <div class="list" ng-repeat="x in ProjectDetails | filter:search">
+          <div class="list" ng-repeat="x in ProjectDetails | orderBy:'name' | filter:search">
             <a class="item item-avatar item-icon-right">
               <img src="img/contact.png">
               <h2>{{x.name}}</h2>
@@ -35,9 +35,8 @@
               <i class="icon icon-clr ion-ios-time-outline col col-40" ng-click="timesheet_project(x.id,x.name)">&nbsp;TIMESHEET</i> 
             </a>
           </div>
-          <div ng-show="ProjectDetails.length==0 || (ProjectDetails | filter:search).length==0" style="color:red">
-             <center>No Projects found</center>
+          <div ng-show="ProjectDetails.length==0 || (ProjectDetails | filter:search).length==0" style="color:red;text-align:center;">
+             No Projects found
           </div>
-
   </ion-content>
 </ion-view>
