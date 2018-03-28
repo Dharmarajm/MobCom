@@ -91,15 +91,15 @@
           </tr>
         </thead>
         <tbody>          
-          <tr ng-repeat="x in TimesheetsDetails">
+          <tr ng-repeat="x in TimesheetsDetails | orderBy:'project_name'">
             <td>{{((x.project_name)=='nil') ? 'No Projects' : x.project_name}}</td>            
-            <td ng-class="{approval_status1 : x.approval_status1 }">{{((x.day1)==0) ? 'A' : x.day1}}</td>
-            <td ng-class="{approval_status2 : x.approval_status2 }">{{((x.day2)==0) ? 'A' : x.day2}}</td>
-            <td ng-class="{approval_status3 : x.approval_status3 }">{{((x.day3)==0) ? 'A' : x.day3}}</td>
-            <td ng-class="{approval_status4 : x.approval_status4 }">{{((x.day4)==0) ? 'A' : x.day4}}</td>
-            <td ng-class="{approval_status5 : x.approval_status5 }">{{((x.day5)==0) ? 'A' : x.day5}}</td>
-            <td ng-class="{approval_status6 : x.approval_status6 }">{{((x.day6)==0) ? 'A' : x.day6}}</td>
-            <td ng-class="{approval_status7 : x.approval_status7 }">{{((x.day7)==0) ? 'A' : x.day7}}</td>            
+            <td ng-class="{approval_status1 : x.approval_status1 }">{{( x.attendance_log1 == false) ? 'A' : x.day1}}</td>
+            <td ng-class="{approval_status2 : x.approval_status2 }">{{( x.attendance_log2 == false) ? 'A' : x.day2}}</td>
+            <td ng-class="{approval_status3 : x.approval_status3 }">{{( x.attendance_log3 == false) ? 'A' : x.day3}}</td>
+            <td ng-class="{approval_status4 : x.approval_status4 }">{{( x.attendance_log4 == false) ? 'A' : x.day4}}</td>
+            <td ng-class="{approval_status5 : x.approval_status5 }">{{( x.attendance_log5 == false) ? 'A' : x.day5}}</td>
+            <td ng-class="{approval_status6 : x.approval_status6 }">{{( x.attendance_log6 == false) ? 'A' : x.day6}}</td>
+            <td ng-class="{approval_status7 : x.approval_status7 }">{{( x.attendance_log7 == false) ? 'A' : x.day7}}</td>            
           </tr> 
           <tr style="background-color:#9f9f9f">
             <td>Total</td>            

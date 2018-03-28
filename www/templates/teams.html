@@ -9,7 +9,7 @@
          </div>
   </ion-header-bar>   
   <ion-content class="content_back" padding="true" has-bouncing="false">
-      <div class="list" ng-repeat="team in TeamMember">
+      <div class="list" ng-repeat="team in TeamMember | orderBy:'first_name'">
             <a class="item item-avatar item-icon-right">
               <img src="img/contact.png">
               <h2>{{team.first_name}}</h2>

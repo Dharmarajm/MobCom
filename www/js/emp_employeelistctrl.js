@@ -22,7 +22,7 @@ angular.module('emp_employeelist', [])
           if (localStorage.getItem("id") == $scope.EmployeesDetails[i].id) {
             if ($scope.EmployeesDetails[i].image.url == null || $scope.EmployeesDetails[i].image.url == undefined || $scope.EmployeesDetails[i].image.url == "") {
               $scope.ImageUrl = '';
-              $scope.getlocalurl='img/blank-profile-picture.png';
+              /*$scope.getlocalurl='img/blank-profile-picture.png';*/
             } else {
               $scope.ImageUrl = $scope.EmployeesDetails[i].image.url;
 
@@ -122,8 +122,22 @@ angular.module('emp_employeelist', [])
                     }
                   }).success(function(response){
                     if(response.attendance_log=='Absent'){
-                      alert("Selected date is already absent")
+                      var alertPopupdate1= $ionicPopup.alert({
+                      title: "MobCom",
+                      content: "Selected date is already absent"
+                      })
                       $scope.datepic=true;
+                      $scope.timesheet.projectnametype='';
+                      $scope.timesheet.hours='';
+                    }else if(response.attendance_log=='Data Incorrect'){
+                      var alertPopupdate2= $ionicPopup.alert({
+                      title: "MobCom",
+                      content: "Selected date have incorrect data"
+                      })
+                      $scope.datepic=true;
+                      $scope.timesheet.projectnametype='';
+                      $scope.timesheet.hours='';
+                    
                     }else{
                       $scope.datepic=false;
                     }
@@ -134,7 +148,6 @@ angular.module('emp_employeelist', [])
               };
 
               $scope.openDatePicker = function() {
-                $scope.datepic=false;
                 ionicDatePicker.openDatePicker(ipObj1);
               };
             } else {
@@ -152,8 +165,22 @@ angular.module('emp_employeelist', [])
                     }
                   }).success(function(response){
                     if(response.attendance_log=='Absent'){
-                      alert("Selected date is already absent")
+                      var alertPopupdate3= $ionicPopup.alert({
+                      title: "MobCom",
+                      content: "Selected date is already absent"
+                      })
                       $scope.datepic=true;
+                      $scope.timesheet.projectnametype='';
+                      $scope.timesheet.hours='';
+                    }else if(response.attendance_log=='Data Incorrect'){
+                      var alertPopupdate4= $ionicPopup.alert({
+                      title: "MobCom",
+                      content: "Selected date have incorrect data"
+                      })
+                      $scope.datepic=true;
+                      $scope.timesheet.projectnametype='';
+                      $scope.timesheet.hours='';
+                    
                     }else{
                       $scope.datepic=false;
                     }

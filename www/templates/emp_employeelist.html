@@ -21,9 +21,9 @@
 
   <ion-content class="content_back search" padding="true" has-bouncing="false">
    
-          <div class="list" ng-repeat="emp in EmployeesDetails | filter:search">
+          <div class="list" ng-repeat="emp in EmployeesDetails | orderBy:'first_name' | filter:search">
             <a class="item item-avatar item-icon-right">
-              <img src="{{getlocalurl}}{{ImageUrl}}">
+              <img src="{{emp.image.url!=undefined ? getlocalurl : 'img/blank-profile-picture.png'}}{{emp.image.url}}">
                           
               <h2>{{emp.first_name}}</h2>
               <p>{{emp.designation}}</p>

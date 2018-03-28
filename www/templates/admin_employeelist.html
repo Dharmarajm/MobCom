@@ -27,8 +27,8 @@
            <div class="col col-offset-30 col-30" >
            <li class="item item-toggle" style="background-color:#D8D8D8;">
              
-             <span style="margin-left:-15px;" ng-show="approve_state">Approved Status : UnApproved</span>
-             <span style="margin-left:-15px;" ng-show="!approve_state">Approved Status : All</span>
+             <span style="margin-left:-15px;" ng-show="approve_state">Approval Status : UnApproved</span>
+             <span style="margin-left:-15px;" ng-show="!approve_state">Approval Status : All</span>
             <label class="toggle toggle-balanced">
              <input type="checkbox" ng-model="approve_state" ng-change="checkStatus(approve_state)">
              <div class="track">
@@ -38,7 +38,7 @@
            </li>
            </div>
           </div>
-          <div class="list" ng-repeat="emp in EmployeesDetails | filter:approve | filter:search">
+          <div class="list" ng-repeat="emp in EmployeesDetails | orderBy:'first_name'  | filter:approve | filter:search">
             <div class="item item-avatar item-icon-right">
               <img src="img/contact.png">
               <h2>{{emp.first_name}}</h2>

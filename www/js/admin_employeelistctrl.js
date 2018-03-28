@@ -5,7 +5,23 @@ angular.module('admin_employeelist', [])
   $rootScope.EmployeeID = localStorage.getItem("id")
   $scope.AuthToken = localStorage.getItem("auth_token")
 
-  $scope.approve_state = false;
+  var status=localStorage.getItem("Boolean")
+
+  if(status == 'false'){
+    $scope.approve_state = false;
+    $scope.approve = "";
+  }
+  else if(status == 'true'){
+    $scope.approve_state = true;
+    $scope.approve = false;
+  }
+  else
+  {
+    $scope.approve_state = false; 
+    $scope.approve="";
+  }
+      
+  
 
   $ionicLoading.show({
     content: 'Loading',
@@ -55,12 +71,16 @@ angular.module('admin_employeelist', [])
     $scope.$broadcast('scroll.refreshComplete');
   }*/
 
-  $scope.approve="";
+  
   $scope.checkStatus = function(approve_state) {
     if (approve_state == true) {
       $scope.approve =false;
+      localStorage.setItem("Boolean", approve_state)
+      localStorage.setItem("appr", $scope.approve)
     } else {
       $scope.approve = "";
+      localStorage.setItem("Boolean", approve_state)
+      localStorage.setItem("appr", $scope.approve)
     }
   }
 
@@ -107,7 +127,6 @@ angular.module('admin_employeelist', [])
   $scope.MultiSelected = function(selectedValues) {
     var chckdata = false;
     for (var i in $scope.selectProject) {
-      console.log($scope.selectProject[i].selected)
       if ($scope.selectProject[i].id == selectedValues.id) {
         chckdata = true;
         $scope.selectProject.splice(i, 1)
@@ -121,7 +140,6 @@ angular.module('admin_employeelist', [])
 
       })
     }
-    console.log($scope.selectProject)
   }
 
   $scope.getOptionsSelected = function(options, valueProperty, selectedProperty) {
@@ -179,7 +197,6 @@ angular.module('admin_employeelist', [])
       }
     }).success(function(response) {
       $scope.Timesheets = response.date;
-      console.log(response)
       if ($scope.Timesheets != undefined) {
         $scope.FromDate = $scope.Timesheets.from_date;
         $scope.ToDate = $scope.Timesheets.to_date;
@@ -188,21 +205,10 @@ angular.module('admin_employeelist', [])
         $scope.TimesheetsDetl = response.time_sheet;
 
         /*New code Begins here*/
-        $scope.TimesheetsDetails = [];
-        if ($scope.TimesheetsDetl.length > 1) {
-          $scope.TimesheetsDetails = [];
-          for (var i = 0; i < $scope.TimesheetsDetl.length; i++) {
-            if ($scope.TimesheetsDetl[i].project_name != 'nil') {
-              $scope.TimesheetsDetails.push($scope.TimesheetsDetl[i]);
-            }
-          }
-        } else {
-          console.log($scope.TimesheetsDetails)
           $scope.TimesheetsDetails = [];
           for (var i = 0; i < $scope.TimesheetsDetl.length; i++) {
             $scope.TimesheetsDetails.push($scope.TimesheetsDetl[i]);
           }
-        }
 
         /*End here*/
       }else{
@@ -223,35 +229,34 @@ angular.module('admin_employeelist', [])
       if ($scope.TimesheetsDetails != undefined) {
         for (var i = 0; i < $scope.TimesheetsDetails.length; i++) {
 
-          if ($scope.TimesheetsDetails[i].day1 != undefined && $scope.TimesheetsDetails[i].day1 != "" && $scope.TimesheetsDetails[i].day1 != null) {
+          if ($scope.TimesheetsDetails[i].day1 != undefined && $scope.TimesheetsDetails[i].day1 != "" && $scope.TimesheetsDetails[i].day1 != null || $scope.TimesheetsDetails[i].day1 ==0) {
             $scope.Day1 += $scope.TimesheetsDetails[i].day1;
             $scope.ID.push($scope.TimesheetsDetails[i].id1);
           }
-          if ($scope.TimesheetsDetails[i].day2 != undefined && $scope.TimesheetsDetails[i].day2 != "" && $scope.TimesheetsDetails[i].day2 != null) {
+          if ($scope.TimesheetsDetails[i].day2 != undefined && $scope.TimesheetsDetails[i].day2 != "" && $scope.TimesheetsDetails[i].day2 != null || $scope.TimesheetsDetails[i].day2 ==0) {
             $scope.Day2 += $scope.TimesheetsDetails[i].day2;
             $scope.ID.push($scope.TimesheetsDetails[i].id2);
           }
-          if ($scope.TimesheetsDetails[i].day3 != undefined && $scope.TimesheetsDetails[i].day3 != "" && $scope.TimesheetsDetails[i].day3 != null) {
+          if ($scope.TimesheetsDetails[i].day3 != undefined && $scope.TimesheetsDetails[i].day3 != "" && $scope.TimesheetsDetails[i].day3 != null || $scope.TimesheetsDetails[i].day3 ==0) {
             $scope.Day3 += $scope.TimesheetsDetails[i].day3;
             $scope.ID.push($scope.TimesheetsDetails[i].id3);
           }
-          if ($scope.TimesheetsDetails[i].day4 != undefined && $scope.TimesheetsDetails[i].day4 != "" && $scope.TimesheetsDetails[i].day4 != null) {
+          if ($scope.TimesheetsDetails[i].day4 != undefined && $scope.TimesheetsDetails[i].day4 != "" && $scope.TimesheetsDetails[i].day4 != null || $scope.TimesheetsDetails[i].day4 ==0) {
             $scope.Day4 += $scope.TimesheetsDetails[i].day4;
             $scope.ID.push($scope.TimesheetsDetails[i].id4);
           }
-          if ($scope.TimesheetsDetails[i].day5 != undefined && $scope.TimesheetsDetails[i].day5 != "" && $scope.TimesheetsDetails[i].day5 != null) {
+          if ($scope.TimesheetsDetails[i].day5 != undefined && $scope.TimesheetsDetails[i].day5 != "" && $scope.TimesheetsDetails[i].day5 != null || $scope.TimesheetsDetails[i].day5 ==0) {
             $scope.Day5 += $scope.TimesheetsDetails[i].day5;
             $scope.ID.push($scope.TimesheetsDetails[i].id5);
           }
-          if ($scope.TimesheetsDetails[i].day6 != undefined && $scope.TimesheetsDetails[i].day6 != "" && $scope.TimesheetsDetails[i].day6 != null) {
+          if ($scope.TimesheetsDetails[i].day6 != undefined && $scope.TimesheetsDetails[i].day6 != "" && $scope.TimesheetsDetails[i].day6 != null || $scope.TimesheetsDetails[i].day6 ==0) {
             $scope.Day6 += $scope.TimesheetsDetails[i].day6;
             $scope.ID.push($scope.TimesheetsDetails[i].id6);
           }
-          if ($scope.TimesheetsDetails[i].day7 != undefined && $scope.TimesheetsDetails[i].day7 != "" && $scope.TimesheetsDetails[i].day7 != null) {
+          if ($scope.TimesheetsDetails[i].day7 != undefined && $scope.TimesheetsDetails[i].day7 != "" && $scope.TimesheetsDetails[i].day7 != null || $scope.TimesheetsDetails[i].day7 ==0) {
             $scope.Day7 += $scope.TimesheetsDetails[i].day7;
             $scope.ID.push($scope.TimesheetsDetails[i].id7);
           }
-
           if (($scope.TimesheetsDetails[i].approval_status1 == false && $scope.TimesheetsDetails[i].approval_status1 != undefined) || ($scope.TimesheetsDetails[i].approval_status2 == false && $scope.TimesheetsDetails[i].approval_status2 != undefined) || ($scope.TimesheetsDetails[i].approval_status3 == false && $scope.TimesheetsDetails[i].approval_status3 != undefined) || ($scope.TimesheetsDetails[i].approval_status4 == false && $scope.TimesheetsDetails[i].approval_status4 != undefined) || ($scope.TimesheetsDetails[i].approval_status5 == false && $scope.TimesheetsDetails[i].approval_status5 != undefined) || ($scope.TimesheetsDetails[i].approval_status6 == false && $scope.TimesheetsDetails[i].approval_status6 != undefined) || ($scope.TimesheetsDetails[i].approval_status7 == false && $scope.TimesheetsDetails[i].approval_status7 != undefined)) {
             $scope.showApprove.push("Not Approval");
           } else {
@@ -444,11 +449,8 @@ angular.module('admin_employeelist', [])
 
   $scope.Approval = function() {
     if ($scope.ID.length == 0) {
-      var alertPopupProApprove = $ionicPopup.alert({
-        title: "MobCom",
-        content: "No Data Found"
-      })
-    } else {
+      $scope.ID=null;
+    } 
       $http.get(Baseurl + 'time_sheets/time_approval_status?id=' + $scope.ID + "&app_version=" + versioncheck, {
           headers: {
             "Authorization": "Token token=" + $scope.AuthToken
@@ -473,7 +475,7 @@ angular.module('admin_employeelist', [])
             });*/
 
         })
-    }
+    
   }
 
 
