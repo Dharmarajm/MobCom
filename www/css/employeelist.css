@@ -36,6 +36,16 @@
     text-overflow: ellipsis; */
 }
 
+.titletext1{
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    font-size: 17px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis; 
+}
+
 
 .button-danger {
     background-color: #074F89 !important;

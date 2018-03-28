@@ -45,6 +45,16 @@
     font-size: 15pt; 
 }
 
+.titletext1{
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    font-size: 17px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis; 
+}
+
 .bg-color{
   background-color: #074F89;
   color: #fff;

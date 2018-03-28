@@ -21,15 +21,15 @@
             <tbody>         
               <tr ng-repeat="x in costs">
                 <td>{{x.name}}</td>
-                <td>{{x.ctc}}</td>
-                <td>{{x.hours}}</td>
-                <td>{{x.amount}}</td>            
+                <td style="text-align:right;">{{x.ctc}}</td>
+                <td style="text-align:right;">{{x.hours}}</td>
+                <td style="text-align:right;">{{x.amount}}</td>            
               </tr>
               <tr style="background-color:#9f9f9f">
                <td>Total</td>
-               <td>{{total_ctc}}</td>
-               <td>{{total_hr}}</td>
-               <td>{{total_amt}}</td>
+               <td style="text-align:right;">{{total_ctc}}</td>
+               <td style="text-align:right;">{{total_hr}}</td>
+               <td style="text-align:right;">{{total_amt}}</td>
               </tr>
             </tbody>
       </table>

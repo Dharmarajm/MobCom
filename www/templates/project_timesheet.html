@@ -4,7 +4,7 @@
 <ion-header-bar>
          <div class="row">   
              <div class="col col-10" ng-click="costback()"><i class="button-icon ion-android-arrow-back close"></i></div>          
-             <div class="col col-80" > <p class="titletext">{{Projectname}} - Time Sheet</p></div>
+             <div class="col col-80" > <p class="titletext1">{{Projectname}} - Time Sheet</p></div>
              <div class="col col-10"><i class="button-icon ion-log-out close" ng-click="logout()"></i></div>
          </div>
   </ion-header-bar>   
@@ -40,7 +40,7 @@
         <tbody>          
           <tr ng-repeat="x in TimesheetsDetails">
             <td>{{x.employee_name }}</td>
-            <td ng-class="{'colo' : data.approval_status==true }" ng-repeat="data in x.data">
+            <td ng-class="{'colo' : data.approval_status==true}" ng-repeat="data in x.data">
             <i ng-show="data.hours == 0 && data.attendance_log == false">A</i>
             <i ng-show="data.hours != 0 && data.attendance_log !=false">{{data.hours}}</i></td>
             <!-- <td ng-class="{'colo' : x.approval_status2==true }" >{{((x.day2)==0) ? 'A' : x.day2}}</td>

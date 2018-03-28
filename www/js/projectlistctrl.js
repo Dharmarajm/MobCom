@@ -49,12 +49,19 @@ angular.module('projectlist', [])
         $rootScope.total_ctc = 0;
         $rootScope.total_hr = 0;
         $rootScope.total_amt = 0;
-        $rootScope.costs = response;
-        for (var i in response) {
-          $rootScope.total_ctc += response[i].ctc;
+        $rootScope.costs = [];
+        
+        for(var i in response){
+          var hrs=(response[i].ctc/24)/8;
+          var amount=Math.round(hrs*response[i].hours);
+          $rootScope.costs.push({name:response[i].name,ctc:response[i].ctc,hours:response[i].hours,amount:amount})
+          console.log(response[i])
+        }
+        for (var i in $rootScope.costs) {
+          $rootScope.total_ctc += $rootScope.costs[i].ctc;
 
-          $rootScope.total_hr += response[i].hours;
-          $rootScope.total_amt += response[i].amount;
+          $rootScope.total_hr += $rootScope.costs[i].hours;
+          $rootScope.total_amt += Math.round($rootScope.costs[i].amount);
         }
 
 
