@@ -8,7 +8,28 @@ angular.module('emp_employeelist', [])
     $scope.AuthToken = localStorage.getItem("auth_token")
     $scope.getlocalurl = "http://mobcom.altiussolution.com"
 
-    $http.get(Baseurl + 'employees?app_version=' + versioncheck, {
+    $scope.employtimesheet=function(){
+      $http.get(Baseurl + 'employees/assigned_project?employee_id=' + $rootScope.EmployeeID_timesheet + "&app_version=" + versioncheck, {
+        headers: {
+          "Authorization": "Token token=" + $scope.AuthToken
+        }
+      })
+      .success(function(response) {
+        $scope.ProjectDetails = response;
+        $scope.projectnameside = $scope.ProjectDetails;
+        $scope.projectname = function(objs) {
+          if (objs != null) {
+            $scope.projectnametype = objs.id;
+            $scope.project_name = objs.name;
+          } else {
+            $scope.projectnametype = null;
+          }
+        }
+      })
+    } 
+
+    $scope.employlist=function(){
+       $http.get(Baseurl + 'employees?app_version=' + versioncheck, {
         headers: {
           "Authorization": "Token token=" + $scope.AuthToken
         }
@@ -29,31 +50,13 @@ angular.module('emp_employeelist', [])
             }
           }
         }
-      })
-
-    $http.get(Baseurl + 'employees/assigned_project?employee_id=' + $rootScope.EmployeeID_timesheet + "&app_version=" + versioncheck, {
-        headers: {
-          "Authorization": "Token token=" + $scope.AuthToken
-        }
-      })
-      .success(function(response) {
-        $scope.ProjectDetails = response;
-        $scope.projectnameside = $scope.ProjectDetails;
-        $scope.projectname = function(objs) {
-          if (objs != null) {
-            $scope.projectnametype = objs.id;
-            $scope.project_name = objs.name;
-          } else {
-            $scope.projectnametype = null;
-          }
-
-        }
-      })
+      })  
+    }  
 
     $scope.WeekStatus = 'current';
 
-    $scope.week=0; 
-    
+    $scope.week = 0;
+
     $scope.Previous = function(Previous) {
       $scope.week++;
       $scope.WeekStatus = Previous;
@@ -67,7 +70,7 @@ angular.module('emp_employeelist', [])
     }
 
     $scope.Current = function(Current) {
-       $scope.week=0;
+      $scope.week = 0;
       $scope.WeekStatus = Current;
       $scope.Timesheetcal($scope.WeekStatus);
     }
@@ -87,19 +90,19 @@ angular.module('emp_employeelist', [])
       $scope.Day5 = 0;
       $scope.Day6 = 0;
       $scope.Day7 = 0;
-      $http.get(Baseurl + 'time_sheets/employee_time_sheet?employee_id=' + $rootScope.EmployeeID_timesheet + '&date=' + $scope.WeekStatus + "&app_version=" + versioncheck + "&period="+$scope.week, {
+      $http.get(Baseurl + 'time_sheets/employee_time_sheet?employee_id=' + $rootScope.EmployeeID_timesheet + '&date=' + $scope.WeekStatus + "&app_version=" + versioncheck + "&period=" + $scope.week, {
           headers: {
             "Authorization": "Token token=" + $scope.AuthToken
           }
         })
         .success(function(response) {
-          
+
           $scope.Timesheets = response[0];
           $scope.TimesheetsDetails = response[1];
-          if($scope.Timesheets!=undefined){
-           var setdate=$scope.Timesheets.date_range.split("..")
-           $scope.FromDate = setdate[0];
-           $scope.ToDate = setdate[1];
+          if ($scope.Timesheets != undefined) {
+            var setdate = $scope.Timesheets.date_range.split("..")
+            $scope.FromDate = setdate[0];
+            $scope.ToDate = setdate[1];
 
             $scope.Dates_Record = [];
             for (var i = 0; i < 7; i++) {
@@ -118,34 +121,32 @@ angular.module('emp_employeelist', [])
                 inputDate: new Date(),
                 callback: function(val) { //Mandatory 
                   $scope.timesheet.selectdate = $filter('date')(val, "dd-MM-yyyy");
-                  $http.get(Baseurl + 'is_absent?date='+$scope.timesheet.selectdate+'&employee_id=' + $rootScope.EmployeeID_timesheet + "&app_version=" + versioncheck, {
-                  headers: {
-                    "Authorization": "Token token=" + $scope.AuthToken
+                  $http.get(Baseurl + 'is_absent?date=' + $scope.timesheet.selectdate + '&employee_id=' + $rootScope.EmployeeID_timesheet + "&app_version=" + versioncheck, {
+                    headers: {
+                      "Authorization": "Token token=" + $scope.AuthToken
                     }
-                  }).success(function(response){
-                    if(response.attendance_log=='Absent'){
-                      var alertPopupdate1= $ionicPopup.alert({
-                      title: "MobCom",
-                      content: "Selected date is already absent"
+                  }).success(function(response) {
+                    if (response.attendance_log == 'Absent') {
+                      var alertPopupdate1 = $ionicPopup.alert({
+                        title: "MobCom",
+                        content: "Selected date is already absent"
                       })
-                      $scope.datepic=true;
-                      $scope.timesheet.projectnametype='';
-                      $scope.timesheet.hours='';
-                    }else if(response.attendance_log=='Data Incorrect'){
-                      var alertPopupdate2= $ionicPopup.alert({
-                      title: "MobCom",
-                      content: "Selected date is already absent"
+                      $scope.datepic = true;
+                      $scope.timesheet.projectnametype = '';
+                      $scope.timesheet.hours = '';
+                    } else if (response.attendance_log == 'Data Incorrect') {
+                      var alertPopupdate2 = $ionicPopup.alert({
+                        title: "MobCom",
+                        content: "Selected date is already absent"
                       })
-                      $scope.datepic=true;
-                      $scope.timesheet.projectnametype='';
-                      $scope.timesheet.hours='';
-                    
-                    }else{
-                      $scope.datepic=false;
+                      $scope.datepic = true;
+                      $scope.timesheet.projectnametype = '';
+                      $scope.timesheet.hours = '';
+
+                    } else {
+                      $scope.datepic = false;
                     }
                   })
-                  /*$scope.hours_cal();*/
-
                 },
               };
 
@@ -161,33 +162,32 @@ angular.module('emp_employeelist', [])
                 inputDate: $scope.start,
                 callback: function(val) { //Mandatory 
                   $scope.timesheet.selectdate = $filter('date')(val, "dd-MM-yyyy");
-                  $http.get(Baseurl + 'is_absent?date='+$scope.timesheet.selectdate+'&employee_id=' + $rootScope.EmployeeID_timesheet + "&app_version=" + versioncheck, {
-                  headers: {
-                    "Authorization": "Token token=" + $scope.AuthToken
+                  $http.get(Baseurl + 'is_absent?date=' + $scope.timesheet.selectdate + '&employee_id=' + $rootScope.EmployeeID_timesheet + "&app_version=" + versioncheck, {
+                    headers: {
+                      "Authorization": "Token token=" + $scope.AuthToken
                     }
-                  }).success(function(response){
-                    if(response.attendance_log=='Absent'){
-                      var alertPopupdate3= $ionicPopup.alert({
-                      title: "MobCom",
-                      content: "Selected date is already absent"
+                  }).success(function(response) {
+                    if (response.attendance_log == 'Absent') {
+                      var alertPopupdate3 = $ionicPopup.alert({
+                        title: "MobCom",
+                        content: "Selected date is already absent"
                       })
-                      $scope.datepic=true;
-                      $scope.timesheet.projectnametype='';
-                      $scope.timesheet.hours='';
-                    }else if(response.attendance_log=='Data Incorrect'){
-                      var alertPopupdate4= $ionicPopup.alert({
-                      title: "MobCom",
-                      content: "Selected date is already absent"
+                      $scope.datepic = true;
+                      $scope.timesheet.projectnametype = '';
+                      $scope.timesheet.hours = '';
+                    } else if (response.attendance_log == 'Data Incorrect') {
+                      var alertPopupdate4 = $ionicPopup.alert({
+                        title: "MobCom",
+                        content: "Selected date is already absent"
                       })
-                      $scope.datepic=true;
-                      $scope.timesheet.projectnametype='';
-                      $scope.timesheet.hours='';
-                    
-                    }else{
-                      $scope.datepic=false;
+                      $scope.datepic = true;
+                      $scope.timesheet.projectnametype = '';
+                      $scope.timesheet.hours = '';
+
+                    } else {
+                      $scope.datepic = false;
                     }
                   })
-                  /*$scope.hours_cal();*/
                   $scope.isDisabled = true;
                 },
               };
@@ -196,7 +196,7 @@ angular.module('emp_employeelist', [])
                 ionicDatePicker.openDatePicker(ipObj1);
               };
             }
-           } 
+          }
 
           $scope.Day1 = 0;
           $scope.Day2 = 0;
@@ -206,40 +206,34 @@ angular.module('emp_employeelist', [])
           $scope.Day6 = 0;
           $scope.Day7 = 0;
 
-          if($scope.TimesheetsDetails.length!=0){
-           for(var i in $scope.TimesheetsDetails){
-            for(var j in $scope.TimesheetsDetails[i].data){
-             if($scope.TimesheetsDetails[i].data[j].day == "Sun"){
-               $scope.Day1 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Mon"){
-               $scope.Day2 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Tue"){
-               $scope.Day3 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Wed"){
-               $scope.Day4 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Thu"){
-               $scope.Day5 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Fri"){
-               $scope.Day6 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Sat"){
-               $scope.Day7 += $scope.TimesheetsDetails[i].data[j].hours
-             }
+          if ($scope.TimesheetsDetails.length != 0) {
+            for (var i in $scope.TimesheetsDetails) {
+              for (var j in $scope.TimesheetsDetails[i].data) {
+                if ($scope.TimesheetsDetails[i].data[j].day == "Sun") {
+                  $scope.Day1 += $scope.TimesheetsDetails[i].data[j].hours
+                } else if ($scope.TimesheetsDetails[i].data[j].day == "Mon") {
+                  $scope.Day2 += $scope.TimesheetsDetails[i].data[j].hours
+                } else if ($scope.TimesheetsDetails[i].data[j].day == "Tue") {
+                  $scope.Day3 += $scope.TimesheetsDetails[i].data[j].hours
+                } else if ($scope.TimesheetsDetails[i].data[j].day == "Wed") {
+                  $scope.Day4 += $scope.TimesheetsDetails[i].data[j].hours
+                } else if ($scope.TimesheetsDetails[i].data[j].day == "Thu") {
+                  $scope.Day5 += $scope.TimesheetsDetails[i].data[j].hours
+                } else if ($scope.TimesheetsDetails[i].data[j].day == "Fri") {
+                  $scope.Day6 += $scope.TimesheetsDetails[i].data[j].hours
+                } else if ($scope.TimesheetsDetails[i].data[j].day == "Sat") {
+                  $scope.Day7 += $scope.TimesheetsDetails[i].data[j].hours
+                }
+              }
             }
-           }
-          }else{
-             $scope.TimesheetsDetails=[];
+          } else {
+            $scope.TimesheetsDetails = [];
           }
-      })
+        })
 
     }
 
-    
+
 
     $scope.hoursempty = function(project) {
       if (project == "" || project == null || project == undefined) {
@@ -321,29 +315,6 @@ angular.module('emp_employeelist', [])
     }
 
     $scope.timesheetcreate = function() {
-      /*
-         if($scope.timesheet.selectdate == undefined || $scope.selectdate=="" || $scope.selectdate==null){
-           var alertPopuptimedate= $ionicPopup.alert({
-           title: "MobCom",
-           content: "Please select the date"
-           })
-         }else if($scope.timesheet.projectnametype == undefined || $scope.projectnametype=="" || $scope.projectnametype==null){
-           var alertPopuptimepro= $ionicPopup.alert({
-           title: "MobCom",
-           content: "Please select the project name"
-           })
-         }
-         else if($scope.timesheet.hours==undefined || $scope.hours==null || $scope.hours==""){
-           var alertPopuptimehour= $ionicPopup.alert({
-           title: "MobCom",
-           content: "Please enter the hours"
-           })
-         }else if($scope.hours>24 || $scope.hours<0){
-           var alertPopuptimehour2= $ionicPopup.alert({
-           title: "MobCom",
-           content: "Please select the valid hours"
-           })
-         }else{*/
 
       $scope.timeCreate = [];
       for (var i in $scope.LocalData) {
@@ -359,92 +330,64 @@ angular.module('emp_employeelist', [])
         "data": $scope.timeCreate
       };
       $http({
-          method: 'post',
-          url: Baseurl + "time_sheets?app_version=" + versioncheck,
-          data: data,
-          headers: {
-            "Authorization": "Token token=" + $scope.AuthToken
+        method: 'post',
+        url: Baseurl + "time_sheets?app_version=" + versioncheck,
+        data: data,
+        headers: {
+          "Authorization": "Token token=" + $scope.AuthToken
+        }
+      }).then(function(response) {
+        $scope.hour_values = 24;
+        $scope.show = 2;
+        $scope.getApproveData = [];
+        for (var i in response.data) {
+          if (response.data[i].approval_status == true) {
+            $scope.getApproveData.push($scope.LocalData[i].project_name);
+          } else {
+            $scope.getApproveData = [];
           }
-        }).then(function(response) {
-          $scope.hour_values = 24;
-          $scope.show = 2;
-          $scope.getApproveData = [];
-          for (var i in response.data) {
-            if (response.data[i].approval_status == true) {
-              $scope.getApproveData.push($scope.LocalData[i].project_name);
-            } else {
-              $scope.getApproveData = [];
-            }
-          }
-          if ($scope.getApproveData.length == 0) {
-            var alertPopuptimesheet1 = $ionicPopup.alert({
-              template: "Timesheet has been created",
-              title: "MobCom",
-              buttons: [{
-                text: 'OK',
-                type: 'button-positive',
-                onTap: function(e) {
-                  $scope.LocalData = []
-                  $scope.Timesheetcal($scope.WeekStatus)
-                }
-              }]
-            })
-            $scope.LocalData = []
-            $scope.Timesheetcal($scope.WeekStatus)
-          }
+        }
+        if ($scope.getApproveData.length == 0) {
+          var alertPopuptimesheet1 = $ionicPopup.alert({
+            template: "Timesheet has been created",
+            title: "MobCom",
+            buttons: [{
+              text: 'OK',
+              type: 'button-positive',
+              onTap: function(e) {
+                $scope.LocalData = []
+                $scope.Timesheetcal($scope.WeekStatus)
+              }
+            }]
+          })
+          $scope.LocalData = []
+          $scope.Timesheetcal($scope.WeekStatus)
+        }
 
-          if ($scope.getApproveData.length > 0) {
-            var alertPopuptimesheet2 = $ionicPopup.show({
-              template: $scope.getApproveData.toString() + " Approved timesheet couldn't be edited",
-              title: "MobCom",
-              buttons: [{
-                text: 'OK',
-                type: 'button-positive',
-                onTap: function(e) {
-                  $scope.LocalData = []
-                  $scope.Timesheetcal($scope.WeekStatus)
-                }
-              }]
-            })
-            $scope.LocalData = []
-            $scope.Timesheetcal($scope.WeekStatus)
-          }
-          /* alertPopuptimesheet1.then(function(res) {
-            myNullAction();
-           });  */
-        })
-        /*   var alertPopuptimesheet2 = $ionicPopup.show({
-           template: "Timesheet has been updated",
-           title: "MobCom",
-           buttons: [{
-             text: 'OK',
-             type: 'button-positive',
-             onTap: function(e) {
-               $scope.LocalData=[]
-               $scope.Timesheetcal($scope.WeekStatus)
-             }
-           }]
-         })
-         alertPopuptimesheet2.then(function(res) {
-          myNullAction();
-         });*/
+        if ($scope.getApproveData.length > 0) {
+          var alertPopuptimesheet2 = $ionicPopup.show({
+            template: $scope.getApproveData.toString() + " Approved timesheet couldn't be edited",
+            title: "MobCom",
+            buttons: [{
+              text: 'OK',
+              type: 'button-positive',
+              onTap: function(e) {
+                $scope.LocalData = []
+                $scope.Timesheetcal($scope.WeekStatus)
+              }
+            }]
+          })
+          $scope.LocalData = []
+          $scope.Timesheetcal($scope.WeekStatus)
+        }
 
-
-
-
+      })
 
     }
 
 
-    /*var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
-      return; // do nothing
-    }, 401);         */
-
-
-
 
     $scope.empback = function() {
-      //$state.go("emp_dashboard");
       $ionicHistory.goBack();
     }
 
@@ -701,16 +644,3 @@ angular.module('emp_employeelist', [])
     }
 
   })
-
-
-/*.filter('range', function() {
-  return function(input, total) {
-    total = parseInt(total);
-
-    for (var i=1; i<=total; i++) {
-      input.push(i);
-    }
-
-    return input;
-  };
-})*/

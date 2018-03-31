@@ -36,7 +36,6 @@ angular.module('admin_employeelist', [])
 
 
   $scope.checkStatus = function(approve_state) {
-    console.log(approve_state)
     if (approve_state == true) {
       $scope.approve_state=true;
       $scope.approve = false;

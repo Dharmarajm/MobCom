@@ -4,80 +4,45 @@ angular.module('admin_employeelist', [])
 
   $rootScope.EmployeeID = localStorage.getItem("id")
   $scope.AuthToken = localStorage.getItem("auth_token")
+  
 
-  var status=localStorage.getItem("Boolean")
+  var status = localStorage.getItem("Boolean")
 
-  if(status == 'false'){
+  if (status == 'false') {
+    $scope.approve_state = false;
+    $scope.approve = "";
+  } else if (status == 'true') {
+    $scope.approve_state = true;
+    $scope.approve = false;
+  } else {
     $scope.approve_state = false;
     $scope.approve = "";
   }
-  else if(status == 'true'){
-    $scope.approve_state = true;
-    $scope.approve = false;
-  }
-  else
-  {
-    $scope.approve_state = false; 
-    $scope.approve="";
-  }
-      
-  
 
-  $ionicLoading.show({
-    content: 'Loading',
-    animation: 'fade-in',
-    showBackdrop: true,
-    maxWidth: 200,
-    showDelay: 0
-  });
 
-  $http.get(Baseurl + 'employees?app_version=' + versioncheck, {
+  $scope.adminempList=function(){
+    $http.get(Baseurl + 'employees?app_version=' + versioncheck, {
       headers: {
         "Authorization": "Token token=" + $scope.AuthToken
       }
     })
     .success(function(response) {
-      $timeout(function() {
-        $ionicLoading.hide();
-      })
       $scope.EmployeesDetails = response;
     }).error(function(error) {
-      $timeout(function() {
-        $ionicLoading.hide();
-      })
 
-    })
-
-  /*$scope.doRefresh = function() {
-    $scope.approve_state = false;
-    $scope.approve="";
-    $http.get(Baseurl + 'employees?app_version=' + versioncheck, {
-        headers: {
-          "Authorization": "Token token=" + $scope.AuthToken
-        }
-      })
-      .success(function(response) {
-        $timeout(function() {
-          $ionicLoading.hide();
-        })
-        $scope.EmployeesDetails = response;
-        console.log($scope.EmployeesDetails)
-      }).error(function(error) {
-        $timeout(function() {
-          $ionicLoading.hide();
-        })
-      })
-
-    $scope.$broadcast('scroll.refreshComplete');
-  }*/
-
+    })  
+  }
   
+
+
   $scope.checkStatus = function(approve_state) {
     if (approve_state == true) {
-      $scope.approve =false;
+      $scope.approve_state=true;
+      $scope.approve = false;
       localStorage.setItem("Boolean", approve_state)
       localStorage.setItem("appr", $scope.approve)
     } else {
+      $scope.approve_state=false;
       $scope.approve = "";
       localStorage.setItem("Boolean", approve_state)
       localStorage.setItem("appr", $scope.approve)
@@ -98,7 +63,8 @@ angular.module('admin_employeelist', [])
     $state.go("assigntoemp");
   }
 
-  if ($rootScope.EmployeeID_toassign != undefined) {
+  if ($rootScope.EmployeeID_toassign != undefined && $rootScope.EmployeeID_toassign != "" && $rootScope.EmployeeID_toassign !=null && $state.current.name=='assigntoemp') {
+    
     $http.get(Baseurl + 'employees/unassigned_project?employee_id=' + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
       headers: {
         "Authorization": "Token token=" + $scope.AuthToken
@@ -156,22 +122,22 @@ angular.module('admin_employeelist', [])
 
 
   $scope.WeekStatus = 'current';
-  $scope.week=0;
+  $scope.week = 0;
 
   $scope.Previous = function(Previous) {
-    $scope.week++; 
+    $scope.week++;
     $scope.WeekStatus = Previous;
     $scope.Timesheetcal($scope.WeekStatus);
   }
 
   $scope.Next = function(Next) {
-    $scope.week--; 
+    $scope.week--;
     $scope.WeekStatus = Next;
     $scope.Timesheetcal($scope.WeekStatus);
   }
 
   $scope.Current = function(Current) {
-    $scope.week=0; 
+    $scope.week = 0;
     $scope.WeekStatus = Current;
     $scope.Timesheetcal($scope.WeekStatus);
   }
@@ -190,29 +156,29 @@ angular.module('admin_employeelist', [])
     $scope.Day5 = 0;
     $scope.Day6 = 0;
     $scope.Day7 = 0;
-    
-    $http.get(Baseurl + 'time_sheets/employee_time_sheet?employee_id=' + $rootScope.EmployeeID_timesheet + '&date=' + $scope.WeekStatus + '&app_version=' + versioncheck + "&period="+$scope.week, {
+
+    $http.get(Baseurl + 'time_sheets/employee_time_sheet?employee_id=' + $rootScope.EmployeeID_timesheet + '&date=' + $scope.WeekStatus + '&app_version=' + versioncheck + "&period=" + $scope.week, {
       headers: {
         "Authorization": "Token token=" + $scope.AuthToken
       }
     }).success(function(response) {
       $scope.Timesheets = response[0];
-            
-      var setdate=$scope.Timesheets.date_range.split("..")
+
+      var setdate = $scope.Timesheets.date_range.split("..")
       $scope.FromDate = setdate[0];
       $scope.ToDate = setdate[1];
-      
+
       if (response[1].length != 0) {
         $scope.TimesheetsDetl = response[1];
 
         /*New code Begins here*/
-          $scope.TimesheetsDetails = [];
-          for (var i = 0; i < $scope.TimesheetsDetl.length; i++) {
-            $scope.TimesheetsDetails.push($scope.TimesheetsDetl[i]);
-          }
+        $scope.TimesheetsDetails = [];
+        for (var i = 0; i < $scope.TimesheetsDetl.length; i++) {
+          $scope.TimesheetsDetails.push($scope.TimesheetsDetl[i]);
+        }
 
         /*End here*/
-      }else{
+      } else {
         $scope.TimesheetsDetails = [];
       }
 
@@ -224,33 +190,27 @@ angular.module('admin_employeelist', [])
       $scope.Day5 = 0;
       $scope.Day6 = 0;
       $scope.Day7 = 0;
-      
+
       if ($scope.TimesheetsDetails.length != 0) {
-           for(var i in $scope.TimesheetsDetails){
-            for(var j in $scope.TimesheetsDetails[i].data){
-             if($scope.TimesheetsDetails[i].data[j].day == "Sun"){
-               $scope.Day1 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Mon"){
-               $scope.Day2 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Tue"){
-               $scope.Day3 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Wed"){
-               $scope.Day4 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Thu"){
-               $scope.Day5 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Fri"){
-               $scope.Day6 += $scope.TimesheetsDetails[i].data[j].hours
-             }
-             else if($scope.TimesheetsDetails[i].data[j].day == "Sat"){
-               $scope.Day7 += $scope.TimesheetsDetails[i].data[j].hours
-             }
+        for (var i in $scope.TimesheetsDetails) {
+          for (var j in $scope.TimesheetsDetails[i].data) {
+            if ($scope.TimesheetsDetails[i].data[j].day == "Sun") {
+              $scope.Day1 += $scope.TimesheetsDetails[i].data[j].hours
+            } else if ($scope.TimesheetsDetails[i].data[j].day == "Mon") {
+              $scope.Day2 += $scope.TimesheetsDetails[i].data[j].hours
+            } else if ($scope.TimesheetsDetails[i].data[j].day == "Tue") {
+              $scope.Day3 += $scope.TimesheetsDetails[i].data[j].hours
+            } else if ($scope.TimesheetsDetails[i].data[j].day == "Wed") {
+              $scope.Day4 += $scope.TimesheetsDetails[i].data[j].hours
+            } else if ($scope.TimesheetsDetails[i].data[j].day == "Thu") {
+              $scope.Day5 += $scope.TimesheetsDetails[i].data[j].hours
+            } else if ($scope.TimesheetsDetails[i].data[j].day == "Fri") {
+              $scope.Day6 += $scope.TimesheetsDetails[i].data[j].hours
+            } else if ($scope.TimesheetsDetails[i].data[j].day == "Sat") {
+              $scope.Day7 += $scope.TimesheetsDetails[i].data[j].hours
             }
-           }
+          }
+        }
       }
 
     })
@@ -266,9 +226,7 @@ angular.module('admin_employeelist', [])
         content: "Please select the project name"
       })
     } else {
-      /*$scope.selectProject=[];*/
       for (var i in $scope.selectProject) {
-        /*$scope.selectProject.push($rootScope.optionsSelect[i].id)*/
         $http.get(Baseurl + 'employees/project_assign?project_id=' + $scope.selectProject[i].id + "&employee_id=" + $rootScope.EmployeeID_toassign + '&app_version=' + versioncheck, {
             headers: {
               "Authorization": "Token token=" + $scope.AuthToken
@@ -430,32 +388,28 @@ angular.module('admin_employeelist', [])
 
 
   $scope.Approval = function() {
-    
-      $http.get(Baseurl + 'time_sheets/time_approval_status?employee_id=' + $rootScope.EmployeeID_timesheet + '&date=' + $scope.WeekStatus + '&app_version=' + versioncheck + "&period="+$scope.week, {
-          headers: {
-            "Authorization": "Token token=" + $scope.AuthToken
-          }
-        })
-        .success(function(response) {
 
-          var alertPopupAppSuccess = $ionicPopup.alert({
-            template: $rootScope.EmployeeName + " timesheet has been approved",
-            title: "MobCom",
-            buttons: [{
-              text: 'OK',
-              type: 'button-positive',
-              onTap: function(e) {
-                $scope.Timesheetcal($scope.WeekStatus)
-              }
-            }]
-          })
-          $scope.Timesheetcal($scope.WeekStatus)
-            /*alertPopupAppSuccess.then(function(res) {
-             myNullAction();
-            });*/
+    $http.get(Baseurl + 'time_sheets/time_approval_status?employee_id=' + $rootScope.EmployeeID_timesheet + '&date=' + $scope.WeekStatus + '&app_version=' + versioncheck + "&period=" + $scope.week, {
+        headers: {
+          "Authorization": "Token token=" + $scope.AuthToken
+        }
+      })
+      .success(function(response) {
 
+        var alertPopupAppSuccess = $ionicPopup.alert({
+          template: $rootScope.EmployeeName + " timesheet has been approved",
+          title: "MobCom",
+          buttons: [{
+            text: 'OK',
+            type: 'button-positive',
+            onTap: function(e) {
+              $scope.Timesheetcal($scope.WeekStatus)
+            }
+          }]
         })
-    
+        $scope.Timesheetcal($scope.WeekStatus)
+      })
+
   }
 
 

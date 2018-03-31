@@ -8,10 +8,13 @@ angular.module('projectlist', [])
   var status = localStorage.getItem("BooleanAssign")
 
   if (status == 'false') {
+    $scope.approve_state = false;
     $scope.assign = false;
   } else if (status == 'true') {
+    $scope.approve_state = '';
     $scope.assign = true;
   } else {
+    $scope.approve_state = '';
     $scope.assign = true;
   }
 
@@ -35,11 +38,12 @@ angular.module('projectlist', [])
   }
   
   $scope.checkStatus = function(approve_state) {
-    console.log(approve_state)
     if (approve_state == false) {
+      $scope.approve_state = false;
       $scope.assign = false;
       localStorage.setItem("BooleanAssign", $scope.assign)
     } else {
+      $scope.approve_state = '';
       $scope.assign = true;
       localStorage.setItem("BooleanAssign", $scope.assign)
     }
@@ -85,12 +89,23 @@ angular.module('projectlist', [])
   }
 
   $rootScope.projectlist = function() {
+    $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+      });
+
     $http.get(Baseurl + 'projects?app_version=' + versioncheck, {
         headers: {
           "Authorization": "Token token=" + $scope.AuthToken
         }
       })
       .success(function(response) {
+        $timeout(function() {
+            $ionicLoading.hide();
+          })
         $scope.ProjectDetails = response;
       })
   }
@@ -368,14 +383,6 @@ angular.module('projectlist', [])
   }
 
 
-  $ionicModal.fromTemplateUrl("templates/my-modal.html", {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal;
-    return modal;
-  });
-
   $scope.teamMode = {
     response: ""
   };
@@ -384,6 +391,15 @@ angular.module('projectlist', [])
     $scope.teamMode = {
       response: ""
     };
+
+    $ionicModal.fromTemplateUrl("my-modal.html", {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      return modal;
+    });
+  
     $scope.mNumber = mobile_number;
     $scope.selectedId = id;
     $scope.nameOpen = pname;

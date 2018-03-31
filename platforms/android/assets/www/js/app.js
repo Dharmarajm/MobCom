@@ -79,19 +79,12 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ngCordova', 'login', 'r
               }
             }]
           });
-          /*myPopup.then(function(res) {
-           myNullAction();
-          });*/
         }
       })
     });
 
   });
 
-
-  /*var myNullAction = $ionicPlatform.registerBackButtonAction(function(){
-    return; // do nothing
-  }, 401);*/
 
   $ionicPlatform.registerBackButtonAction(function(e) {
     e.preventDefault();
@@ -145,27 +138,6 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ngCordova', 'login', 'r
     });
 
   }
-
-  /*if($state.current.name=='login'){
-   if(mobversion!="0.0.2"){
-     var myPopup = $ionicPopup.confirm({
-       title: "Mobcom",
-       template: 'New version available',
-         buttons: [{ text: 'EXIT',
-         type: 'button-dark',
-         onTap: function(){
-           ionic.Platform.exitApp();
-         }
-         },{
-          text: 'UPDATE',
-          type: 'button-positive',
-          onTap: function(){
-            hockeyapp.checkForUpdate();
-          }
-       }]
-     });
-   }
-  } */
 
 })
 
@@ -243,7 +215,7 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ngCordova', 'login', 'r
   .state('emp_information', {
     url: '/emp_information',
     templateUrl: 'templates/emp_information.html',
-    controller: 'EmpEmployeelistCtrl'
+    controller: 'ProjectlistCtrl'
   })
 
   .state('admin_timesheet', {
@@ -282,7 +254,6 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ngCordova', 'login', 'r
     templateUrl: 'templates/assigntoemp.html',
     controller: 'AdminEmployeelistCtrl'
   })
-
 
   .state('employeedetails', {
     url: '/employeedetails',
@@ -340,4 +311,4 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ngCordova', 'login', 'r
 var Baseurl='http://mobcom.altiussolution.com/api/v1/';
 
 //var Baseurl = 'http://192.168.1.59:3000/api/v1/';
-var versioncheck = "0.1"
+var versioncheck = "0.2";

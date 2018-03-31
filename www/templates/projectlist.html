@@ -32,17 +32,17 @@
     </div> -->
 
     <div class="row">
-      <div class="col col-50">  
-       <input type="radio" ng-click="checkStatus(true)" ng-checked="assign==true"><span style="padding-left: 5px;
-    font-size: 15px;"> Approved</span><br>
+      <div class="col col-50" style="padding-left: 20px;">  
+       <input type="radio" ng-click="checkStatus(true)" ng-checked="assign==true"><span ng-click="checkStatus(true)" style="padding-left: 10px;
+    font-size: 17px;"> All</span><br>
       </div>
-      <div class="col col-50">  
-       <input type="radio" ng-click="checkStatus(false)" ng-checked="assign==false"><span style="padding-left: 5px;
-    font-size: 15px;"> Unapproved</span><br>
+      <div class="col col-50" style="padding-left: 32px;">  
+       <input type="radio" ng-click="checkStatus(false)" ng-checked="assign==false"><span ng-click="checkStatus(false)" style="padding-left: 10px;
+    font-size: 17px;"> Unapproved</span><br>
       </div>
     </div>
 
-    <div class="list" ng-repeat="x in ProjectDetails | orderBy:'name' | filter:{is_assigned:assign} | filter:search">
+    <div class="list" ng-repeat="x in ProjectDetails | orderBy:'name' | filter:{approval_status:approve_state} | filter:search">
       <a class="item item-avatar item-icon-right">
         <img src="img/contact.png">
         <h2>{{x.name}}</h2>
@@ -54,7 +54,7 @@
         <i class="icon icon-clr ion-ios-time-outline col col-40" ng-click="timesheet_project(x.id,x.name)">&nbsp;TIMESHEET</i>
       </a>
     </div>
-    <div ng-show="ProjectDetails.length==0 || (ProjectDetails | filter:search).length==0" style="color:red;text-align:center;">
+    <div ng-show="ProjectDetails.length==0 || (ProjectDetails | filter:{approval_status:approve_state} | filter:search).length==0" style="color:red;text-align:center;">
       No Projects found
     </div>
   </ion-content>

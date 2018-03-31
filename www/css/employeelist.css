@@ -141,29 +141,33 @@ div a.button.button-outline.seg.active{
 }*/
 
 input[type='radio']:after {
-        width: 21px;
-        height: 21px;
-        border-radius: 15px;
-        top: -3px;
-        left: -1px;
-        position: relative;
-        background-color: #d1d3d1;
-        content: '';
-        display: inline-block;
-        visibility: visible;
-        border: 2px solid white;
+  width: 25px;
+  height: 25px;
+  border-radius: 15px;
+  top: -4px;
+  left: -1px;
+  position: relative;
+  background-color: #d1d3d1;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid white;
 }
 
-    input[type='radio']:checked:after {
-        width: 21px;
-        height: 21px;
-        border-radius: 15px;
-        top: -3px;
-        left: -1px;
-        position: relative;
-        background-color: #074F89;
-        content: '';
-        display: inline-block;
-        visibility: visible;
-        border: 2px solid white;
+input[type='radio']:checked:after {
+  width: 25px;
+  height: 25px;
+  border-radius: 15px;
+  top: -4px;
+  left: -1px;
+  position: relative;
+  background-color: #074F89;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid white;
+}
+
+div .col.col-50 input[type='radio']:after{
+  padding-left: 10px;   
 }

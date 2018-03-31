@@ -11,7 +11,7 @@
     </div>
   </ion-header-bar>
   <ion-content class="content_back" padding="true" has-bouncing="false">
-    <div class="list" ng-repeat="team in TeamMember">  <!-- | orderBy:'first_name' -->
+    <div class="list" ng-repeat="team in TeamMember | orderBy:'first_name'">  <!--  -->
       <a class="item item-avatar item-icon-right">
         <img src="img/contact.png">
         <h2>{{team.first_name}}</h2>
@@ -23,12 +23,12 @@
         <i class="icon icon-clr ion-more col col-33" ng-click="moreDetail(team)">&nbsp;More Details</i>
       </a>
     </div>
-    <div class="list" style="color:red;text-align:center;" ng-show="TeamMember==false">
+    <div class="list" style="color:red;text-align:center;" ng-show="(TeamMember | orderBy:'first_name').length==0">
       No Teams found
     </div>
 
   </ion-content>
-  <script id="templates/my-modal.html" type="text/ng-template">
+  <script id="my-modal.html" type="text/ng-template">
     <ion-modal-view>
       <ion-header-bar>
         <div class="row">

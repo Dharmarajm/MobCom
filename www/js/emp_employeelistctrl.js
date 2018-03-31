@@ -8,7 +8,28 @@ angular.module('emp_employeelist', [])
     $scope.AuthToken = localStorage.getItem("auth_token")
     $scope.getlocalurl = "http://mobcom.altiussolution.com"
 
-    $http.get(Baseurl + 'employees?app_version=' + versioncheck, {
+    $scope.employtimesheet=function(){
+      $http.get(Baseurl + 'employees/assigned_project?employee_id=' + $rootScope.EmployeeID_timesheet + "&app_version=" + versioncheck, {
+        headers: {
+          "Authorization": "Token token=" + $scope.AuthToken
+        }
+      })
+      .success(function(response) {
+        $scope.ProjectDetails = response;
+        $scope.projectnameside = $scope.ProjectDetails;
+        $scope.projectname = function(objs) {
+          if (objs != null) {
+            $scope.projectnametype = objs.id;
+            $scope.project_name = objs.name;
+          } else {
+            $scope.projectnametype = null;
+          }
+        }
+      })
+    } 
+
+    $scope.employlist=function(){
+       $http.get(Baseurl + 'employees?app_version=' + versioncheck, {
         headers: {
           "Authorization": "Token token=" + $scope.AuthToken
         }
@@ -29,26 +50,8 @@ angular.module('emp_employeelist', [])
             }
           }
         }
-      })
-
-    $http.get(Baseurl + 'employees/assigned_project?employee_id=' + $rootScope.EmployeeID_timesheet + "&app_version=" + versioncheck, {
-        headers: {
-          "Authorization": "Token token=" + $scope.AuthToken
-        }
-      })
-      .success(function(response) {
-        $scope.ProjectDetails = response;
-        $scope.projectnameside = $scope.ProjectDetails;
-        $scope.projectname = function(objs) {
-          if (objs != null) {
-            $scope.projectnametype = objs.id;
-            $scope.project_name = objs.name;
-          } else {
-            $scope.projectnametype = null;
-          }
-
-        }
-      })
+      })  
+    }  
 
     $scope.WeekStatus = 'current';
 
