@@ -35,21 +35,6 @@ angular.module('registration', [])
         content: "Password and verify Password is mismatch"
       })
     } else {
-      /* var create={           
-                "id":$rootScope.reg.id,
-                "email":$rootScope.reg.email,
-                "password":$scope.confirm.password
-              }          
-
-            $http({
-              method: 'post',
-              url:Baseurl+"users/user_registration",
-              data: create    
-            }).then(function(response) {  
-
-              alert("sucess")
-             $state.go("login");
-           })*/
 
       $http.get(Baseurl + 'users/user_registration?id=' + $rootScope.reg.id + '&email=' + $rootScope.reg.email + '&password=' + $scope.confirm.password + '&ctc=' + $scope.confirm.ctc + '&app_version=' + versioncheck)
         .success(function(response) {

@@ -99,6 +99,71 @@ button.button.button-small.button-block.button-positive.a.a3{
 button.button.button-icon.ion-close.assign{
  color:seashell;
 }
+
 button.button-icon.ion-checkmark.assign{
  color:seashell;
+}
+
+a.button.button-outline.seg{
+ min-height:20px;
+ line-height: 20px;
+ color: #FFFFFF;
+}
+
+a.button.button-outline.seg::after{
+ top: 0px;
+ right: 0px;
+ bottom: 0px;
+ left: 0px;
+}
+
+div.button-bar.button-bar_custom.bar-stable{
+  line-height: 20px;
+  min-height: 20px;
+  margin-bottom: 10px;
+  border-radius: 4px 0px 0px 4px;
+  background-color: #FFFFFF;
+  border-color:black;
+}
+
+div a.button.button-outline.seg.inactive{
+  background-color: #FFFFFF;
+  color:#444;
+}
+div a.button.button-outline.seg.active{
+  background-color: #074F89;
+  color: #FFFFFF;
+}
+
+/*div .col.col-50 span{
+  padding-top: 0px;
+  text-align:center;
+}*/
+
+input[type='radio']:after {
+        width: 21px;
+        height: 21px;
+        border-radius: 15px;
+        top: -3px;
+        left: -1px;
+        position: relative;
+        background-color: #d1d3d1;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+}
+
+    input[type='radio']:checked:after {
+        width: 21px;
+        height: 21px;
+        border-radius: 15px;
+        top: -3px;
+        left: -1px;
+        position: relative;
+        background-color: #074F89;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
 }

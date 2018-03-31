@@ -4,10 +4,12 @@ angular.module('admin_dashboard', [])
 
 
   $scope.employee = function() {
+  	localStorage.removeItem("Boolean")
     $state.go("admin_employeelist");
   }
 
   $scope.project = function() {
+    localStorage.removeItem("BooleanAssign")
     $state.go("projectlist")
   }
 

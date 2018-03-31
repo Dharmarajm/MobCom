@@ -20,10 +20,9 @@
   </div>
 
 
-  <ion-content class="content_back search" padding="true" has-bouncing="false">   
-          <!-- <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh(approve='')"></ion-refresher> -->
+  <ion-content class="content_back search" padding="true" has-bouncing="false" ng-init="adminempList()">   
 
-          <div class="row">
+          <!-- <div class="row">
            <div class="col col-offset-30 col-30" >
            <li class="item item-toggle" style="background-color:#D8D8D8;">
              
@@ -37,7 +36,23 @@
             </label>
            </li>
            </div>
+          </div> -->
+        <div class="row">
+         <div class="col col-50">  
+          <input type="radio" ng-click="checkStatus(false)" ng-checked="approve_state==false"><span style="padding-left: 5px;
+    font-size: 15px;"> All</span><br>
+         </div>
+         <div class="col col-50">  
+          <input type="radio" ng-click="checkStatus(true)" ng-checked="approve_state==true"><span style="padding-left: 5px;
+    font-size: 15px;"> Unapproved</span><br>
           </div>
+        </div>
+
+          <!-- <div class="button-bar button-bar_custom bar-stable">
+            <a  class="button button-outline seg" ng-class="{'active' : approve_state==false ,'inactive' : approve_state==true}" ng-click="checkStatus(false)">All</a>
+            <a  class="button button-outline seg" ng-class="{'active' : approve_state==true ,'inactive' : approve_state==false }" ng-click="checkStatus(true)">Unapproved</a>
+          </div> -->
+
           <div class="list" ng-repeat="emp in EmployeesDetails | orderBy:'first_name'  | filter:approve | filter:search">
             <div class="item item-avatar item-icon-right">
               <img src="img/contact.png">

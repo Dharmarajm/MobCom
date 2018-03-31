@@ -45,12 +45,7 @@ angular.module('login', [])
             localStorage.setItem("id", response.employee_id)
             localStorage.setItem("auth_token", response.auth_token)
             localStorage.setItem("role", response.role.name)
-              /*if(response.employee.image.url==null){
-               sessionStorage.setItem("image",null)  
-              }else{
-                sessionStorage.setItem("image",response.employee.image.url)  
-              }*/
-              //alert("sucess")
+
             if (response.role.name == 'Admin') {
               $state.go("admin_dashboard");
             } else if (response.role.name == 'Employee') {
@@ -123,7 +118,6 @@ angular.module('login', [])
                   content: "Failed to connect the server"
                 })
               })
-              /*return $scope.data.wifi;*/
           }
         }
       }]

@@ -2,20 +2,20 @@ angular.module('contacts', [])
 
 .controller('ContactsCtrl', function($scope, $state, $http, $rootScope, $ionicPopup, $ionicModal, $cordovaSms, $cordovaDevice) {
 
-
   $rootScope.EmployeeID_timesheet = localStorage.getItem("id")
   $scope.AuthToken = localStorage.getItem("auth_token")
 
-
-
-  $http.get(Baseurl + 'clients/client_projects?app_version=' + versioncheck, {
+  $scope.clientlist=function(){
+    $http.get(Baseurl + 'clients/client_projects?app_version=' + versioncheck, {
       headers: {
         "Authorization": "Token token=" + $scope.AuthToken
       }
     })
     .success(function(response) {
       $scope.ClientsDetails = response;
-    })
+    })  
+  }
+  
 
   $scope.search = "";
 
@@ -34,20 +34,6 @@ angular.module('contacts', [])
       .success(function(response) {
         $scope.ContactsDetails = response;
       })
-
-
-    /* $http.get(Baseurl+'clients?id='+$rootScope.ClientID+'&app_version='+versioncheck,{
-          headers: { "Authorization": "Token token="+$scope.AuthToken}
-        })
-     .success(function(response) {
-        $scope.ClientsAddress=[]; 
-        console.log(response)    
-        for(var i in response){
-          if(response[i].name==$rootScope.ClientID.name){
-            console.log(response[i].name)
-          }
-        }
-       })*/
   }
 
 
