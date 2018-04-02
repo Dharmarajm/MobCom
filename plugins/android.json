@@ -48,7 +48,13 @@
         }
     },
     "dependent_plugins": {
+        "cordova-plugin-call-number": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
         "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
+        },
+        "cordova-plugin-sms": {
             "PACKAGE_NAME": "com.ionicframework.employeesnew676212"
         }
     }

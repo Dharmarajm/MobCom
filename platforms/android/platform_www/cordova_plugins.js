@@ -25,6 +25,14 @@ module.exports = [
         ]
     },
     {
+        "id": "cordova-plugin-call-number.CallNumber",
+        "file": "plugins/cordova-plugin-call-number/www/CallNumber.js",
+        "pluginId": "cordova-plugin-call-number",
+        "clobbers": [
+            "call"
+        ]
+    },
+    {
         "id": "cordova-plugin-device.device",
         "file": "plugins/cordova-plugin-device/www/device.js",
         "pluginId": "cordova-plugin-device",
@@ -223,6 +231,14 @@ module.exports = [
         ]
     },
     {
+        "id": "cordova-plugin-sms.SMS",
+        "file": "plugins/cordova-plugin-sms/www/SMS.js",
+        "pluginId": "cordova-plugin-sms",
+        "clobbers": [
+            "window.SMS"
+        ]
+    },
+    {
         "id": "cordova-plugin-splashscreen.SplashScreen",
         "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
         "pluginId": "cordova-plugin-splashscreen",
@@ -262,12 +278,14 @@ module.exports.metadata =
     "call-number": "1.0.4",
     "cordova-plugin-android-permissions": "1.0.0",
     "cordova-plugin-app-version": "0.1.9",
+    "cordova-plugin-call-number": "1.0.1",
     "cordova-plugin-compat": "1.2.0",
     "cordova-plugin-console": "1.1.0",
     "cordova-plugin-device": "1.1.4",
     "cordova-plugin-file": "4.3.3",
     "cordova-plugin-hockeyapp": "5.1.2",
     "cordova-plugin-image-picker": "1.1.1",
+    "cordova-plugin-sms": "1.0.5",
     "cordova-plugin-splashscreen": "4.0.3",
     "cordova-plugin-statusbar": "2.2.1",
     "cordova-plugin-whitelist": "1.3.1",

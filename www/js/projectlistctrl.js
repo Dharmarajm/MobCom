@@ -382,6 +382,13 @@ angular.module('projectlist', [])
       });
   }
 
+  $ionicModal.fromTemplateUrl("modal.html", {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      return modal;
+  });
 
   $scope.teamMode = {
     response: ""
@@ -391,15 +398,7 @@ angular.module('projectlist', [])
     $scope.teamMode = {
       response: ""
     };
-
-    $ionicModal.fromTemplateUrl("my-modal.html", {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function(modal) {
-      $scope.modal = modal;
-      return modal;
-    });
-  
+    
     $scope.mNumber = mobile_number;
     $scope.selectedId = id;
     $scope.nameOpen = pname;
