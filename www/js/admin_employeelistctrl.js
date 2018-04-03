@@ -131,9 +131,11 @@ angular.module('admin_employeelist', [])
   }
 
   $scope.Next = function(Next) {
+   if($scope.week != 0){
     $scope.week--;
     $scope.WeekStatus = Next;
     $scope.Timesheetcal($scope.WeekStatus);
+   } 
   }
 
   $scope.Current = function(Current) {

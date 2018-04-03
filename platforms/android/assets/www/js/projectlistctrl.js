@@ -206,9 +206,8 @@ angular.module('projectlist', [])
     $scope.Timesheetcal($scope.WeekStatus);
   }
 
-
-
   $scope.week = 0;
+  
   $scope.Previous = function(Previous) {
     $scope.week++;
     $scope.WeekStatus = Previous;
@@ -217,10 +216,11 @@ angular.module('projectlist', [])
   }
 
   $scope.Next = function(Next) {
+   if($scope.week != 0){
     $scope.week--;
     $scope.WeekStatus = Next;
     $scope.Timesheetcal($scope.WeekStatus);
-
+   } 
   }
 
   $scope.Current = function(Current) {
@@ -245,7 +245,6 @@ angular.module('projectlist', [])
     $scope.Day6 = 0;
     $scope.Day7 = 0;
 
-    $scope.CheckApprove = false;
     $http.get(Baseurl + 'time_sheets/project_working_hours?project_id=' + $rootScope.ID + '&date=' + $scope.WeekStatus + '&app_version=' + versioncheck + "&period=" + $scope.week, {
         headers: {
           "Authorization": "Token token=" + $scope.AuthToken
