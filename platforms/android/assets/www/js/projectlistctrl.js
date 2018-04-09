@@ -207,26 +207,49 @@ angular.module('projectlist', [])
   }
 
   $scope.week = 0;
+  $scope.animation={shake:false}
   
   $scope.Previous = function(Previous) {
+    $scope.button='Previous';
     $scope.week++;
-    $scope.WeekStatus = Previous;
-    $scope.Timesheetcal($scope.WeekStatus);
-
+    $scope.animation.shake=false;
+    $scope.stateset=false;
+    $timeout(function(){
+      $scope.animation.shake=true;
+      $scope.stateset=true;
+      $scope.WeekStatus = Previous;
+      $scope.Timesheetcal($scope.WeekStatus);
+    },200,true);
   }
 
   $scope.Next = function(Next) {
    if($scope.week != 0){
+    $scope.button='Next';
     $scope.week--;
-    $scope.WeekStatus = Next;
-    $scope.Timesheetcal($scope.WeekStatus);
+    $scope.animation.shake=true;
+    $scope.stateset=false;
+    $timeout(function(){
+      $scope.animation.shake=false;
+      $scope.stateset=true;
+      $scope.WeekStatus = Next;
+      $scope.Timesheetcal($scope.WeekStatus);
+    },200,true);
    } 
   }
 
   $scope.Current = function(Current) {
+   if($scope.week != 0){ 
+    $scope.button='Current';
     $scope.week = 0;
-    $scope.WeekStatus = Current;
-    $scope.Timesheetcal($scope.WeekStatus);
+    $scope.animation.shake=true;
+    $scope.stateset=false;
+    $timeout(function(){
+      $scope.animation.shake=false;
+      $scope.stateset=true;
+      $scope.WeekStatus = Current;
+      $scope.Timesheetcal($scope.WeekStatus);
+    },200,true);
+   } 
   }
 
 

@@ -1,5 +1,4 @@
 angular.module('admin_employeelist', [])
-
 .controller('AdminEmployeelistCtrl', function($filter, ionicDatePicker, $scope, $state, $http, $rootScope, $ionicPopup, $ionicLoading, $ionicPlatform, $timeout, $ionicModal, $cordovaSms, $cordovaDevice) {
 
   $rootScope.EmployeeID = localStorage.getItem("id")
@@ -122,26 +121,50 @@ angular.module('admin_employeelist', [])
 
 
   $scope.WeekStatus = 'current';
+  $scope.animation={shake:false}
   $scope.week = 0;
 
   $scope.Previous = function(Previous) {
+    $scope.button='Previous';
     $scope.week++;
-    $scope.WeekStatus = Previous;
-    $scope.Timesheetcal($scope.WeekStatus);
+    $scope.animation.shake=false;
+    $scope.stateset=false;
+    $timeout(function(){
+      $scope.animation.shake=true;
+      $scope.stateset=true;
+      $scope.WeekStatus = Previous;
+      $scope.Timesheetcal($scope.WeekStatus);
+    },200,true);
   }
 
   $scope.Next = function(Next) {
    if($scope.week != 0){
+    $scope.button='Next'; 
     $scope.week--;
-    $scope.WeekStatus = Next;
-    $scope.Timesheetcal($scope.WeekStatus);
+    $scope.animation.shake=true;
+    $scope.stateset=false;
+    $timeout(function(){
+      $scope.animation.shake=false;
+      $scope.stateset=true;
+      $scope.WeekStatus = Next;
+      $scope.Timesheetcal($scope.WeekStatus);
+    },200,true);
    } 
   }
 
   $scope.Current = function(Current) {
+   if($scope.week != 0){
+    $scope.button='Current'; 
     $scope.week = 0;
-    $scope.WeekStatus = Current;
-    $scope.Timesheetcal($scope.WeekStatus);
+    $scope.animation.shake=true;
+    $scope.stateset=false;
+    $timeout(function(){
+      $scope.animation.shake=false;
+      $scope.stateset=true;
+      $scope.WeekStatus = Current;
+      $scope.Timesheetcal($scope.WeekStatus);
+    },200,true);
+   } 
   }
 
 
@@ -414,7 +437,6 @@ angular.module('admin_employeelist', [])
 
   }
 
-
 }).directive('ionMultipleSelect', ['$ionicModal', '$ionicGesture', function($ionicModal, $ionicGesture) {
   return {
     restrict: 'E',
@@ -479,4 +501,55 @@ angular.module('admin_employeelist', [])
       });
     }
   };
-}]);
+}]).directive('detectGestures', function($ionicGesture) {
+  return {
+    restrict :  'A',
+
+    link : function(scope, elem, attrs) {
+      var gestureType = attrs.gestureType;
+
+      switch(gestureType) {
+        case 'swipe':
+          $ionicGesture.on('swipe', scope.reportEvent, elem);
+          break;
+        case 'swiperight':
+          $ionicGesture.on('swiperight', scope.reportEvent, elem);
+          console.log('right')
+          break;
+        case 'swipeleft':
+          $ionicGesture.on('swipeleft', scope.reportEvent, elem);
+          console.log('left')
+          break;
+        case 'doubletap':
+          $ionicGesture.on('doubletap', scope.reportEvent, elem);
+          break;
+        case 'tap':
+          $ionicGesture.on('tap', scope.reportEvent, elem);
+          break;
+      }
+
+    }
+  }
+})/*.directive('dragAnimate', ['$ionicGesture', function (ionicGesture) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var a =  attrs.dragAnimate.trim();
+            var moveH = (a == '' || attrs.dragAnimate.match(/horizontal/));
+            var moveV = (a == '' || attrs.dragAnimate.match(/vertical/));
+
+            ionicGesture.on('drag', function (event) {
+                var tx = (moveH ? event.gesture.deltaX +'px' : '0');
+                var ty = (moveV ? event.gesture.deltaY +'px' : '0');
+                var translate = 'translate('+ tx +','+ ty +')';
+                element.css({ 'transform': translate,
+                            '-webkit-transform': translate });
+            }, element);
+
+            ionicGesture.on('dragend', function() {
+                element.css({ 'transform': 'translate(0)',
+                            '-webkit-transform': 'translate(0)' });
+            }, element);
+        },
+    }
+}])*/
