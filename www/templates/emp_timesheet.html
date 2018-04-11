@@ -40,7 +40,7 @@
 
         <div class="col col-30 timeright">
 
-          <input type="number" style="width: 100%" ng-model="timesheet.hours" min='0' max='24' ng-change="checkProject(timesheet.projectnametype,timesheet.hours)" placeholder="Hours < 24" ng-required="true" ng-readonly="datepic" />
+          <input type="number" style="width: 100%" ng-model="timesheet.hours" min='0' max='24' ng-change="checkProject(timesheet.projectnametype,timesheet.hours)" placeholder="Hours < 24" ng-required="true" ng-readonly="datepic" step="1" onkeypress='return event.charCode >= 48 && event.charCode <= 57' title="Numbers only"/>
         </div>
       </div>
 
