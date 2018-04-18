@@ -10,7 +10,7 @@
   </ion-header-bar>   
 
 
-  <ion-content class="content_back" padding="true" has-bouncing="false">
+  <ion-content class="content_back has-footer" padding="true" has-bouncing="false">
 
   <h3><center style="color:chocolate">{{EmployeeName}}</center></h3>
   
@@ -23,19 +23,24 @@
            </label>
            {{ option.name}}
         </li>
-         
-        </ul>
+        </ul><br>
 
-         <div class="row">
+        <!-- <div class="row">
             <div class="col col-50"></div>
             <div class="col col-50">
               <button class="button button-small button-block button-positive a" ng-click="assignto()">Save</button>
             </div>
-        </div>
+        </div> -->
+
+        
 
   </ion-content>
-
-     <script id="templates/multipleSelect.html" type="text/ng-template">
+  
+  <div class = "bar bar-footer">
+     <h1 class = "title" style="color:#fff" ng-click="assignto()">Save</h1>
+  </div>
+  
+    <script id="templates/multipleSelect.html" type="text/ng-template">
       <ion-modal-view>
         <ion-header-bar align-title="center">
             <button class="button button-icon ion-close assign" ng-click="closeModal();"></button>
@@ -66,5 +71,6 @@
         </ion-content>
       </ion-modal-view>
     </script>
+
 </ion-view>
 

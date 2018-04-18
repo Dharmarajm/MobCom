@@ -44,7 +44,7 @@
       <tbody>
         <tr ng-repeat="x in TimesheetsDetails">
           <td>{{x.employee_name }}</td>
-          <td ng-class="{'colo' : data.approval_status==true}" ng-repeat="data in x.data">
+          <td ng-class="{'colo' : data.approval_status==true}" ng-repeat="data in x.data" style="text-align:right">
             <i ng-show="data.hours == 0 && data.attendance_log == false">A</i>
             <i ng-show="data.hours != 0 && data.attendance_log !=false">{{data.hours}}</i></td>
         </tr>

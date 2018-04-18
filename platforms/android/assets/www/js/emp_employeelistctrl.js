@@ -262,7 +262,8 @@ angular.module('emp_employeelist', [])
     $scope.LocalData = [];
 
     $scope.addfield = function() {
-
+      
+     if(($scope.timesheet.hours) % 1 === 0){
       if ($scope.timesheet.hours == 0) {
         $scope.attendance = false;
       } else {
@@ -308,6 +309,13 @@ angular.module('emp_employeelist', [])
         $scope.timesheet.projectnametype = null;
         $scope.timesheet.hours = null;
       }
+     }else{
+       $scope.timesheet.hours = null;
+       var alertPopuptimefloat = $ionicPopup.alert({
+          title: "MobCom",
+          content: "Enter rounded value"
+        })
+     } 
     }
 
     $scope.remove = function(index) {
@@ -643,4 +651,20 @@ angular.module('emp_employeelist', [])
       $scope.show = 1;
     }
 
-  })
+  }).directive('noFloat', function () {
+    return  {
+        restrict: 'A',
+        link: function (scope, elm, attrs, ctrl) {
+            elm.on('keydown', function (event) {
+              if ([110, 190].indexOf(event.which) > -1) {
+                    // dot and numpad dot
+                    event.preventDefault();
+                    return false;
+                }
+                else{
+                  return true;
+                }
+            });
+        }
+    }
+});

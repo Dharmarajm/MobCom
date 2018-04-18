@@ -40,7 +40,8 @@
 
         <div class="col col-30 timeright">
 
-          <input type="number" style="width: 100%" ng-model="timesheet.hours" min='0' max='24' ng-change="checkProject(timesheet.projectnametype,timesheet.hours)" placeholder="Hours < 24" ng-required="true" ng-readonly="datepic" step="1" onkeypress='return event.charCode >= 48 && event.charCode <= 57' title="Numbers only"/>
+          <input type="number" style="width: 100%" ng-model="timesheet.hours" min='0' max='24' ng-change="checkProject(timesheet.projectnametype,timesheet.hours)" placeholder="Hours < 24" ng-required="true" ng-readonly="datepic"/>
+          <!-- step="1" onkeypress='return event.charCode >= 48 && event.charCode <= 57' title="Numbers only" no-float -->
         </div>
       </div>
 
@@ -85,7 +86,7 @@
       <tbody>
         <tr ng-repeat="x in TimesheetsDetails | orderBy:'project_name'">
           <td>{{((x.project_name)=='nil') ? 'No Projects' : x.project_name}}</td>
-          <td ng-class="{'colo' : data.approval_status==true }" ng-repeat="data in x.data">
+          <td ng-class="{'colo' : data.approval_status==true }" ng-repeat="data in x.data" style="text-align:right">
             <i ng-show="data.hours == 0 && data.attendance_log == false">A</i>
             <i ng-show="data.hours != 0 && data.attendance_log !=false">{{data.hours}}</i></td>
 
